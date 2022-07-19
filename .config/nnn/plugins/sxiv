@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+sxiv "$PWD" 2>/dev/null 1>&2 &

@@ -9,7 +9,8 @@ do
 
         # symbolic link to that config file
         line_home="$HOME/$line"
-        ln -s "$line_home" "$line" 2>/dev/null
+        # ln -s "$line_home" "$line" 2>/dev/null
+        cp -r "$line_home" "$line"
 
         # verbose
         [ "$1" = "-v" ] && echo "$line"
@@ -20,6 +21,7 @@ done <<EOF
 .xinitrc
 
 # Emacs
+.emacs.d/init.el
 .emacs.d/README.org
 .emacs.d/custom.el
 .emacs.d/snippets

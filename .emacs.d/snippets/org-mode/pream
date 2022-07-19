@@ -1,0 +1,13 @@
+# -*- mode: snippet -*-
+# name: pream
+# key: pream
+# --
+#+title:  $1
+#+author: ${2:Gerard}
+#+email:  ${3:gerrysoft@outlook.es}
+
+${4:#+HTML_HEAD_EXTRA: <style> .TOC_2_org { display: none; \} </style> \
+#+options: toc:nil}
+#+property: header-args :results silent
+
+$0

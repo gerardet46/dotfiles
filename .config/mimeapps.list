@@ -1,1 +1,54 @@
-/home/gerry/.config/mimeapps.list
+[Added Associations]
+x-scheme-handler/ftp=firefox.desktop;
+application/json=emacsclient.desktop;
+video/mp4=mpv.desktop;
+text/plain=emacsclient.desktop;
+x-scheme-handler/tg=userapp-Telegram Desktop-07A010.desktop;userapp-Telegram Desktop-QRXQ90.desktop;userapp-Telegram Desktop-5717L1.desktop;
+
+[Default Applications]
+x-scheme-handler/http=brave-browser.desktop
+x-scheme-handler/https=brave-browser.desktop
+x-scheme-handler/ftp=firefox.desktop
+x-scheme-handler/chrome=firefox.desktop
+text/html=brave-browser.desktop
+application/x-extension-htm=firefox.desktop
+application/x-extension-html=firefox.desktop
+application/x-extension-shtml=firefox.desktop
+application/xhtml+xml=firefox.desktop
+application/x-extension-xhtml=firefox.desktop
+application/x-extension-xht=firefox.desktop
+x-scheme-handler/kite=kite-copilot.desktop
+x-scheme-handler/tg=userapp-Telegram Desktop-5717L1.desktop
+x-scheme-handler/about=brave-browser.desktop
+x-scheme-handler/unknown=brave-browser.desktop
+image/png=sxiv.desktop
+image/jpg=sxiv.desktop
+image/jpeg=sxiv.desktop
+png/bmp=sxiv.desktop
+png/gif=sxiv.desktop
+png/jpeg=sxiv.desktop
+png/jpg=sxiv.desktop
+png/png=sxiv.desktop
+png/tiff=sxiv.desktop
+png/x-bmp=sxiv.desktop
+png/x-portable-anymap=sxiv.desktop
+png/x-portable-bitmap=sxiv.desktop
+png/x-portable-graymap=sxiv.desktop
+png/x-tga=sxiv.desktop
+png/x-xpixmap=sxiv.desktop
+item/bmp=sxiv.desktop
+item/gif=sxiv.desktop
+item/jpeg=sxiv.desktop
+item/jpg=sxiv.desktop
+item/png=sxiv.desktop
+item/tiff=sxiv.desktop
+item/x-bmp=sxiv.desktop
+item/x-portable-anymap=sxiv.desktop
+item/x-portable-bitmap=sxiv.desktop
+item/x-portable-graymap=sxiv.desktop
+item/x-tga=sxiv.desktop
+item/x-xpixmap=sxiv.desktop
+application/pdf=org.pwmt.zathura-pdf-mupdf.desktop;
+inode/directory=nnn.desktop
+x-scheme-handler/mailto=brave-browser.desktop
+x-scheme-handler/eclipse+command x-scheme-handler/eclipse+mpc=_usr_lib_eclipse_.desktop

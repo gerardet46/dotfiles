@@ -1,1 +1,23 @@
-/home/gerry/.config/nnn/config
+#!/usr/bin/sh
+
+# config
+export VISUAL='nvim'
+export NNN_FIFO=/tmp/nnn.fifo
+export NNN_OPTS='gQreU'
+export NNN_BMS='d:~/Documents;D:~/Baixades;v:~/Videos;~:~/;/:/'
+export NNN_COLORS="2136"
+export NNN_ARCHIVE="\\.(7z|a|ace|alz|arc|arj|bz|bz2|cab|cpio|deb|gz|jar|lha|lz|lzh|lzma|lzo|rar|rpm|rz|t7z|tar|tbz|tbz2|tgz|tlz|txz|tZ|tzo|war|xpi|xz|Z|zip)$"
+export NNN_PLUG='P:fzplug;o:fzopen;c:fzcd;i:sxiv;k:kdeconnect;g:!git log;m:nmount;t:mtpmount;x:togglex;d:dragdrop;s:suedit;p:preview-tabbed' # !chmod +x $nnn
+export NNN_SSHFS="sshfs -o reconnect,idmap=user,cache_timeout=3600,IdentityFile=$HOME/.ssh/drive/ger_rsa"
+
+# tema
+BLK="04" CHR="04" DIR="04" EXE="00" REG="00" HARDLINK="00" SYMLINK="06" MISSING="00" ORPHAN="01" FIFO="0F" SOCK="0F" OTHER="02"
+export NNN_FCOLORS="$BLK$CHR$DIR$EXE$REG$HARDLINK$SYMLINK$MISSING$ORPHAN$FIFO$SOCK$OTHER"
+
+# obtenir fitxers seleccionats
+alias ncp="cat ${NNN_SEL:-${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.selection} | tr '\0' '\n'"
+
+# cd-on-quit (C-G)
+if [ -f /usr/share/nnn/quitcd/quitcd.bash_zsh ]; then
+    source /usr/share/nnn/quitcd/quitcd.bash_zsh
+fi

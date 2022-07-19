@@ -1,0 +1,42 @@
+# -*- mode: snippet -*-
+# name: pream
+# key: pream
+# --
+\documentclass{article}
+
+%\usepackage[a4paper, total={6.5in, 9.5in}]{geometry}
+\usepackage{geometry}
+\usepackage{longtable}
+\usepackage{colortbl}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{gensymb}
+\usepackage{enumitem}
+\usepackage{cancel}
+\usepackage[catalan]{babel}
+%\usepackage[fontsize=11pt]{fontsize}
+%\onehalfspacing
+
+\newcommand\espaiat[1]{\setlength{\parskip}{#1}}
+\newcommand\noespaiat{\espaiat{0em}}
+\newcommand\espaiatnormal{\espaiat{.6em}}
+
+\linespread{1.25}
+\espaiat{1em}
+\espaiatnormal
+
+\geometry{vmargin={2cm,2cm}}
+
+\title{$1}
+\author{${2:Gerard Ribas Acebes}}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+$0
+\end{document}
