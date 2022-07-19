@@ -8,10 +8,10 @@
 
 This are my personal dotfiles for GNU/Linux.
 
-* Table of contents :TOC_2_ORG:
-- [[Installation][Installation]]
-  - [[Hooks for Arch Linux][Hooks for Arch Linux]]
-- [[Contents][Contents]]
+* Table of contents :TOC:
+- [[#installation][Installation]]
+  - [[#hooks-for-arch-linux][Hooks for Arch Linux]]
+- [[#contents][Contents]]
 
 * Installation
 Just clone this repo in the *HOME* folder. Everything should work out of the box.
