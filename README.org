@@ -1,0 +1,37 @@
+#+title:  Dotfiles
+#+author: Gerard
+#+email:  gerrysoft@outlook.es
+
+#+HTML_HEAD_EXTRA: <style> .TOC_2_org { display: none; } </style> \
+#+options: toc:nil
+#+property: header-args :results silent
+
+This are my personal dotfiles for GNU/Linux.
+
+* Table of contents :TOC_2_ORG:
+- [[Installation][Installation]]
+  - [[Hooks for Arch Linux][Hooks for Arch Linux]]
+- [[Contents][Contents]]
+
+* Installation
+Just clone this repo in the *HOME* folder. Everything should work out of the box.
+#+begin_src shell
+  git clone "https://github.com/gerardet46/dotfiles" ~/
+#+end_src
+
+** Hooks for Arch Linux
+If you are in an Arch linux based distro, you can prepare the =.config/pacman-hooks= executing (you will need to do this every time you create/delete/rename a /pacman hook/).
+#+begin_src shell
+.config/set-config.sh
+#+end_src
+
+
+* Contents
+Here are the config files for the following programs.
+| Program | File/Folder           | Description                  |
+|---------+-----------------------+------------------------------|
+| Xorg    | .Xresources, .xinitrc | Xorg config files            |
+| Emacs   | .emacs.d/             | My Emacs rice and Yasnippets |
+| tmux    | .tmux.conf            | Terminal Multiplexer         |
+
+TODO. ADD MORE ENTRIES

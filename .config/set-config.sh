@@ -1,0 +1,1 @@
+/home/gerry/.config/set-config.sh
