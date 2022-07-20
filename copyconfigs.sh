@@ -57,7 +57,6 @@ done <<EOF
 
 .config/qutebrowser/start.html
 .config/qutebrowser/config.py
-.config/qutebrowser/greasemonkey/
 .config/qutebrowser/autoconfig.yml
 .config/qutebrowser/solarized-everything-css/
 

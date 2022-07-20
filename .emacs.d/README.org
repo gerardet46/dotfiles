@@ -68,6 +68,7 @@
   - [[#hl-todo][hl-todo]]
   - [[#which-key][which-key]]
   - [[#rainbow-mode][rainbow-mode]]
+- [[#perspective][Perspective]]
 - [[#yasnippet][Yasnippet]]
 - [[#company][Company]]
 - [[#lsp][LSP]]
@@ -198,7 +199,7 @@ Now we add here some useful and general keybinding
     "w"     'save-buffer
     "b n"   'next-buffer
     "b p"   'previous-buffer
-    "B"     'ivy-switch-buffer
+    "B"     'persp-ivy-switch-buffer ;; NOTE remove "perp-" if not using perspective
     "b k"   'kill-current-buffer
     "q q"   'save-buffers-kill-terminal
     "q r"   'restart-emacs
@@ -609,7 +610,7 @@ Relative line numbers (except in some buffers)
 #+begin_src emacs-lisp
   (require 'display-line-numbers)
   ; this defines the modes where there aren't line numbers
-  (defcustom display-line-numbers-exempt-modes '(matlab-shell-mode dashboard-mode which-key-mode vterm-mode eshell-mode shell-mode term-mode ansi-term-mode treemacs-mode)
+  (defcustom display-line-numbers-exempt-modes '(org-mode matlab-shell-mode dashboard-mode which-key-mode vterm-mode eshell-mode shell-mode term-mode ansi-term-mode treemacs-mode)
     "Major modes on which to disable the linum mode, exempts them from global requirement."
     :group 'display-line-numbers
     :type 'list
@@ -632,14 +633,15 @@ Relative line numbers (except in some buffers)
 #+end_src
 
 ** Fonts
+<<appearance-fonts>>
 This is the font I use in Emacs (/Hack/). The arch package to install this font is =ttf-hack=. Also we put the comments in /italics/.
 #+begin_src emacs-lisp
   ;; default font
   (set-face-attribute 'default nil :font "Hack" :height 120)
   ;; fixed-pitch font
-  (custom-set-faces '(fixed-pitch ((t (:family "Hack" :height 110)))))
+  (custom-set-faces '(fixed-pitch ((t (:family "Hack" :height 0.9)))))
   ;; variable-pitch font
-  (custom-set-faces '(variable-pitch ((t (:family "Ubuntu" :height 130)))))
+  (custom-set-faces '(variable-pitch ((t (:family "Ubuntu" :height 1.21)))))
   ;; this is for emacsclient
   (add-to-list 'default-frame-alist '(font . "Hack 11"))
   ;; coments in italics
@@ -855,10 +857,11 @@ Integrate =Evil mode= with =Org mode=
 ** Fonts
 We want a non-monospace font for Org files. However, we need the source blocks to be monospaces.
 
-See [[Font][Font section]] for the =fixed-pitch= definition.
+See [[appearance-fonts][font section]] for the =fixed-pitch= definition.
 #+begin_src emacs-lisp
-  ;; enable variable-pitch-mode to setup differents fonts. This doesn't work with relative line numbers
-  ;;(add-hook 'org-mode-hook 'variable-pitch-mode)
+  ;; enable variable-pitch-mode to setup differents fonts.
+  ;;This doesn't work with relative line numbers
+  (add-hook 'org-mode-hook 'variable-pitch-mode)
 
   ;; set default font
   (defun my/org-fonts ()
@@ -1112,6 +1115,29 @@ This table is the same of the current one but removing the =< >= delimiters.
 
   ;; add it to some modes
   (add-hook 'org-mode-hook 'set-my-table)
+#+end_src
+
+
+* Perspective
+Perspective is a package to create "separate workspaces" upon Emacs.
+#+begin_src emacs-lisp
+  (use-package perspective
+    :ensure t  ; use `:straight t` if using straight.el!
+    :bind (("C-x k" . persp-kill-buffer*))
+    :custom
+    (persp-mode-prefix-key (kbd "C-x x"))
+    :config
+    (nvmap :prefix "SPC"
+      "p s" 'persp-switch
+      "p 0" 'persp-switch-by-number
+      "p n" 'persp-next
+      "p p" 'persp-prev
+      "p a" 'persp-add-buffer
+      "p A" 'persp-set-buffer
+      "p k" 'persp-remove-buffer
+      "p c" 'persp-kill)
+    :init
+    (persp-mode))
 #+end_src
 
 
