@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+
+case "$1" in
+    "␣") mpc toggle || sp play ;;
+    "n") mpc next || sp next ;;
+    "p") (mpc prev && mpc prev) || (sp prev && sp prev) ;;
+    "b") mpc prev || sp prev ;;
+    "o") spotify || mpd ;;
+    "x") pkill spotify || pkill mpd ;;
+esac

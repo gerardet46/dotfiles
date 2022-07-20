@@ -31,42 +31,45 @@ done <<EOF
 .zshrc
 
 # In config directory
-.config/calcurse
+.config/calcurse/
 
-.config/dunst
+.config/dunst/
 
-.config/dwmblocks
+.config/dwmblocks/
 
-.config/i3
-.config/i3blocks
+.config/i3/
+.config/i3blocks/
 
 .config/mimeapps.list
 
-.config/mouse
+.config/mouse/
 
-.config/mpd
-.config/ncmpcpp
+.config/mpd/
+.config/ncmpcpp/
 
 .config/nnn/config
-.config/nnn/plugins
+.config/nnn/plugins/
 
 .config/nvim/init.vim
 
-.config/pacman-hooks
+.config/pacman-hooks/
 
 .config/qutebrowser/start.html
 .config/qutebrowser/config.py
-.config/qutebrowser/greasemonkey
+.config/qutebrowser/greasemonkey/
 .config/qutebrowser/autoconfig.yml
-.config/qutebrowser/solarized-everything-css
+.config/qutebrowser/solarized-everything-css/
 
-.config/redshift
+.config/redshift/
 
-.config/sc-im
+.config/sc-im/
 
 .config/screenkey.json 
 .config/set-config.sh
-.config/sxiv
+.config/sxiv/
 .config/wallpaper
-.config/zathura
+.config/zathura/
+
+# scripts/ folder
+scripts/
 EOF

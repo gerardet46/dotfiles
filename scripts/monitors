@@ -1,0 +1,37 @@
+#!/usr/bin/sh
+
+# Configuració automàtica (només HDMI-2)
+if [ "$1" = "auto" ] ; then
+    if [ "$(xrandr -q | grep HDMI-2 | awk '{print $2}')" = "connected" ] ; then
+        xrandr --output eDP-1 --off --output DP-1 --off --output HDMI-1 --off --output HDMI-2 --mode 1920x1080 --pos 0x0 --rotate normal
+	fi
+	exit
+fi
+
+# mostra dmenu(key)
+opt="Portàtil\nHDMI\nDobleL\nDobleR\naltres"
+
+if which dmenukey > /dev/null; then
+    r="$(printf "phlra\n$opt" | dmenukey -p "Entrada")"
+else
+    r="$(printf "$opt" | dmenu -p "Entrada")"
+fi
+
+case "$r" in
+    Portàtil) xrandr --output eDP-1 --primary --mode 1920x1080 --pos 0x0 --rotate normal --output DP-1 --off --output HDMI-1 --off --output HDMI-2 --off ;;
+    HDMI)     xrandr --output eDP-1 --off --output DP-1 --off --output HDMI-1 --off --output HDMI-2 --mode 1920x1080 --pos 0x0 --rotate normal ;;
+
+    # monitor a l'esquerra
+    DobleL)
+        xrandr --output eDP-1 --primary --mode 1920x1080 --pos 1920x0 --rotate normal --output DP-1 --off --output HDMI-1 --off --output HDMI-2 --mode 1920x1080 --pos 0x0 --rotate normal ;;
+
+    # monitor a la dreta
+    DobleR)
+        xrandr --output eDP-1 --primary --mode 1920x1080 --pos 0x0 --rotate normal --output DP-1 --off --output HDMI-1 --off --output HDMI-2 --mode 1920x1080 --pos 1920x0 --rotate normal ;;
+
+    altres)   arandr ;;
+    *) echo "No s'ha trobat $r (Portàtil|HDMI|Doble|altres)" ;;
+esac
+
+# selecciona el mapa de teclat que pertoca
+setxkbmap es

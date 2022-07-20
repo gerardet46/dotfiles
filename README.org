@@ -6,12 +6,10 @@
 #+options: toc:nil
 #+property: header-args :results silent
 
-This are my personal dotfiles for GNU/Linux.
+This are my personal dotfiles for GNU/Linux, as well as useful scripts, located mostly in the =scripts/= folder. Some of them are part of [[https://github.com/gerardet46/my-flybinds][my build of flybinds]], which are located in =scripts/flybinds=.
 
-* Table of contents :TOC:
-- [[#installation][Installation]]
-  - [[#hooks-for-arch-linux][Hooks for Arch Linux]]
-- [[#contents][Contents]]
+It also includes my Emacs config!
+
 
 * Installation
 Just clone this repo in the *HOME* folder. Everything should work out of the box.
@@ -26,12 +24,7 @@ If you are in an Arch linux based distro, you can prepare the =.config/pacman-ho
 #+end_src
 
 
-* Contents
-Here are the config files for the following programs.
-| Program | File/Folder           | Description                  |
-|---------+-----------------------+------------------------------|
-| Xorg    | .Xresources, .xinitrc | Xorg config files            |
-| Emacs   | .emacs.d/             | My Emacs rice and Yasnippets |
-| tmux    | .tmux.conf            | Terminal Multiplexer         |
-
-TODO. ADD MORE ENTRIES
+* Notes
+- Some configs are using my library [[https://github.com/gerardet46/gcolors][gcolors]] to set global colors for all the system, so the window manager may crash if you don't have those installed. This are the script files that uses colors, for example =$COL_BG_0=, so maybe you can search for those files containing color definitions by executing =grep -R "COL_" * .[^.]*.=
+- For setting up Emacs, you can read the literate config (actually the README.org) in the =.emacs.d= folder.
+- The file =copyconfigs.sh= is used by me to rsync all the configs I need to upload.
