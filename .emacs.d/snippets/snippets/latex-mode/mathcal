@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: mathcal
-# key: mcal
-# --
-\mathcal{${1:T}}$0

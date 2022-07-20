@@ -15,6 +15,7 @@ do
         # verbose
         [ "$1" = "-v" ] && echo "$line"
     fi
+    # put the folders ending with "/" and the files not.
 done <<EOF
 # Xorg
 .Xresources
@@ -24,7 +25,7 @@ done <<EOF
 .emacs.d/init.el
 .emacs.d/README.org
 .emacs.d/custom.el
-.emacs.d/snippets
+.emacs.d/snippets/
 
 # In home directory
 .tmux.conf
@@ -67,7 +68,6 @@ done <<EOF
 .config/screenkey.json 
 .config/set-config.sh
 .config/sxiv/
-.config/wallpaper
 .config/zathura/
 
 # scripts/ folder

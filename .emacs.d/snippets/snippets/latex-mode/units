@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: units
-# key: unit
-# --
-\text{ $1}$0
