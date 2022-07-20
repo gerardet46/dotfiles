@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: partial
+# key: partial
+# --
+\frac{\partial ${1:f}}{\partial ${2:x}}$0
