@@ -1,2 +1,5 @@
 scripts/cron
 scripts/emoji_list
+
+# log files
+*.log
