@@ -1,6 +1,0 @@
-#!/usr/bin/env sh
-
-case "$1" in
-    "e") setxkbmap es ;;
-    "l") setxkbmap latex ;;
-esac

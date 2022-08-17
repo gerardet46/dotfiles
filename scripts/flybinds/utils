@@ -1,7 +1,0 @@
-#!/usr/bin/env sh
-
-case "$1" in
-    w) gwget ;;
-    i) xinput --disable $(xinput | grep "4 Mouse" | awk -F'=' '{print $2}' | awk '{print $1}') ;;
-    k) gkill ;;
-esac

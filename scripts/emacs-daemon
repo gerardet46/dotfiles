@@ -1,6 +1,0 @@
-#!/usr/bin/env sh
-
-pidof emacs >/dev/null && exit
-
-emacs --daemon
-notify-send "Emacs preparat"

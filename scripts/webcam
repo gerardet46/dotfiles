@@ -1,3 +1,0 @@
-#!/usr/bin/env sh
-
-pkill -f /dev/video || mpv /dev/video0  --demuxer-lavf-o=video_size=640x480 --geometry=-0-0 --autofit=27% --profile=low-latency --untimed --no-osc

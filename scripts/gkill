@@ -1,3 +1,0 @@
-#!/usr/bin/env sh
-
-st -e sh -c "ps -ef | fzf -e | awk '{print $2}' | xargs kill -9"
