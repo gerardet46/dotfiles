@@ -1,5 +1,5 @@
-scripts/cron
-scripts/emoji_list
+sc/cron
+sc/emoji_list
 
 # log files
 *.log

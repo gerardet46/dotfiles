@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+
+[ -z "$1" ] && exit
+
+case "$1" in
+    d) xmodmap "$HOME/.config/mouse/mouse_dret" ;;
+    e) xmodmap "$HOME/.config/mouse/mouse_esquerra" ;;
+esac

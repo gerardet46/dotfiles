@@ -7,7 +7,9 @@ set nowrap
 syntax enable
 
 inoremap jk <ESC>
-noremap . :
+inoremap ,. <ESC>:
+noremap , :
+nnoremap S :%s//g<Left><Left>
 
 map <C-h> <C-w>h
 map <C-j> <C-w>j

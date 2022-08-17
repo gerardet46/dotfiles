@@ -1,0 +1,27 @@
+#!/usr/bin/sh
+
+options="Baixades\nTemp"
+
+[ -d /tmp/Baixades ] || mkdir -p /tmp/Baixades
+
+if which dmenukey > /dev/null; then
+    opt="$(echo "bt\n$options" | dmenukey -p "Baixa")"
+else
+    opt="$(echo "$options" | dmenu -p "Baixa")"
+fi
+
+[ -z "$opt" ] && exit
+
+link="$(dmenu -p "Enllaç" <&-)"
+
+[ -z "$link" ] && exit
+
+case "$opt" in
+    Baixades) save="$HOME/Baixades" ;;
+    Temp)     save="/tmp/Baixades"  ;;
+esac
+
+[ -d "$save" ] || mkdir -p "$save" 
+
+wget "$link" -P "$save"
+xdg-open "$save/$(basename "$link")"

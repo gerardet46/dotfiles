@@ -7,8 +7,8 @@
 #+property: header-args :results silent
 
 
-* TABLE OF CONTENTS :TOC:
-- [[#basic-config][BASIC CONFIG]]
+* Table of contents                                                     :TOC:
+- [[#basic-config][Basic config]]
   - [[#important-load-literate-config-this][IMPORTANT: Load literate config (this)]]
   - [[#yn-instead-of-yesno][Y/N instead of Yes/No]]
   - [[#put-customel-in-a-separate-file][Put custom.el in a separate file]]
@@ -18,24 +18,23 @@
   - [[#save-backup-files-in-a-separate-directory][Save backup files in a separate directory]]
   - [[#more-recentf-files][More recentf files]]
   - [[#scrolling][Scrolling]]
-- [[#key-bindings][KEY BINDINGS]]
+- [[#key-bindings][Key bindings]]
   - [[#basic][Basic]]
   - [[#general][General]]
   - [[#key-chord][key chord]]
-- [[#evil-mode][EVIL MODE]]
+- [[#evil-mode-][Evil Mode 😈]]
   - [[#undo-fu][undo-fu]]
   - [[#anzu][anzu]]
   - [[#general-1][general]]
   - [[#key-chord-1][key chord]]
   - [[#evil--visual-line-mode][evil + visual line mode]]
-- [[#ivy--counsel][IVY / COUNSEL]]
-- [[#my-desktop-sessions][MY-DESKTOP SESSIONS]]
-- [[#dashboard][DASHBOARD]]
-- [[#dired][DIRED]]
+- [[#ivy--counsel][Ivy / Counsel]]
+- [[#dired][Dired]]
   - [[#make-dired-cooler][make dired cooler]]
   - [[#preview-peep-dired][preview (peep-dired)]]
   - [[#key-bindings-1][key bindings]]
-- [[#appearance][APPEARANCE]]
+- [[#neotree][Neotree]]
+- [[#appearance][Appearance]]
   - [[#change-modeline-to-dooms-modeline][Change Modeline To Doom's Modeline]]
   - [[#disable-menubar-toolbars-and-scrollbars][Disable Menubar, Toolbars and Scrollbars]]
   - [[#display-line-numbers-and-truncated-lines][Display Line Numbers and Truncated Lines]]
@@ -43,43 +42,55 @@
   - [[#icons-and-emojis][Icons and emojis]]
   - [[#theme][Theme]]
   - [[#transparency][Transparency]]
-- [[#daemon-settings-----emacsclient][DAEMON SETTINGS --- EMACSCLIENT]]
-  - [[#dashboard-1][Dashboard]]
-- [[#latex][LATEX]]
+- [[#daemon-settings-----emacsclient][Daemon settings --- Emacsclient]]
+  - [[#dashboard][Dashboard]]
+- [[#latex][LaTeX]]
   - [[#xenops-visualize-latex-result-in-tex][xenops (visualize latex result in .tex)]]
-- [[#magit][MAGIT]]
-- [[#org-mode][ORG MODE]]
+- [[#magit][Magit]]
+- [[#org-mode][Org mode]]
   - [[#babel][Babel]]
   - [[#basic-config-1][Basic config]]
   - [[#catalan-translation][Catalan translation]]
   - [[#evil--org][Evil + Org]]
   - [[#fonts-1][Fonts]]
+  - [[#jupyter-notebook][Jupyter notebook]]
   - [[#key-bindings-2][Key bindings]]
   - [[#latex-1][LaTeX]]
   - [[#org-bullets][Org bullets]]
   - [[#org-present][Org Present]]
   - [[#org-roam][Org Roam]]
   - [[#table-of-contents][Table of contents]]
-- [[#shells][SHELLS]]
+- [[#shells][Shells]]
   - [[#eshell][eshell]]
   - [[#vterm][vterm]]
-- [[#misc][MISC]]
+- [[#misc][Misc]]
   - [[#smartparens][smartparens]]
   - [[#hl-todo][hl-todo]]
   - [[#which-key][which-key]]
   - [[#rainbow-mode][rainbow-mode]]
-- [[#perspective][Perspective]]
+  - [[#folding][folding]]
+- [[#elfeed][Elfeed]]
+  - [[#basic-stuff][Basic stuff]]
+  - [[#better-look][Better look]]
+  - [[#setup-feeds-in-org-file][Setup feeds in Org file]]
+- [[#workspaces][Workspaces]]
+  - [[#perspective][Perspective]]
+  - [[#workgroups][Workgroups]]
+- [[#dashboard-1][Dashboard]]
 - [[#yasnippet][Yasnippet]]
 - [[#company][Company]]
 - [[#lsp][LSP]]
   - [[#python][Python]]
+  - [[#web-development--php][Web development + PHP]]
   - [[#cc][C/C++]]
   - [[#latex-2][LaTeX]]
-- [[#other-tools][OTHER TOOLS]]
+- [[#other-tools][Other tools]]
   - [[#matlab][Matlab]]
 
-* BASIC CONFIG
+* Basic config
 This is the basic config to setup a few important miscellaneous config, which will be the base of the rest of the configuration.
+
+To disable a block of code just append =:tangle no= to the =#+begin_src= instruction and reload Emacs. To execute a code block just do ~C-c C-c~.
 
 ** IMPORTANT: Load literate config (this)
 To be able to load this Org literate config, write this in =init.el.=
@@ -112,20 +123,34 @@ This lines setup *package.el*, adding the *MELPA* repository.
   (require 'package)
   (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
   (package-initialize)
-  
+
   ;; refresh repo (only when needed)
   (when (not package-archive-contents)
     (package-refresh-contents))
-  #+end_src
+#+end_src
 
 *NOTE*. Run =(package-refresh-contents)= the first time to refresh the package archives. You can add it here in the code if you want, but Emacs will start up very slow.
 
 ** use-package
 Install a better package to install packages (and check if installed).
 #+begin_src emacs-lisp
-(unless (package-installed-p 'use-package)
-  (package-install 'use-package))
+  (unless (package-installed-p 'use-package)
+    (package-install 'use-package))
 #+end_src
+
+Here is an example of use:
+#+begin_example
+  (use-package name
+    :ensure t ;; t for installing it if not installed
+    :hook     ;; don't type "-hook", init name-mode when others
+    ((python-mode . name-mode)
+     (c-mode . name-mode))
+    :bind ("M-u" . name-function) to bind keys
+    :init ;; before package is loaded
+    (setq var "name")
+    :config ;; after package is loaded
+    (setq var1 "name"))
+#+end_example
 
 ** Some useful functions 
 As we do changes in =init.el=, we want an /interactive function/ to load the config file and also to open it in a buffer.
@@ -161,8 +186,7 @@ Default scrolling in Emacs sucks. Let's make it more progressive!
   (setq mouse-wheel-progressive-speed t) ;; accelerate scrolling
 #+end_src
 
-
-* KEY BINDINGS
+* Key bindings
 Let's setup nicer keybindings with *general* and *key-chord*, using =<SPC>= as leader key, as it's in Doom Emacs and Spacemacs.
 
 ** Basic
@@ -222,7 +246,14 @@ Now we add here some useful and general keybinding
 
     ;; toggle
     "t v" 'visual-line-mode
-    "t l" 'display-line-numbers-mode)
+    "t l" 'display-line-numbers-mode
+
+    ;; evaluate lisp expressions
+    "e b" 'eval-buffer
+    "e d" 'eval-defun
+    "e e" 'eval-expression
+    "e l" 'eval-last-sexp
+    "e r" 'eval-region)
 #+end_src
 
 NOTE. There are more key binding definitions in this config for the suitable mode.
@@ -237,8 +268,7 @@ Use it for defining chords like =jk= for enter normal mode, for example
     (key-chord-mode 1))
 #+end_src
 
-
-* EVIL MODE
+* Evil Mode 😈
 Load *evil-mode* with *evil-collection* after to enable it in more buffers (dashboard, ...). Also split windows better.
 #+begin_src emacs-lisp
   (use-package evil
@@ -250,7 +280,7 @@ Load *evil-mode* with *evil-collection* after to enable it in more buffers (dash
     (setq evil-split-window-below t)  ;; better split
     (setq evil-undo-system 'undo-fu)  ;; undo functionality (maybe undo-tree)
     (evil-mode))
-  
+
   (use-package evil-collection
     :ensure t
     :after evil
@@ -309,8 +339,7 @@ Now let's improve our /evil workflow/ with =general= key bindings and /chords/. 
 #+begin_src emacs-lisp
   ;; it's annoying with keyboard ES to type ":" and "/"
   (nvmap
-    "." 'evil-ex
-    "," 'evil-search-forward)
+    "," 'evil-ex)
   ;; some "spacy" key bindings
   (nvmap :prefix "SPC"
     "k" 'evil-window-up
@@ -343,8 +372,7 @@ With some modes (e.g. Org mode or LaTeX) we want =visual-line-mode=. So make =ev
   (define-key evil-motion-state-map [remap evil-previous-line] #'evil-previous-visual-line)
 #+end_src
 
-
-* IVY / COUNSEL
+* Ivy / Counsel
 *ivy* and *counsel* improve completion for Emacs, also with /ivy-rich/ for additional descriptions and icons. Also, include some nice icons :P
 #+begin_src emacs-lisp
   ;; better M-x, buffer-switch, ...
@@ -382,155 +410,7 @@ With some modes (e.g. Org mode or LaTeX) we want =visual-line-mode=. So make =ev
 #+end_src
 
 
-* MY-DESKTOP SESSIONS
-We'll manually setup the desktop sessions, using =desktop.el=. First set the directory where sessions are stored as well as the session history variable. All this variables and functions begin with *my-desktop*, so it's easier to search.
-#+begin_src emacs-lisp
-(require 'desktop)
-
-(defvar my-desktop-session-dir
-  (concat (getenv "HOME") "/.emacs.d/desktop-sessions/")
-  "*Directory to save desktop sessions in")
-
-(defvar my-desktop-session-name-hist nil
-  "Desktop session name history")
-
-#+end_src
-
-Now we begin with this three functions, which do the following:
-- Save desktop with a /name/
-- Save current desktop with its name (already given)
-- Save and clear desktop (kills /almost/ all buffers)
-#+begin_src emacs-lisp
-(defun my-desktop-save (&optional name)
-  "Save desktop by name."
-  (interactive)
-  (unless name
-    (setq name (my-desktop-get-session-name "Save session" t)))
-  (when name
-    (make-directory (concat my-desktop-session-dir name) t)
-    (desktop-save (concat my-desktop-session-dir name) t)))
-
-(defun my-desktop-save-current ()
-  "Save current desktop"
-  (interactive)
-  (setq name (my-desktop-get-current-name))
-  (unless name
-	(message "No hi ha cap sessió carregada"))
-  (when name
-	(my-desktop-save name)
-	(message (concat "Sessió desada: " name))))
-
-(defun my-desktop-save-and-clear ()
-  "Save and clear desktop."
-  (interactive)
-  (call-interactively 'my-desktop-save)
-  (desktop-clear)
-  (setq desktop-dirname nil))
-#+end_src
-
-Now we define the funcionts to get desktop/sessions names to be able to load them (by name).
-#+begin_src emacs-lisp
-(defun my-desktop-read (&optional name)
-  "Read desktop by name."
-  (interactive)
-  (unless name
-    (setq name (my-desktop-get-session-name "Load session")))
-  (when name
-    (desktop-clear)
-    (desktop-read (concat my-desktop-session-dir name))))
-
-(defun my-desktop-change (&optional name)
-  "Change desktops by name."
-  (interactive)
-  (let ((name (my-desktop-get-current-name)))
-    (when name
-      (my-desktop-save name))
-    (call-interactively 'my-desktop-read)))
-
-(defun my-desktop-name ()
-  "Return the current desktop name."
-  (interactive)
-  (let ((name (my-desktop-get-current-name)))
-    (if name
-        (message (concat "Desktop name: " name))
-      (message "No named desktop loaded"))))
-
-(defun my-desktop-get-current-name ()
-  "Get the current desktop name."
-  (when desktop-dirname
-    (let ((dirname (substring desktop-dirname 0 -1)))
-      (when (string= (file-name-directory dirname) my-desktop-session-dir)
-        (file-name-nondirectory dirname)))))
-
-(defun my-desktop-get-session-name (prompt &optional use-default)
-  "Get a session name."
-  (let* ((default (and use-default (my-desktop-get-current-name)))
-         (full-prompt (concat prompt (if default
-                                         (concat " (default " default "): ")
-                                       ": "))))
-    (completing-read full-prompt (and (file-exists-p my-desktop-session-dir)
-                                      (delete ".." (delete "." (directory-files my-desktop-session-dir))))
-                     nil nil nil my-desktop-session-name-hist default)))
-#+end_src
-
-Finally, this /hook/ will save the current session before killing emacs
-#+begin_src emacs-lisp
-;; define hook
-(defun my-desktop-kill-emacs-hook ()
-  "Save desktop before killing emacs."
-  (when (file-exists-p (concat my-desktop-session-dir "Darrera sessió"))
-    (setq desktop-file-modtime
-          (nth 5 (file-attributes (desktop-full-file-name (concat my-desktop-session-dir "Darrera sessió"))))))
-  (my-desktop-save "Darrera sessió"))
-
-;; add that hook
-(add-hook 'kill-emacs-hook 'my-desktop-kill-emacs-hook)
-#+end_src
-
-
-* DASHBOARD
-Configure dashboard for a better welcome message.
-#+begin_src emacs-lisp
-  (use-package dashboard
-    :ensure t
-    :init
-    (setq dashboard-set-heading-icons t)
-    (setq dashboard-center-content t)
-    (setq dashboard-set-file-icons t)
-    (setq dashboard-banner-logo-title "Benvingut a Emacs!")
-    (setq dashboard-startup-banner 'logo)
-    :config
-    (dashboard-setup-startup-hook)
-
-    ;; integration with my-desktop
-    (setq sessions (delete ".." (delete "." (directory-files my-desktop-session-dir))))
-    (defun dashboard-sessions (list-size)
-      (dashboard-insert-section
-       "Sessions:"
-       (dashboard-subseq sessions 0 list-size)
-       list-size
-       "s"
-       `(lambda (&rest ignore) (my-desktop-read ,el))
-       el))
-
-    (add-to-list 'dashboard-item-generators  '(my-desktop-read . dashboard-sessions))
-    (add-to-list 'dashboard-items '(my-desktop-read) t)
-
-    ;; finally set the items
-    (setq dashboard-items '(;(my-desktop-read . 5) ;; the previously generated list
-                            (recents . 10 )
-                            (bookmarks . 5)
-                                          ;(projects . 3)
-                            (agenda . 3)))
-
-  (setq dashboard-item-names '(("Recent Files:" . "Fitxers recents:")
-                               ("Bookmarks:" . "Preferits:")
-                               ("Agenda for today:" . "Agenda d'avui:")
-                               ("Agenda for the coming week:" . "Agenda:"))))
-    #+end_src
-
-    
-* DIRED
+* Dired
 First, don't create a new buffer when visiting another folder. Press =a= instead of =SPC=
 #+begin_src emacs-lisp
   (put 'dired-find-alternate-file 'disabled nil)
@@ -584,8 +464,38 @@ Let's add some useful keybindings
     "p" 'peep-dired)
 #+end_src
 
+* Neotree
+=Neotree= is a file tree  viewer. Press ~SPC t n~ to toggle it.
+#+begin_src emacs-lisp
+  (defcustom neo-window-width 20
+    "*Specifies the width of the NeoTree window."
+    :type 'integer
+    :group 'neotree)
 
-* APPEARANCE
+  (use-package neotree
+    :ensure t
+    :config
+    (setq neo-smart-open t
+          neo-theme 'icons
+          neo-window-fixed-size nil
+          inhibit-compacting-font-caches t
+          projectile-switch-project-action 'neotree-projectile-action) 
+    ;; truncate long file names in neotree
+    (add-hook 'neo-after-create-hook
+              #'(lambda (_)
+                  (with-current-buffer (get-buffer neo-buffer-name)
+                    (setq truncate-lines t)
+                    (setq word-wrap nil)
+                    (make-local-variable 'auto-hscroll-mode)
+                    (setq auto-hscroll-mode nil)))))
+
+  ;; show hidden files
+  (setq-default neo-show-hidden-files t)
+
+  (nvmap :prefix "SPC" "t n" 'neotree-toggle)
+#+end_src
+
+* Appearance
 Make GNU Emacs look cool.
 
 ** Change Modeline To Doom's Modeline
@@ -609,8 +519,10 @@ Get rid of annoying bars.
 Relative line numbers (except in some buffers)
 #+begin_src emacs-lisp
   (require 'display-line-numbers)
-  ; this defines the modes where there aren't line numbers
-  (defcustom display-line-numbers-exempt-modes '(org-mode matlab-shell-mode dashboard-mode which-key-mode vterm-mode eshell-mode shell-mode term-mode ansi-term-mode treemacs-mode)
+                                          ; this defines the modes where there aren't line numbers
+  (defcustom display-line-numbers-exempt-modes '(org-mode matlab-shell-mode dashboard-mode
+                                                          which-key-mode vterm-mode eshell-mode
+                                                          shell-mode term-mode ansi-term-mode treemacs-mode neotree-mode)
     "Major modes on which to disable the linum mode, exempts them from global requirement."
     :group 'display-line-numbers
     :type 'list
@@ -619,9 +531,9 @@ Relative line numbers (except in some buffers)
   (defun display-line-numbers--turn-on ()
     "Turn on line numbers but excempting certain majore modes defined in `display-line-numbers-exempt-modes'."
     (if (and
-     (not (member major-mode display-line-numbers-exempt-modes))
-     (not (minibufferp)))
-    (display-line-numbers-mode)))
+         (not (member major-mode display-line-numbers-exempt-modes))
+         (not (minibufferp)))
+        (display-line-numbers-mode)))
 
   ;; enable line numbers mode
   (global-display-line-numbers-mode)
@@ -703,26 +615,25 @@ Also, we implement an interactive function =toggle-transparency= to toggle the t
     "t t" 'toggle-transparency)
 #+end_src
 
-
-* DAEMON SETTINGS --- EMACSCLIENT
+* Daemon settings --- Emacsclient
 To be able to work with =emacsclient=, we have to fix some frame settings.
 
 ** Dashboard
 This sets the /dashboard/ as the initial buffer.
 #+begin_src emacs-lisp
-  (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*"))) ;; show it at startup
+  (when (package-installed-p 'dashboard)
+    (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))) ;; show it at startup
 #+end_src
 
-
-* LATEX
+* LaTeX
 We install the =auctex= environment with the following functionality:
 - Preview with =zathura= PDF Viewer
 - /Synctex/ support (jump to line in /.tex/ file)
 
 #+caption: Key bindings
-| Key | Command            | Description         |
-|-----+--------------------+---------------------|
-| =C-c= | =TeX-command-master= | Compile or preview. |
+| Key     | Command            | Description         |
+|---------+--------------------+---------------------|
+| ~C-c C-c~ | =TeX-command-master= | Compile or preview. |
 
 #+begin_src emacs-lisp
   (use-package latex
@@ -764,16 +675,14 @@ With =xenops= we can visualize the result of tables, math and more in the curren
     (setq xenops-math-image-current-scale-factor 1.1))
 #+end_src
 
-
-* MAGIT
+* Magit
 /Magit/ is the /git/ client for Emacs.
 #+begin_src emacs-lisp
   (use-package magit
     :ensure t)
 #+end_src
 
-
-* ORG MODE
+* Org mode
 =Org mode= is the Emacs major mode. Let's rice it a little bit.
 
 ** Babel
@@ -788,6 +697,18 @@ You can check which languages are available [[https://orgmode.org/worg/org-contr
      (C . t)
      (lua . t)
      (python . t)))
+#+end_src
+
+*** Auto tangle
+It's useful to tangle files automatically. This can be done with =org-auto-tangle=!
+At the top of your Org document put =#+auto_tangle: t= to tangle automatically to the file given.
+#+begin_src emacs-lisp
+  (use-package org-auto-tangle
+    :defer t
+    :ensure t
+    :hook (org-mode . org-auto-tangle-mode)
+    :config
+    (setq org-auto-tangle-default nil)) ;; set to t to enable auto-tangling by default
 #+end_src
 
 ** Basic config
@@ -819,6 +740,9 @@ Set some variables.
 
   ;; start Org mode with visual-line-mode
   (add-hook 'org-mode-hook 'visual-line-mode)
+
+  ;; start with all headings folded (press S-TAB to unfold)
+  (add-hook 'org-mode-hook 'org-overview)
 #+end_src
 
 ** Catalan translation
@@ -892,6 +816,15 @@ See [[appearance-fonts][font section]] for the =fixed-pitch= definition.
   (my/org-fonts)
   ;;(add-hook 'org-mode-hook 'my/org-fonts) ;; load it in org-mode
 #+end_src
+** Jupyter notebook
+To write jupyter notebooks in Org mode, we need to export /Org files/ to /.ipynb/ files.
+#+begin_src emacs-lisp
+  ;; export to ipynb
+  ;; this is not in MELPA, see ~/.emacs.d/ox-ipynb
+  (use-package ox-ipynb
+    :ensure t)
+#+end_src
+
 ** Key bindings
 Better keybindings for /Org mode/. (using the =SPC g= prefix)
 #+begin_src emacs-lisp
@@ -902,13 +835,18 @@ Better keybindings for /Org mode/. (using the =SPC g= prefix)
 #+end_src
 
 ** LaTeX
-Integrate \(\LaTeX\) inside =Org mode=. Just adjust some variables
+Integrate \(\LaTeX\) inside =Org mode=. Just adjust some variables and install =org-fragtog= to render \(\LaTeX\) automatically, otherwise press ~C-c C-x C-l~ to render all \(\LaTeX\) previews.
 #+begin_src emacs-lisp
   ;; don't make trash in the working directory, send images to /tmp
   (setq org-latex-preview-ltxpng-directory "/tmp/ltximg/")
 
   ;; scale rendered latex
   (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.25))
+
+  ;; automatic render
+  (use-package org-fragtog
+    :ensure t
+    :hook (org-mode . org-fragtog-mode))
 #+end_src
 
 ** Org bullets
@@ -934,23 +872,17 @@ This is an engine to present Org files in a more beautiful ways. We want:
   (use-package visual-fill-column
     :ensure t
     :init
-    (setq visual-fill-column-width 120
+    (setq visual-fill-column-width 100
           visual-fill-column-center-text t))
 
   ;; start and end hooks
   (defun my/org-present-start ()
     ;; Center the presentation and wrap lines
-    (visual-fill-column-mode 1)
-    (variable-pitch-mode 1)
-    (display-line-numbers-mode 0)
-    (visual-line-mode 1))
+    (visual-fill-column-mode 1))
 
   (defun my/org-present-end ()
     ;; Stop centering the document
-    (visual-fill-column-mode 0)
-    (variable-pitch-mode 0)
-    (display-line-numbers-mode 1)
-    (visual-line-mode 0))
+    (visual-fill-column-mode 0))
 
   (add-hook 'org-present-mode-hook 'my/org-present-start)
   (add-hook 'org-present-mode-quit-hook 'my/org-present-end)
@@ -985,8 +917,7 @@ Make a *TOC* automatically using =:TOC= or =:TOC_2_org:= for better support.
     :init (add-hook 'org-mode-hook 'toc-org-enable))
 #+end_src
 
-
-* SHELLS
+* Shells
 ** eshell
 The shell written in elisp. Let's setup some syntax highlight and a few variables to make it better.
 #+begin_src emacs-lisp
@@ -1017,8 +948,7 @@ Vterm is a complete terminal emulator in Emacs. It has all you expect.
     (setq vterm-max-scrollback 10000))
 #+end_src
 
-
-* MISC
+* Misc
 Some /useful/ parts of Emacs that don't deserve a separate heading.
 
 ** smartparens
@@ -1117,29 +1047,201 @@ This table is the same of the current one but removing the =< >= delimiters.
   (add-hook 'org-mode-hook 'set-my-table)
 #+end_src
 
+** folding
+To fold code blocks we use the package =yafolding=. Use the following keys:
+| Key          | Action                        |
+|--------------+-------------------------------|
+| C-<return>   | Toggle fold at point          |
+| C-M-<return> | Toggle all fold               |
+| C-S-<return> | Toggle fold at parent element |
 
-* Perspective
-Perspective is a package to create "separate workspaces" upon Emacs.
+#+begin_src emacs-lisp
+  (use-package yafolding
+    :ensure t
+    :hook (lsp-mode . yafolding-mode))
+#+end_src
+
+* Elfeed
+The RSS/Atom feed for Emacs. Make =M-x elfeed= to open elfeed, and there ~g r~ (with /evil-collection/) to update the feed.
+** Basic stuff
+#+begin_src emacs-lisp
+  (use-package elfeed
+    :ensure t
+    :bind
+    ("M-u" . elfeed-search-untag-all-unread)
+    :config
+    (add-hook 'elfeed-search-mode-hook 'elfeed-update)
+    :init
+    (nvmap :prefix "SPC" "o f" 'elfeed)) ;; update feeds when open
+
+  ;; you may set here your feeds if you don't use elfeed-org
+  ;; (setq elfeed-feeds '("link1" "link2"))
+
+#+end_src
+
+** Better look
+
+#+begin_src emacs-lisp :tangle no
+  ;; better integration
+  (use-package elfeed-goodies
+    :ensure t
+    :hook (elfeed-show-mode . visual-line-mode)
+    :init
+    (elfeed-goodies/setup) ;; setup a better experience
+    :config
+    ;; pane size
+    (setq elfeed-goodies/entry-pane-size 0.6         ;; % width of read pane
+          elfeed-goodies/feed-source-column-width 30 ;; width of name of feed
+          elfeed-goodies/feed-tag-column-width 20)   ;; width of tags column
+
+    ;; navigate throgh news inside split
+    (evil-define-key 'normal elfeed-show-mode-map
+      (kbd "J") 'elfeed-goodies/split-show-next
+      (kbd "K") 'elfeed-goodies/split-show-prev)
+    (evil-define-key 'normal elfeed-search-mode-map
+      (kbd "J") 'elfeed-goodies/split-show-next
+      (kbd "K") 'elfeed-goodies/split-show-prev))
+#+end_src
+
+** Setup feeds in Org file
+
+#+begin_src emacs-lisp
+  ;; set up feeds with Org mode (in the next subsection)
+  (use-package elfeed-org
+    :ensure t
+    :init
+    (elfeed-org)
+
+    ;; set org files. By default is ~/.emacs.d/elfeed.org
+    (setq rmh-elfeed-org-files (list "~/.emacs.d/elfeed.org")))
+#+end_src
+For an example of setting up feeds in that org file see [[https://github.com/remyhonig/elfeed-org][elfeed-org in GitHub]].
+
+* Workspaces
+** Perspective
+Perspective is a package to create "separate workspaces" upon Emacs. All you need is in [[https://systemcrafters.cc/effective-emacs-workflow/declutter-your-buffers-perspective-el/][Perspective from System Crafters]] or the readme of the git repo
 #+begin_src emacs-lisp
   (use-package perspective
-    :ensure t  ; use `:straight t` if using straight.el!
+    :ensure t  ;; use `:straight t` if using straight.el!
     :bind (("C-x k" . persp-kill-buffer*))
     :custom
-    (persp-mode-prefix-key (kbd "C-x x"))
+    (persp-mode-prefix-key (kbd "C-x x")) ;; prefix map
     :config
     (nvmap :prefix "SPC"
       "p s" 'persp-switch
       "p 0" 'persp-switch-by-number
       "p n" 'persp-next
       "p p" 'persp-prev
-      "p a" 'persp-add-buffer
-      "p A" 'persp-set-buffer
-      "p k" 'persp-remove-buffer
-      "p c" 'persp-kill)
+      "p a" 'persp-add-buffer    ;; add buffer to current persp
+      "p A" 'persp-set-buffer    ;; set buffer to current persp
+      "p k" 'persp-remove-buffer ;; remove buffer from this persp
+      "p c" 'persp-kill)         ;; kill perspective
     :init
     (persp-mode))
 #+end_src
 
+** Workgroups
+Here we can save the workspace for future work, as sessions. It works well with =perspective=, that is, it saves only the current perspective.
+#+begin_src emacs-lisp
+  (use-package workgroups2
+    :ensure t
+    :config
+    (setq wg-prefix-key "C-c z")
+    (setq wg-session-file "~/.emacs.d/emacs_workgroups")
+    :init
+    (workgroups-mode +1))
+#+end_src
+
+Now we'll define the interaction between =perspective= and =workgroups2=. Features:
+- When open a workgroup switch to a perspective with that name.
+
+#+begin_src emacs-lisp
+  ;; open workspace in a new perspective with the same name
+  (defun my/load-wg (&optional group-name)
+    (interactive)
+    (let ((group-names (wg-workgroup-names)))
+      (cond
+       (group-names
+        (unless group-name
+          (setq group-name
+                (completing-read "Select work group: " group-names)))
+        (when group-name
+          (persp-switch group-name)
+          (wg-open-session)
+          (wg-switch-to-workgroup-internal group-name)
+          (wg-reset-internal nil)))
+       (t
+        (message "No workgroup is created yet.")))))
+
+  ;; save this workspace (perspective)
+  (defun my/write-wg (&optional group-name)
+    (interactive)
+    (let ((group-names (wg-workgroup-names)))
+      (cond
+       (group-names
+        (unless group-name
+          (setq group-name
+                (completing-read "Select work group: " group-names)))
+        (when group-name
+          (wg-create-workgroup group-name)))
+       (t
+        (message "No workgroup is created yet.")))))
+
+  ;; some keys to make it easier
+  (nvmap :prefix "SPC"
+    "p w" 'my/write-wg
+    "p l" 'my/load-wg
+    "p r" 'wg-kill-workgroup)
+#+end_src
+
+
+* Dashboard
+Configure dashboard for a better welcome message.
+#+begin_src emacs-lisp :tangle no
+  (use-package dashboard
+    :ensure t
+    :init
+    (setq dashboard-set-heading-icons t)
+    (setq dashboard-center-content t)
+    (setq dashboard-set-file-icons t)
+    (setq dashboard-banner-logo-title "Benvingut a Emacs!")
+    (setq dashboard-startup-banner 'logo)
+    :config
+    (dashboard-setup-startup-hook)
+
+    ;; insert items (name . max_count)
+    (setq dashboard-items '((recents . 15)
+                            (bookmarks . 5)
+                            (agenda . 3)))
+
+    ;; integration with workgroups2, if installed
+    (when (package-installed-p 'workgroups2)
+      (setq my/workgroups ())
+      (dolist (el (wg-workgroup-names)) (add-to-list 'my/workgroups (car el)))
+
+      (add-to-list 'dashboard-item-shortcuts '(workgroups . "s"))
+      (add-to-list 'dashboard-item-generators '(workgroups . dashboard-workgroups))
+      (add-to-list 'dashboard-items '(workgroups . 5)))
+
+    ;; Change default section names
+    (setq dashboard-item-names '(("Workgroups:" . "Espais de treball")
+                                 ("Recent Files:" . "Fitxers recents:")
+                                 ("Bookmarks:" . "Preferits:")
+                                 ("Agenda for today:" . "Agenda d'avui:")
+                                 ("Agenda for the coming week:" . "Agenda:"))))
+
+  ;; insert workspaces in dashboard function
+  (defun dashboard-workgroups (list-size)
+    (dashboard-modify-heading-icons '((workgroups . "flame")))
+    (dashboard-insert-section
+     "Workgroups:"
+     (dashboard-subseq my/workgroups list-size)
+     list-size
+     'workgroups 
+     (dashboard-get-shortcut 'workgroups)
+     `(lambda (&rest _) (my/load-wg ,el))
+     (format "%s" el)))
+#+end_src
 
 * Yasnippet
 An extensible snippet plugin for managing snippets.
@@ -1158,14 +1260,15 @@ You can check/edit the available snippets in the current buffer by =M-x yas-visi
     :ensure t)
 #+end_src
 
-
 * Company
-Let's set up completions with company.
+Let's set up completions with company, as well as autoenabled in some modes. Notice that in LSP is already enabled.
 #+begin_src emacs-lisp
   (use-package company
-    :ensure t)
+    :ensure t
+    :hook ((lisp-mode . company-mode)
+           (lisp-interaction-mode . company-mode)
+           (emacs-lisp-mode . company-mode)))
 #+end_src
-
 
 * LSP
 =Lsp mode= is a major mode in Emacs to make it a full IDE. Just make the base install and then install the servers for the languages you need (see subsections or [[https://emacs-lsp.github.io/lsp-mode/page/languages/][LSP Languages]])
@@ -1188,7 +1291,7 @@ Let's set up completions with company.
   (use-package lsp-treemacs :ensure t :commands lsp-treemacs-errors-list)
 
   ;; optionally if you want to use debugger
-  (use-package dap-mode)
+  (use-package dap-mode :ensure t)
   ;; (use-package dap-LANGUAGE) to load the dap adapter for your language
 #+end_src
 
@@ -1202,6 +1305,53 @@ Enable =lsp=.
 #+begin_src emacs-lisp :exports nil :eval never-export
   (add-to-list 'lsp-enabled-clients 'pylsp)
   (add-hook 'python-mode-hook 'lsp)
+
+  ;; indentation for Python
+  (setq-default python-indent-offset 4)
+  (setq python-indent-offset 4)
+
+  ;; disable some warnings
+  (setq lsp-pylsp-plugins-flake8-enabled t)
+#+end_src
+
+** Web development + PHP
+First install the =PHP major mode= and also the =web mode.= To go faster, there's a plugin called =zencoding-mode= that allow us to type as Emmet, see [[https://github.com/rooney/zencoding][Zencoding on GitHub]] for more info and usage. Finally, add the color highlighting for both major modes.
+
+NOTE. To install the following servers *npm* must be installed in your computer.
+
+- For PHP, make sure you have =composer= and =phpactor= installed and working in /PATH/.
+- To install *HTML* and *CSS/LESS/SASS* server just do =M-x lsp-install-server= and install =html-ls= and =css-ls.=
+- To install *Javascript/Typescript* server do =M-x lsp-install-server= and then =ts-ls=.
+#+begin_src emacs-lisp
+  ;; only php backend
+  (use-package php-mode
+    :hook (php-mode . rainbow-mode)
+    :ensure t)
+
+  ;; general web
+  (use-package web-mode
+    :hook (web-mode . rainbow-mode)
+    :ensure t)
+
+  ;; emmet like plugin
+  (use-package zencoding-mode
+    :ensure t
+    :hook ((php-mode . zencoding-mode)
+           (web-mode . zencoding-mode)))
+
+
+  ;; add LSP clients
+  (add-to-list 'lsp-enabled-clients 'phpactor)
+  (add-to-list 'lsp-enabled-clients 'html-ls)
+  (add-to-list 'lsp-enabled-clients 'css-ls)
+  (add-to-list 'lsp-enabled-clients 'ts-ls)
+
+  ;; enable LSP by default in web files
+  (add-hook 'html-mode-hook 'lsp)
+  (add-hook 'css-mode-hook 'lsp)
+  (add-hook 'js-mode-hook 'lsp)
+  (add-hook 'php-mode-hook 'lsp)
+  (add-hook 'web-mode-hook 'lsp)
 #+end_src
 
 ** C/C++
@@ -1251,8 +1401,7 @@ Now set up this server for LaTeX.
   (add-hook 'LaTeX-mode-hook 'lsp)
 #+end_src
 
-
-* OTHER TOOLS
+* Other tools
 ** Matlab
 Yes, sometimes I have to use /matlab/ for some porpouses :(. But it's better here in Emacs!
 #+begin_src emacs-lisp

@@ -8,6 +8,6 @@
 
 ${4:#+HTML_HEAD_EXTRA: <style> .TOC_2_org { display: none; \} </style> \
 #+options: toc:nil}
-#+property: header-args :results silent
+#+property: header-args ${5::results silent}
 
 $0

@@ -1,0 +1,29 @@
+#!/usr/bin/env sh
+
+_signal() {
+    xsetroot -name "fsignal:$1"
+}
+
+case "$@" in
+    "b s") _signal 55 ;;
+    "b l") _signal 12 ;;
+    "b h") _signal 13 ;;
+
+    "g 0") _signal 28 ;;
+    "g d") _signal 29 ;;
+    "g s") _signal 54 ;;
+    "g u") _signal 14 ;;
+    "g U") _signal 15 ;;
+    "g i") _signal 16 ;;
+    "g I") _signal 17 ;;
+    "g o") _signal 18 ;;
+    "g O") _signal 19 ;;
+    "g 1") _signal 20 ;;
+    "g 2") _signal 21 ;;
+    "g 3") _signal 22 ;;
+    "g 4") _signal 23 ;;
+    "g 5") _signal 24 ;;
+    "g 6") _signal 25 ;;
+    "g 7") _signal 26 ;;
+    "g 8") _signal 27 ;;
+esac

@@ -71,24 +71,20 @@ bindsym $mod+Shift+q kill
 #bindsym $mod+d exec dmenu_run
 set $bg "#444477"
 
-#bindsym $mod+d exec rofi -theme scripts/material -font "Cantarell 12" -show run
-bindsym $mod+F1 exec ~/scripts/scripts.sh
-bindsym $mod+F2 exec dmenu_run
-bindsym $mod+F3 exec ~/scripts/emoji.sh
-bindsym $mod+F4 exec ~/scripts/dbrowse
-bindsym $mod+F10 exec ~/scripts/spotify.sh
-#bindsym $mod+d exec i3-dmenu-desktop
+#bindsym $mod+d exec rofi -theme sc/material -font "Cantarell 12" -show run
+bindsym F2 exec dmenu_run
+bindsym F3 exec ~/sc/emoji-dmenu
 bindsym $mod+d exec j4-dmenu-desktop
-#bindsym $mod+shift+p exec rofi -theme scripts/material -font "Cantarell 12" -show window
+#bindsym $mod+shift+p exec rofi -theme sc/material -font "Cantarell 12" -show window
 
 # monitors
-bindsym $mod+p exec "$HOME/scripts/monitors.sh"
+bindsym $mod+p exec "$HOME/sc/monitors"
 
 # ctrl-alt-supr
-bindsym Control+Mod1+Delete exec "$HOME/scripts/power.sh"
+bindsym Control+Mod1+Delete exec "$HOME/sc/power"
 
 # shutdown
-bindysm XF86PowerOff exec "$HOME/scripts/power.sh"
+bindysm XF86PowerOff exec "$HOME/sc/power"
 
 # change focus
 bindsym $mod+j focus left
@@ -265,7 +261,7 @@ bar {
 
 client.focused #444444 #bf7500 #444444 #ffff70
 
-bindsym $mod+c exec "$HOME/scripts/webcam.sh"
+bindsym $mod+c exec "$HOME/sc/webcam"
 
 # botons mouse
 bindsym $mod+Shift+m exec xmodmap "$HOME/.config/mouse/mouse_dret"

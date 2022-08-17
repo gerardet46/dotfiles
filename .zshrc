@@ -1,4 +1,5 @@
-HISTFILE=~/.zsh_history
+#!/usr/bin/zsh
+HISTFILE=~/.cache/zsh_history
 HISTSIZE=10000
 SAVEHIST=5000
 
@@ -12,12 +13,20 @@ if which fzf >/dev/null; then
     source /usr/share/fzf/completion.zsh
 fi
 
+# sudo not required for some system commands
+for command in mount umount sv su shutdown poweroff reboot; do
+    alias $command="sudo $command";
+done; unset command
+
 # export
+export TERMINAL="st"
 export EDITOR="nvim"
-export BROWSER="brave"
+export BROWSER="librewolf"
+export QT_QPA_PLATFORMTHEME="qt5ct"
 export _JAVA_OPTIONS='-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true'
 
-# manual
+# less
+export LESSHISTFILE="$HOME/.cache/lessht"
 export LESS_TERMCAP_mb=$'\e[1;35m'
 export LESS_TERMCAP_md=$'\e[1;35m'
 export LESS_TERMCAP_me=$'\e[0m'
@@ -29,16 +38,33 @@ export LESS_TERMCAP_us=$'\e[1;4;34m'
 # alias
 alias ..='cd ..'
 alias ...='cd ../..'
-alias ls='ls --color=auto'
 alias la='ls -a'
 alias ll='ls -l'
 alias l='ls -al'
-alias grep='grep --color=auto'
-alias pac='sudo pacman'
-alias poweroff='sudo poweroff'
-alias reboot='sudo reboot'
-alias apache='sudo rc-service httpd start && sudo mysqld --user=root &> /dev/null &'
-alias apache-quit='sudo pkill mysqld && sudo rc-service httpd stop'
+alias sc='cd $HOME/sc/ ; $EDITOR "$(fzf)";'
+
+# newer programs
+[ -x "$(command -v nvim)" ] && alias vim="nvim" vimdiff="nvim -d"
+[ -x "$(command -v nsxiv)" ] && alias sxiv="nsxiv"
+
+# Colorize commands when possible.
+alias \
+	ls="ls -hN --color=auto --group-directories-first" \
+	grep="grep --color=auto" \
+	diff="diff --color=auto" \
+	ccat="highlight --out-format=ansi" \
+	ip="ip -color=auto"
+
+# These common commands are just too long! Abbreviate them.
+alias \
+	ka="killall" \
+	g="git" \
+	trem="transmission-remote" \
+	YT="youtube-viewer" \
+	e="$EDITOR" \
+	v="$EDITOR" \
+	p="sudo pacman" \
+	z="zathura"
 
 # nnn
 [ -f "$HOME/.config/nnn/config" ] && source "$HOME/.config/nnn/config"
@@ -57,8 +83,21 @@ prompt_mytheme_setup() {
 prompt_themes+=( mytheme )
 prompt mytheme
 
+# prompt for which WM/session init
 if [ $("tty") = "/dev/tty1" ] ; then
-    pgrep dwm || pgrep i3 || startx ~/.xinitrc
+    # ask for display
+    echo ""
+    echo "Introdueix el nom de la sessió: "
+    echo ""
+    echo "- tty"
+    echo "- dwm (predeterminat)"
+    echo ""
+    printf "Selecció: "
+
+    read what
+
+    # start session if it's not tty
+    [ "$what" = "tty" ] || startx ~/.xinitrc $what
 fi
 
 # plugins

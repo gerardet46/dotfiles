@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+
+[ -z "$1" ] && arg="h" || arg="$1"
+
+case "$arg" in
+    p) xrandr --output eDP-1 --primary --mode 1920x1080 --pos 0x0 --rotate normal --output DP-1 --off --output HDMI-1 --off --output HDMI-2 --off ;;
+    h) xrandr --output eDP-1 --off --output DP-1 --off --output HDMI-1 --off --output HDMI-2 --mode 1920x1080 --pos 0x0 --rotate normal --output VIRTUAL-1 --off ;;
+    d) xrandr --output eDP-1 --primary --mode 1920x1080 --pos 1920x0 --rotate normal --output DP-1 --off --output HDMI-1 --off --output HDMI-2 --mode 1920x1080 --pos 0x0 --rotate normal ;;
+    a) arandr ;;
+esac
+
+remaps &

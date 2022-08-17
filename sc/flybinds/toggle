@@ -1,0 +1,46 @@
+#!/usr/bin/env sh
+
+toggle_service() {
+    if ls -l /sbin/init | grep openrc > /dev/null ; then
+        # openrc
+        if sudo rc-service "$1" status ; then
+            sudo rc-service "$1" stop
+        else
+            sudo rc-service "$1" start
+        fi
+    elif ls -l /sbin/init | grep runit > /dev/null ; then
+        # openrc
+        if sudo sv status "$1" ; then
+            rsv down "$1"
+        else
+            rsv up "$1"
+        fi
+    elif ls -l /sbin/init | grep systemctl > /dev/null ; then
+        # systemctl
+        if sudo systemctl "$1" status ; then
+            sudo systemctl "$1" stop
+        else
+            sudo systemctl "$1" start
+        fi
+    fi
+}
+
+case "$@" in
+    a) pgrep xautolock &&
+        killall xautolock ||
+        xautolock -time 7 -locker slock &
+            ;;
+
+    k) pgrep screenkey &&
+        killall screenkey ||
+        screenkey &
+            ;;
+
+    b) toggle_service bluetoothd ;;
+    c) toggle_service cupsd ;;
+    s) toggle_service sshd ;;
+    t) pgrep xcompmgr &&
+        killall xcompmgr ||
+        xcompmgr &
+            ;;
+esac

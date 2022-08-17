@@ -18,7 +18,7 @@ do
     # put the folders ending with "/" and the files not.
 done <<EOF
 # Xorg
-.Xresources
+.config/x11/
 .xinitrc
 
 # Emacs
@@ -51,6 +51,8 @@ done <<EOF
 .config/nnn/config
 .config/nnn/plugins/
 
+.config/tg/conf.py
+
 .config/nvim/init.vim
 
 .config/pacman-hooks/
@@ -66,9 +68,9 @@ done <<EOF
 
 .config/screenkey.json 
 .config/set-config.sh
-.config/sxiv/
+.config/nsxiv/
 .config/zathura/
 
 # scripts/ folder
-scripts/
+sc/
 EOF

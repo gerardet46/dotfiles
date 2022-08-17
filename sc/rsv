@@ -1,0 +1,28 @@
+#!/usr/bin/sh
+
+doit=0
+for arg in $@; do
+    [ "$doit" = "0" ] && doit=1 && continue
+
+    case "$1" in
+        up) sudo ln -sfv /etc/runit/sv/"$arg" /run/runit/service/ ;;
+        down) sudo sv stop "$arg" ;;
+        restart) sudo sv restart "$arg" ;;
+        *) echo "Ús: [up down restart] [servei]" && exit 1 ;;
+    esac
+done
+
+doit=0
+case "$1" in
+    up) sleep 5;;
+    down) sleep 1;;
+    *) exit ;;
+esac
+for arg in $@; do
+    [ "$doit" = "0" ] && doit=1 && continue
+
+    case "$1" in
+        up)   sudo sv start "$arg" ;;
+        down) sudo rm -v /run/runit/service/"$arg" ;;
+    esac
+done

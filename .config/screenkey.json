@@ -1,6 +1,6 @@
 {
     "no_systray": false,
-    "timeout": 2.5,
+    "timeout": 2.0,
     "recent_thr": 0.1,
     "compr_cnt": 3,
     "ignore": [],

@@ -1,0 +1,35 @@
+#!/usr/bin/env sh
+
+_browser() {
+    B=${BROWSER:-xdg-open}
+    [ -z "$1" ] || $B "$@" &
+}
+
+_telegram() {
+    which telegram-desktop >/dev/null && telegram-desktop || /opt/Telegram/Telegram &
+}
+
+_main() {
+    case "$@" in
+        w) $BROWSER & ;;
+        f) st -e nnn ;;
+        d) dbrowse ;;
+        t) _telegram ;;
+        m) st -e neomutt ; pkill -RTMIN+12 dwmblocks ;;
+        e) emacsclient -c ;;
+        c) st -e calcurse ;;
+
+        x)
+            _browser https://web.whatsapp.com https://studio.youtube.com
+            "$HOME/sc/cron/mail.sh" &
+            _telegram
+            ;;
+
+        "u e") _browser "https://bit.ly/EntradaAT" ;;
+        "u s") _browser "https://bit.ly/SortidaAT" ;;
+        "u a") _browser "https://ad.uib.es/estudis2122/my/" ;;
+        "u c") _browser "https://academic.uib.es" ;;
+    esac
+}
+
+_main "$@" &

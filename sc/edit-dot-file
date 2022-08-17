@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+
+# dict of dotfiles [NAME]="PATH1 PATH2 ..."
+declare -A dotfiles=(
+    [dmenu]="$HOME/pkg/dmenu/config.h"
+    [dmenukey]="$HOME/pkg/my-dmenukey/config.h"
+    [dunst]="$HOME/.config/dunst/dunstrc"
+    [dwm]="$HOME/pkg/dwm/config.h $HOME/pkg/dwm/dwm.c"
+    [dwmblocks]="$HOME/pkg/dwmblocks/blocks.h"
+    [Emacs]="$HOME/.emacs.d/README.org"
+    [Flybinds]="$HOME/pkg/my-flybinds/config.h $HOME/pkg/my-flybinds/items.h $HOME/pkg/my-flybinds/flybinds.c"
+    [Neovim]="$HOME/.config/nvim/init.vim"
+    [slock]="$HOME/pkg/slock/config.h"
+    [st]="$HOME/pkg/st/config.h"
+    [nsxiv]="$HOME/.config/nsxiv/exec/key-handler $HOME/.config/nsxiv/exec/image-info"
+    [zathura]="$HOME/.config/zathura/zathurarc"
+    [xinitrc]="$HOME/.config/x11/xinitrc"
+    [xprofile]="$HOME/.config/x11/xprofile"
+    [zsh]="$HOME/.zshrc"
+    [xorg]="/etc/X11/xorg.conf"
+    [mutt]="/etc/neomuttrc /usr/local/share/mutt-wizard/mutt-wizard.muttrc"
+    [qutebrowser]="$HOME/.config/qutebrowser/config.py"
+    [mimeapps]="$HOME/.config/mimeapps.list"
+)
+
+# open it in Emacs
+function _emacs() {
+    emacsclient -c $@
+}
+
+# open it in Vim
+function _vim() {
+    st -e nvim $@
+}
+
+# Prompt dmenu to choose dotfiles (only keys of dict)
+name=$(echo "${!dotfiles[@]}" | tr " " "\n" | dmenu -l 20 -p "Configuració: ")
+files="${dotfiles[$name]}"
+
+[ -z "$name" ] && exit 1
+
+# Ask if open it in Emacs/(Neo)vim
+if which dmenukey > /dev/null; then
+    edit=$(printf "ev\nEmacs\nNeovim" | dmenukey -p "Editor: ")
+else
+    edit=$(printf "Emacs\nNeovim" | dmenu -p "Editor: ")
+fi
+
+# open it
+case "$edit" in
+    Emacs)  _emacs $files ;;
+    Neovim) _vim   $files ;;
+esac
