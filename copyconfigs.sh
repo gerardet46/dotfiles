@@ -62,6 +62,8 @@ done <<EOF
 .config/qutebrowser/autoconfig.yml
 .config/qutebrowser/solarized-everything-css/
 
+.config/qtile/
+
 .config/redshift/
 
 .config/sc-im/
