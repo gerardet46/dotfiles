@@ -6,7 +6,7 @@
 #+options: toc:nil
 #+property: header-args :results silent
 
-This are my personal dotfiles for GNU/Linux, as well as useful scripts, located mostly in the =scripts/= folder. Some of them are part of [[https://github.com/gerardet46/my-flybinds][my build of flybinds]], which are located in =scripts/flybinds=.
+This are my personal dotfiles for GNU/Linux, as well as useful scripts, located mostly in the =sc/= folder. Some of them are part of [[https://github.com/gerardet46/my-flybinds][my build of flybinds]], which are located in =sc/flybinds=.
 
 It also includes my Emacs config!
 
