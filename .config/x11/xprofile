@@ -7,7 +7,6 @@ autostart="xcompmgr redshift nm-applet dunst emacs-daemon"
 . /opt/gcolors/colors_env.sh
 
 # Xresources
-"$HOME"/.config/x11/xresources.sh
 xrdb ${XDG_CONFIG_HOME:-$HOME/.config}/x11/xresources & xrdbpid=$!
 
 # Carrega dbus i altres

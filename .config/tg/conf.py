@@ -10,6 +10,14 @@ PHONE = get_pass('telefon')
 # long message editor
 LONG_MSG_CMD = "nvim + -c 'startinsert' {file_path}"
 
+# notifications
+NOTIFY_CMD = "notify-send -i {icon_path} {title} {msg}"
+
+# voice recording
+VOICE_RECORD_CMD = (
+    "ffmpeg -f alsa -i default -c:a flac {file_path}"
+)
+
 # downloads
 DOWNLOAD_DIR = os.path.expanduser("~/bx/Telegram")
 
@@ -27,15 +35,15 @@ MAILCAP_FILE = os.path.expanduser("~/.config/mailcap")
 
 # Customizing tags
 CHAT_FLAGS = {
-    "online": "●",
+    "online": "O",
     "pinned": "P",
     "muted": "M",
     # chat is marked as unread
     "unread": "U",
     # last msg haven't been seen by recipient
-    "unseen": "✓",
-    "secret": "🔒",
-    "seen": "✓✓",  # leave empty if you don't want to see it
+    "unseen": "N",
+    "secret": "S",
+    "seen": "R",  # leave empty if you don't want to see it
 }
 MSG_FLAGS = {
     "selected": "*",
@@ -44,6 +52,6 @@ MSG_FLAGS = {
     "unseen": "U",
     "edited": "E",
     "pending": "...",
-    "failed": "💩",
-    "seen": "✓✓",  # leave empty if you don't want to see it
+    "failed": "X",
+    "seen": "R",  # leave empty if you don't want to see it
 }

@@ -25,6 +25,20 @@
 St.alpha:      0.85
 St.background: #20242c
 
+! dwm
+dwm.font:            Ubuntu:size=12
+dwm.user_bh:         24             ! bar
+dwm.primarycolor:    #94628a
+dwm.secondarycolor:  #b48ead
+dwm.normbgcolor:     #20242c
+dwm.normbordercolor: #3B4252
+dwm.normfgcolor:     #D8DEE9
+dwm.selbgcolor:      #3B4252
+dwm.selfgcolor:      #E5E9F0
+dwm.borderpx:        2
+dwm.smartgaps:       1
+dwm.smartborders:    1
+
 ! nsxiv
 Nsxiv.window.background: #3B4252
 Nsxiv.window.foreground: #D8DEE9

@@ -27,6 +27,20 @@ echo "! General
 St.alpha:      0.85
 St.background: $COL_BG_0
 
+! dwm
+dwm.font:            Ubuntu:size=12
+dwm.user_bh:         24             ! bar
+dwm.primarycolor:    $COL_FOSC
+dwm.secondarycolor:  $COL_CLAR
+dwm.normbgcolor:     $COL_BG_0
+dwm.normbordercolor: $COL_1
+dwm.normfgcolor:     $COL_W2
+dwm.selbgcolor:      $COL_1
+dwm.selfgcolor:      $COL_W1
+dwm.borderpx:        2
+dwm.smartgaps:       1
+dwm.smartborders:    1
+
 ! nsxiv
 Nsxiv.window.background: $COL_BG_1
 Nsxiv.window.foreground: $COL_W2

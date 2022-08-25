@@ -18,5 +18,5 @@ case $session in
         dwmblocks &
         exec dwm
         ;;
-    *) exec $1
+    *) exec $session
 esac

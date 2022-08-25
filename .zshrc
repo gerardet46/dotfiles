@@ -19,55 +19,13 @@ for command in mount umount sv su shutdown poweroff reboot; do
 done; unset command
 
 # export
-export TERMINAL="st"
-export EDITOR="nvim"
-export BROWSER="librewolf"
-export QT_QPA_PLATFORMTHEME="qt5ct"
-export _JAVA_OPTIONS='-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true'
-
-# less
-export LESSHISTFILE="$HOME/.cache/lessht"
-export LESS_TERMCAP_mb=$'\e[1;35m'
-export LESS_TERMCAP_md=$'\e[1;35m'
-export LESS_TERMCAP_me=$'\e[0m'
-export LESS_TERMCAP_se=$'\e[0m'
-export LESS_TERMCAP_so=$'\e[01;32m'
-export LESS_TERMCAP_ue=$'\e[0m'
-export LESS_TERMCAP_us=$'\e[1;4;34m'
+[ -f ~/.config/shell/environment ] && source ~/.config/shell/environment
 
 # alias
-alias ..='cd ..'
-alias ...='cd ../..'
-alias la='ls -a'
-alias ll='ls -l'
-alias l='ls -al'
-alias sc='cd $HOME/sc/ ; $EDITOR "$(fzf)";'
-
-# newer programs
-[ -x "$(command -v nvim)" ] && alias vim="nvim" vimdiff="nvim -d"
-[ -x "$(command -v nsxiv)" ] && alias sxiv="nsxiv"
-
-# Colorize commands when possible.
-alias \
-	ls="ls -hN --color=auto --group-directories-first" \
-	grep="grep --color=auto" \
-	diff="diff --color=auto" \
-	ccat="highlight --out-format=ansi" \
-	ip="ip -color=auto"
-
-# These common commands are just too long! Abbreviate them.
-alias \
-	ka="killall" \
-	g="git" \
-	trem="transmission-remote" \
-	YT="youtube-viewer" \
-	e="$EDITOR" \
-	v="$EDITOR" \
-	p="sudo pacman" \
-	z="zathura"
+[ -f ~/.config/shell/alias ] && source ~/.config/shell/alias
 
 # nnn
-[ -f "$HOME/.config/nnn/config" ] && source "$HOME/.config/nnn/config"
+[ -f ~/.config/nnn/config ] && source ~/.config/nnn/config
 
 # completar
 autoload -Uz compinit
@@ -84,7 +42,8 @@ prompt_themes+=( mytheme )
 prompt mytheme
 
 # prompt for which WM/session init
-if [ $("tty") = "/dev/tty1" ] ; then
+# remove the sed pipe to obtain also the number
+if [ "$(echo "$(tty)" | sed 's/[0-9]//g')" = "/dev/tty" ] ; then
     # ask for display
     echo ""
     echo "Introdueix el nom de la sessió: "
@@ -98,7 +57,15 @@ if [ $("tty") = "/dev/tty1" ] ; then
 
     # start session if it's not tty
     [ "$what" = "tty" ] || startx ~/.xinitrc $what
-fi
+ fi
+
+# set colors of tty
+# available colors:
+# nord
+# gruvbox-dark
+# solarized-dark
+color_name="gruvbox-dark"
+[ -f ~/.config/shell/themes/$color_name.sh ] && source ~/.config/shell/themes/$color_name.sh
 
 # plugins
 noms=("zsh-syntax-highlighting" "zsh-autosuggestions")
