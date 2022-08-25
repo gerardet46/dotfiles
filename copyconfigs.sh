@@ -73,6 +73,8 @@ done <<EOF
 .config/nsxiv/
 .config/zathura/
 
+.config/progs.csv
+
 # scripts/ folder
 sc/
 EOF
