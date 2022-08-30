@@ -8,7 +8,7 @@ for x in $acc; do
     [ -z "$unread" ] || text="$text$unread."
 done 2>/dev/null
 
-if [ "$text" != "0.0.0." ]; then
+if ! [ -z "$(echo $text | sed "s/[0\.]//g")" ]; then
     text="$(echo "$text" | sed 's/.$//')"
     echo "^c$COL_BLAU^  $text"
 fi

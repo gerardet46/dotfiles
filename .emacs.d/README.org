@@ -212,6 +212,7 @@ First some basic /key bindings/ which don't need packages such as /general/ or /
 It's more confortable to use a leader key (such us =<SPC>= in Doom and Spacemacs), so let's install =general=.
 #+begin_src emacs-lisp
   (use-package general
+    :ensure t
     :config
     (general-evil-setup t))
 #+end_src
@@ -822,7 +823,7 @@ To write jupyter notebooks in Org mode, we need to export /Org files/ to /.ipynb
   ;; export to ipynb
   ;; this is not in MELPA, see ~/.emacs.d/ox-ipynb
   (use-package ox-ipynb
-    :ensure t)
+    );:ensure t)
 #+end_src
 
 ** Key bindings

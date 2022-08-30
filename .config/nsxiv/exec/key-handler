@@ -46,7 +46,7 @@ do
     [ "$(echo "$file" | cut -c1-1)" = "/" ] && fullpath="$file"
     case "$1" in
         "w")
-            ln -sf "$file" $HOME/.config/wallpaper
+            cp -r "$file" $HOME/.config/wallpaper
             xwallpaper --zoom $HOME/.config/wallpaper
             ;;
         "y")      echo -n "$fullpath" | xclip -in -selection clipboard ;;
