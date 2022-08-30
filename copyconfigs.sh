@@ -56,7 +56,6 @@ sc/
 .config/qutebrowser/solarized-everything-css/
 .config/qutebrowser/start.html
 .config/redshift/
-.config/run-larbs.sh
 .config/sc-im/
 .config/screenkey.json 
 .config/set-config.sh
