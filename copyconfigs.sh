@@ -58,7 +58,7 @@ sc/
 .config/sc-im/
 .config/screenkey.json 
 .config/set-config.sh
-.config/shell
+.config/shell/
 .config/tg/conf.py
 .config/wallpaper
 .config/zathura/
