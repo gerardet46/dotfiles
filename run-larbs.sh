@@ -4,7 +4,7 @@
 # and trigger some options after installation
 
 DOTFILES_REPO="https:\\/\\/github.com\\/gerardet46\\/dotfiles.git"
-PROGS_FILE="https:\\/\\/github.com\\/gerardet46\\/dotfiles\\/blob\\/master\\/.config\\/progs.csv"
+PROGS_FILE="https:\\/\\/raw.githubusercontent.com\\/gerardet46\\/dotfiles\\/master\\/progs.csv"
 AUR_HELPER="trizen"
 
 # Download

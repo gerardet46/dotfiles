@@ -49,7 +49,6 @@ sc/
 .config/nsxiv/
 .config/nvim/init.vim
 .config/pacman-hooks/
-.config/progs.csv
 .config/qtile/
 .config/qutebrowser/autoconfig.yml
 .config/qutebrowser/config.py
