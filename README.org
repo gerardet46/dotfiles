@@ -10,21 +10,32 @@ This are my personal dotfiles for GNU/Linux, as well as useful scripts, located 
 
 It also includes my Emacs config!
 
+** Installation of my system
+You can also install a new arch (or artix) fresh system with my dotfiles and programs list (*progs.csv*). This uses [[https://larbs.xyz][LARBS]], by Luke Smith, to install programs and dotfiles to build the entire desktop environment.
 
-* Installation
+To do so, we just need to execute the file =run-larbs.sh=, which downloads the /larbs.sh/ script and manipulates it with some defaults. Then, run as *root* the following:
+#+begin_src shell
+  curl -LO https://raw.githubusercontent.com/gerardet46/dotfiles/master/run-larbs.sh
+#+end_src
+
+*** Dependencies
+To do it, jo need to have this dependencies installed:
+- =curl=
+- A fresh arch/artix installation (no user creation needed)
+
+** Installation of dotfiles
 Just clone this repo in the *HOME* folder. Everything should work out of the box.
 #+begin_src shell
-  git clone "https://github.com/gerardet46/dotfiles" ~/
+  git clone https://github.com/gerardet46/dotfiles ~/
 #+end_src
 
-** Hooks for Arch Linux
+*** Hooks for Arch Linux
 If you are in an Arch linux based distro, you can prepare the =.config/pacman-hooks= executing (you will need to do this every time you create/delete/rename a /pacman hook/).
 #+begin_src shell
-.config/set-config.sh
+  .config/set-config.sh
 #+end_src
 
-
-* Notes
+** Notes
 - Some configs are using my library [[https://github.com/gerardet46/gcolors][gcolors]] to set global colors for all the system, so the window manager may crash if you don't have those installed. This are the script files that uses colors, for example =$COL_BG_0=, so maybe you can search for those files containing color definitions by executing =grep -R "COL_" * .[^.]*.=
 - For setting up Emacs, you can read the literate config (actually the README.org) in the =.emacs.d= folder.
 - The file =copyconfigs.sh= is used by me to rsync all the configs I need to upload.

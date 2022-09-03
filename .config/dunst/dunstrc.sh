@@ -1,4 +1,6 @@
-[global]
+#!/usr/bin/sh
+
+echo "[global]
     ### Display ###
 
     # Which monitor should the notifications be displayed on.
@@ -9,7 +11,7 @@
     #   keyboard: follow window with keyboard focus
     #   none: don't follow anything
     #
-    # "keyboard" needs a window manager that exports the
+    # \"keyboard\" needs a window manager that exports the
     # _NET_ACTIVE_WINDOW property.
     # This should be the case for almost all modern window managers.
     #
@@ -52,7 +54,7 @@
     # present (e.g. xcompmgr, compiz, etc.).
     transparency = 0
 
-    # Draw a line of "separator_height" pixel height between two
+    # Draw a line of \"separator_height\" pixel height between two
     # notifications.
     # Set to 0 to disable.
     separator_height = 2
@@ -68,7 +70,7 @@
     frame_width = 2
 
     # Defines color of the frame around the notification window.
-    frame_color = "#98971a"
+    frame_color = \"$COL_FOSC\"
 
     # Define a color for the separator.
     # possible values are:
@@ -130,11 +132,10 @@
     #   %n  progress value if set without any extra characters
     #   %%  Literal %
     # Markup is allowed
-    format = "<b>%s</b>
-%b"
+    format = \"<b>%s</b>\\n%b\"
 
     # Alignment of message text.
-    # Possible values are "left", "center" and "right".
+    # Possible values are \"left\", \"center\" and \"right\".
     alignment = left
 
     # Show age of message if message is older than show_age_threshold
@@ -147,11 +148,10 @@
     word_wrap = yes
 
     # When word_wrap is set to no, specify where to make an ellipsis in long lines.
-    # Possible values are "start", "middle" and "end".
+    # Possible values are \"start\", \"middle\" and \"end\".
     ellipsize = middle
 
-    # Ignore newlines '
-' in notifications.
+    # Ignore newlines '\\n' in notifications.
     ignore_newline = no
 
     # Stack together notifications with the same content
@@ -244,25 +244,25 @@
 
 [urgency_low]
     # IMPORTANT: colors have to be defined in quotation marks.
-    # Otherwise the "#" and following would be interpreted as a comment.
-    background = "#1d2021"
-    foreground = "#d5c4a1"
+    # Otherwise the \"#\" and following would be interpreted as a comment.
+    background = \"$COL_BG_0\"
+    foreground = \"$COL_W2\"
     timeout = 5
     # Icon for notifications with low urgency, uncomment to enable
     #icon = /path/to/icon
 
 [urgency_normal]
-    background = "#1d2021"
-    foreground = "#d5c4a1"
-    frame_color = "#b8bb26"
+    background = \"$COL_BG_0\"
+    foreground = \"$COL_W2\"
+    frame_color = \"$COL_VERD\"
     timeout = 7
     # Icon for notifications with normal urgency, uncomment to enable
     #icon = /path/to/icon
 
 [urgency_critical]
-    background = "#1d2021"
-    foreground = "#d5c4a1"
-    frame_color = "#cc241d"
+    background = \"$COL_BG_0\"
+    foreground = \"$COL_W2\"
+    frame_color = \"$COL_VERMELL\"
     timeout = 10
     # Icon for notifications with critical urgency, uncomment to enable
     #icon = /path/to/icon
@@ -301,13 +301,13 @@
 #
 # SCRIPTING
 # You can specify a script that gets run when the rule matches by
-# setting the "script" option.
+# setting the \"script\" option.
 # The script will be called as follows:
 #   script appname summary body icon urgency
-# where urgency can be "LOW", "NORMAL" or "CRITICAL".
+# where urgency can be \"LOW\", \"NORMAL\" or \"CRITICAL\".
 #
 # NOTE: if you don't want a notification to be displayed, set the format
-# to "".
+# to \"\".
 # NOTE: It might be helpful to run dunst -print in a terminal in order
 # to find fitting options for rules.
 
@@ -336,31 +336,31 @@
 #    fullscreen = show
 
 #[espeak]
-#    summary = "*"
+#    summary = \"*\"
 #    script = dunst_espeak.sh
 
 #[script-test]
-#    summary = "*script*"
+#    summary = \"*script*\"
 #    script = dunst_test.sh
 
 #[ignore]
 #    # This notification will not be displayed
-#    summary = "foobar"
-#    format = ""
+#    summary = \"foobar\"
+#    format = \"\"
 
 #[history-ignore]
 #    # This notification will not be saved in history
-#    summary = "foobar"
+#    summary = \"foobar\"
 #    history_ignore = yes
 
 #[skip-display]
 #    # This notification will not be displayed, but will be included in the history
-#    summary = "foobar"
+#    summary = \"foobar\"
 #    skip_display = yes
 
 #[signed_on]
 #    appname = Pidgin
-#    summary = "*signed on*"
+#    summary = \"*signed on*\"
 #    urgency = low
 #
 #[signed_off]
@@ -379,5 +379,5 @@
 #    urgency = normal
 #
 #[stack-volumes]
-#    appname = "some_volume_notifiers"
-#    set_stack_tag = "volume" 
+#    appname = \"some_volume_notifiers\"
+#    set_stack_tag = \"volume\" " > "$HOME/.config/dunst/dunstrc"

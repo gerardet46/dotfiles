@@ -31,7 +31,7 @@ mv larbs2.sh larbs.sh
 # NOW SETUP FINAL OPTIONS FOR LARBS #
 #####################################
 # Setup dash as the default shell
-echo 'ln -sfT dash /usr/bin/sh'
+echo 'which dash && ln -svfT dash /usr/bin/sh' >> larbs.sh
 
 # Last installation hooks
 echo 'sudo -u "$name" /home/"$name"/.config/set-config.sh' >> larbs.sh

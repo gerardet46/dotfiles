@@ -1,0 +1,21 @@
+#!/usr/bin/sh
+
+# refresh files that contain COLOR definitions
+
+# check if we need to change the theme
+[ -z "$1" ] || . "$HOME/.config/shell/themes/env/$1.sh"
+
+# reload config files
+while read f; do
+    [ -f "$HOME/$f" ] && "$HOME/$f" && echo "Fet - $f"
+done <<EOF
+.config/x11/xresources.sh
+.config/dunst/dunstrc.sh
+EOF
+unset f
+
+# kill dunst if running
+pidof dunst >/dev/null && killall dunst
+
+# Xresources
+xrdb "$HOME"/.config/x11/xresources & xrdbpid=$!

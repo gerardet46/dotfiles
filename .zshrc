@@ -65,7 +65,7 @@ if [ "$(echo "$(tty)" | sed 's/[0-9]//g')" = "/dev/tty" ] ; then
 # gruvbox-dark
 # solarized-dark
 color_name="gruvbox-dark"
-[ -f ~/.config/shell/themes/$color_name.sh ] && source ~/.config/shell/themes/$color_name.sh
+[ -f ~/.config/shell/themes/tty/$color_name.sh ] && source ~/.config/shell/themes/tty/$color_name.sh
 
 # plugins
 noms=("zsh-syntax-highlighting" "zsh-autosuggestions")

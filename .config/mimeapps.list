@@ -1,26 +1,26 @@
 [Added Associations]
-x-scheme-handler/ftp=firefox.desktop;
+x-scheme-handler/ftp=librewolf.desktop;
 application/json=emacsclient.desktop;
 video/mp4=mpv.desktop;
 text/plain=emacsclient.desktop;
 x-scheme-handler/tg=userapp-Telegram Desktop-07A010.desktop;userapp-Telegram Desktop-QRXQ90.desktop;userapp-Telegram Desktop-5717L1.desktop;userapp-Telegram Desktop-2TTQQ1.desktop;
 
 [Default Applications]
-x-scheme-handler/http=brave-browser.desktop
-x-scheme-handler/https=brave-browser.desktop
-x-scheme-handler/ftp=firefox.desktop
-x-scheme-handler/chrome=firefox.desktop
-text/html=brave-browser.desktop
-application/x-extension-htm=firefox.desktop
-application/x-extension-html=firefox.desktop
-application/x-extension-shtml=firefox.desktop
-application/xhtml+xml=firefox.desktop
-application/x-extension-xhtml=firefox.desktop
-application/x-extension-xht=firefox.desktop
+x-scheme-handler/http=librewolf.desktop
+x-scheme-handler/https=librewolf.desktop
+x-scheme-handler/ftp=librewolf.desktop
+x-scheme-handler/chrome=librewolf.desktop
+text/html=librewolf.desktop
+application/x-extension-htm=librewolf.desktop
+application/x-extension-html=librewolf.desktop
+application/x-extension-shtml=librewolf.desktop
+application/xhtml+xml=librewolf.desktop
+application/x-extension-xhtml=librewolf.desktop
+application/x-extension-xht=librewolf.desktop
 x-scheme-handler/kite=kite-copilot.desktop
 x-scheme-handler/tg=userapp-Telegram Desktop-2TTQQ1.desktop
-x-scheme-handler/about=brave-browser.desktop
-x-scheme-handler/unknown=brave-browser.desktop
+x-scheme-handler/about=librewolf.desktop
+x-scheme-handler/unknown=librewolf.desktop
 image/png=nsxiv.desktop
 image/jpg=nsxiv.desktop
 image/jpeg=nsxiv.desktop
