@@ -16,6 +16,7 @@ You can also install a new arch (or artix) fresh system with my dotfiles and pro
 To do so, we just need to execute the file =run-larbs.sh=, which downloads the /larbs.sh/ script and manipulates it with some defaults. Then, run as *root* the following:
 #+begin_src shell
   curl -LO https://raw.githubusercontent.com/gerardet46/dotfiles/master/run-larbs.sh
+  sh run-larbs.sh
 #+end_src
 
 *** Dependencies
