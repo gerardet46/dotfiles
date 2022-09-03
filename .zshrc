@@ -94,7 +94,7 @@ done
 ruta="$HOME/.config/zsh/zsh-git-prompt"
 GIT_PROMPT_EXECUTABLE="python" # aka haskell
 
-[ -d "$ruta" ] || git clone "https://github.com/olivierverdier/zsh-git-prompt" "$ruta"
+#[ -d "$ruta" ] || git clone "https://github.com/olivierverdier/zsh-git-prompt" "$ruta"
 if ! [ "$GIT_PROMPT_EXECUTABLE" != "haskell" -o -f "/usr/local/bin/stack" ]; then
     sudo pacman -S stack
     cd "$ruta"
