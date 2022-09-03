@@ -40,6 +40,7 @@ sc/
 .config/dwmblocks/
 .config/i3/
 .config/i3blocks/
+.config/mailcap
 .config/mimeapps.list
 .config/mouse/
 .config/mpd/

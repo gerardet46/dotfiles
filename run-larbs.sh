@@ -3,11 +3,16 @@
 # Script to run LARBS with some defaults
 # and trigger some options after installation
 
+###########################################
+# NEW DEFAULT VARIABLES (ESCAPE / TO \\/) #
+###########################################
 DOTFILES_REPO="https:\\/\\/github.com\\/gerardet46\\/dotfiles.git"
 PROGS_FILE="https:\\/\\/raw.githubusercontent.com\\/gerardet46\\/dotfiles\\/master\\/progs.csv"
 AUR_HELPER="trizen"
 
-# Download
+##############################
+# DOWNLOAD AND PREPARE LARBS #
+##############################
 curl -LO larbs.xyz/larbs.sh
 
 # Set dotfiles repo
@@ -22,8 +27,16 @@ mv larbs2.sh larbs.sh
 sed "s/yay/$AUR_HELPER/g" larbs.sh > larbs2.sh
 mv larbs2.sh larbs.sh
 
+#####################################
+# NOW SETUP FINAL OPTIONS FOR LARBS #
+#####################################
+# Setup dash as the default shell
+echo 'ln -sfT dash /usr/bin/sh'
+
 # Last installation hooks
 echo 'sudo -u "$name" /home/"$name"/.config/set-config.sh' >> larbs.sh
 
-# Run larbs
+#####################
+# FINALLY RUN LARBS #
+#####################
 sh larbs.sh

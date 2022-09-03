@@ -1,0 +1,12 @@
+# media
+video/*; mpv "%s"
+audio/ogg; play "%s"
+audio/mpeg; play "%s"
+image/*; nsxiv "%s"
+
+# text
+text/html; lynx "%s"
+text/plain; less "%s"
+
+# fallback to nvim
+text/*; nvim "%s"
