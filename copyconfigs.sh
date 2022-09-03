@@ -30,6 +30,7 @@ done <<EOF
 # In home directory
 .tmux.conf
 .zshrc
+.gtkrc-2.0
 
 # scripts/ folder
 sc/
@@ -38,6 +39,7 @@ sc/
 .config/calcurse/
 .config/dunst/
 .config/dwmblocks/
+.config/gtk-3.0/settings.ini
 .config/i3/
 .config/i3blocks/
 .config/mailcap

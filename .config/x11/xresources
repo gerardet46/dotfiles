@@ -2,61 +2,61 @@
 *.font: Ubuntu Mono:size=15
 
 *.background: #161b20
-*.foreground: #fbf1c7
-*.color0:     #504945
+*.foreground: #ECEFF4
+*.color0:     #3B4252
 *.color8:     #74778a
-*.color1:     #cc241d
-*.color9:     #cc241d
-*.color2:     #b8bb26
-*.color10:    #b8bb26
-*.color3:     #fabd2f
-*.color11:    #fabd2f
-*.color4:     #458588
-*.color12:    #458588
-*.color5:     #b16286
-*.color13:    #b16286
-*.color6:     #689d6a
-*.color14:    #689d6a
-*.color7:     #d5c4a1
-*.color15:    #fbf1c7
+*.color1:     #bf616a
+*.color9:     #bf616a
+*.color2:     #a3be8c
+*.color10:    #a3be8c
+*.color3:     #ebcb8b
+*.color11:    #ebcb8b
+*.color4:     #81A1C1
+*.color12:    #81A1C1
+*.color5:     #b48ead
+*.color13:    #b48ead
+*.color6:     #8FBCBB
+*.color14:    #8FBCBB
+*.color7:     #D8DEE9
+*.color15:    #ECEFF4
 
 ! st
 ! it uses the colors defined above
 St.alpha:      0.85
-St.background: #1d2021
+St.background: #20242c
 
 ! dwm
 dwm.font:            Ubuntu:size=12
 dwm.user_bh:         24             ! bar
-dwm.primarycolor:    #98971a
-dwm.secondarycolor:  #b8bb26
-dwm.normbgcolor:     #1d2021
-dwm.normbordercolor: #504945
-dwm.normfgcolor:     #d5c4a1
-dwm.selbgcolor:      #504945
-dwm.selfgcolor:      #ebdbb2
+dwm.primarycolor:    #94628a
+dwm.secondarycolor:  #b48ead
+dwm.normbgcolor:     #20242c
+dwm.normbordercolor: #3B4252
+dwm.normfgcolor:     #D8DEE9
+dwm.selbgcolor:      #3B4252
+dwm.selfgcolor:      #E5E9F0
 dwm.borderpx:        2
 dwm.smartgaps:       1
 dwm.smartborders:    1
 
 ! nsxiv
-Nsxiv.window.background: #504945
-Nsxiv.window.foreground: #d5c4a1
+Nsxiv.window.background: #3B4252
+Nsxiv.window.foreground: #D8DEE9
 Nsxiv.bar.font:          Ubuntu:size=11
-Nsxiv.bar.background:    #1d2021
-Nsxiv.bar.foreground:    #d5c4a1
-Nsxiv.mark.foreground:   #b8bb26
+Nsxiv.bar.background:    #20242c
+Nsxiv.bar.foreground:    #D8DEE9
+Nsxiv.mark.foreground:   #b48ead
 
 ! x11-ssh-askpass
 SshAskpass.Dialog.title: Autenticació
 SshAskpass.Dialog.label: Introdueix la contrasenya
 
 SshAskpass.*font:              Ubuntu:size=20
-SshAskpass.*foreground:        #d5c4a1
-SshAskpass.*background:        #1d2021
-SshAskpass.*topShadowColor:    #fbf1c7
+SshAskpass.*foreground:        #D8DEE9
+SshAskpass.*background:        #20242c
+SshAskpass.*topShadowColor:    #ECEFF4
 SshAskpass.*bottomShadowColor: #7f7f7f
-SshAskpass.*borderColor:       #b8bb26
+SshAskpass.*borderColor:       #b48ead
 SshAskpass.*shadowThickness:   0
 SshAskpass.*borderWidth:       1
 SshAskpass.*horizontalSpacing: 5
@@ -65,8 +65,8 @@ SshAskpass.*verticalSpacing:   6
 SshAskpass.Button.borderWidth:          1
 SshAskpass.Button.verticalSpacing:      2
 
-SshAskpass.Indicator.foreground:        #b8bb26
-SshAskpass.Indicator.background:        #b8bb26
+SshAskpass.Indicator.foreground:        #a3be8c
+SshAskpass.Indicator.background:        #b48ead
 SshAskpass.Indicator.borderWidth:       0
 SshAskpass.Indicator.height:            7
 SshAskpass.Indicator.width:             15
