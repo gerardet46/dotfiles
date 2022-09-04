@@ -206,6 +206,7 @@ First some basic /key bindings/ which don't need packages such as /general/ or /
   (global-set-key (kbd "C-M-h") 'windmove-left)
 
   (global-set-key (kbd "C-M-k") 'kill-current-buffer)
+  (global-set-key (kbd "C-M-y") 'link-hint-copy-link)
 #+end_src
 
 ** General

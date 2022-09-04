@@ -14,8 +14,8 @@ done <<EOF
 EOF
 unset f
 
-# kill dunst if running
-pidof dunst >/dev/null && killall dunst
-
 # Xresources
 xrdb "$HOME"/.config/x11/xresources & xrdbpid=$!
+
+# kill dunst if running
+pidof dunst >/dev/null && killall dunst

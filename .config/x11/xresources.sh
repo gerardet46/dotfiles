@@ -27,6 +27,29 @@ echo "! General
 St.alpha:      0.85
 St.background: $COL_BG_0
 
+! dmenu
+dmenu.font:           Ubuntu:size=13
+dmenu.normfgcolor:    #9497aa
+dmenu.normbgcolor:    $COL_0
+dmenu.selfgcolor:     $COL_W0
+dmenu.selbgcolor:     $COL_FOSC
+dmenu.lineheight:     24
+dmenu.min_lineheight: 8
+
+! flybinds
+flybinds.font:           Ubuntu:size=13
+flybinds.separator:      ->
+flybinds.background:     $COL_0
+flybinds.keyfg:          $COL_VERD
+flybinds.sepfg:          $COL_BLAU
+flybinds.descfg:         $COL_BLANC
+flybinds.bordercol:      $COL_FOSC
+flybinds.maxcolumns:     6
+flybinds.colpadding:     100
+flybinds.outpaddinghor:  25
+flybinds.outpaddingvert: 15
+flybinds.borderpx:       2
+
 ! dwm
 dwm.font:            Ubuntu:size=12
 dwm.user_bh:         24             ! bar

@@ -1,3 +1,69 @@
-#!/usr/bin/sh
+#!/usr/bin/env sh
 
-exit 1
+if [ -z "$(pidof spotify)" ]
+	then echo "Spotify is not running."
+	exit 1
+fi
+
+usage="Usage : $0 [play pause next prev current current-oneline]"
+
+if [ $# -ne 1 ]
+	then echo $usage
+	exit 1
+fi
+
+SP_DEST="org.mpris.MediaPlayer2.spotify"
+SP_PATH="/org/mpris/MediaPlayer2"
+SP_MEMB="org.mpris.MediaPlayer2.Player"
+
+playpause='dbus-send --type=method_call --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause'
+next='dbus-send --type=method_call --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next'
+prev='dbus-send --type=method_call --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous'
+
+sp_metadata() {
+# Prints the currently playing track in a parseable format.
+
+dbus-send                                                                   \
+    --print-reply                                  `# We need the reply.`       \
+    --dest=$SP_DEST                                                             \
+    $SP_PATH                                                                    \
+    org.freedesktop.DBus.Properties.Get                                         \
+    string:"$SP_MEMB" string:'Metadata'                                         \
+    | grep -Ev "^method"                           `# Ignore the first line.`   \
+    | grep -Eo '("(.*)")|(\b[0-9][a-zA-Z0-9.]*\b)' `# Filter interesting fiels.`\
+    | sed -E '2~2 a|'                              `# Mark odd fields.`         \
+    | tr -d '\n'                                   `# Remove all newlines.`     \
+    | sed -E 's/\|/\n/g'                           `# Restore newlines.`        \
+    | sed -E 's/(xesam:)|(mpris:)//'               `# Remove ns prefixes.`      \
+    | sed -E 's/^"//'                              `# Strip leading...`         \
+    | sed -E 's/"$//'                              `# ...and trailing quotes.`  \
+    | sed -E 's/"+/|/'                             `# Regard "" as seperator.`  \
+    | sed -E 's/ +/ /g'                            `# Merge consecutive spaces.`
+}
+
+sp_current() {
+  # Prints the currently playing track in a friendly format.
+  sp_metadata \
+  | grep --color=never -E "(title)|(album)|(artist)" \
+  | sed 's/^\(.\)/\U\1/' \
+  | column -t -s'|'
+}
+
+sp_current_one_line() {
+    sp_metadata | grep -E "(title|artist)" | sed 's/^\(.\)*|//' | sed ':a;N;$!ba;s/\n/ | /g' | awk -F '|' '{print $2 " - " $1}' | sed 's/^\s*//'
+}
+
+if [ $1 = "current" ]
+    then echo "$(sp_current)"
+elif [ $1 = "current-oneline" ]
+    then echo "$(sp_current_one_line)"
+elif [ $1 = "play" ] || [ $1 = "pause" ]
+	then $playpause
+elif [ $1 = "next" ]
+	then $next
+elif [ $1 = "prev" ]
+	then $prev
+else
+	echo $usage
+	exit 1
+fi

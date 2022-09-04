@@ -28,7 +28,6 @@ done <<EOF
 .emacs.d/snippets/
 
 # In home directory
-.tmux.conf
 .zshrc
 .gtkrc-2.0
 
@@ -63,6 +62,7 @@ sc/
 .config/set-config.sh
 .config/shell/
 .config/tg/conf.py
+.config/tmux/tmux.conf
 .config/wallpaper
 .config/zathura/
 EOF
