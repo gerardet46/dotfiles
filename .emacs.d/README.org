@@ -823,8 +823,8 @@ To write jupyter notebooks in Org mode, we need to export /Org files/ to /.ipynb
 #+begin_src emacs-lisp
   ;; export to ipynb
   ;; this is not in MELPA, see ~/.emacs.d/ox-ipynb
-  (use-package ox-ipynb
-    );:ensure t)
+  ;;(use-package ox-ipynb
+    ;:ensure t)
 #+end_src
 
 ** Key bindings

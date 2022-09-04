@@ -9,8 +9,7 @@ export SUDO_ASKPASS="/usr/lib/ssh/x11-ssh-askpass"  # pacman -S x11-ssh-askpass
 # - nord
 # - dracula
 # - gruvbox-dark
-theme="nord"
-
+theme="$(cat "$HOME/.config/theme" || echo nord)"
 . "$HOME/.config/shell/themes/env/$theme.sh"
 colorrefresh
 

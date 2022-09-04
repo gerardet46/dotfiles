@@ -3,7 +3,10 @@
 # refresh files that contain COLOR definitions
 
 # check if we need to change the theme
-[ -z "$1" ] || . "$HOME/.config/shell/themes/env/$1.sh"
+if ! [ -z "$1" ]; then
+    . "$HOME/.config/shell/themes/env/$1.sh"
+    echo "$1" > "$HOME/.config/theme"
+fi
 
 # reload config files
 while read f; do
