@@ -19,8 +19,15 @@ To do so, we just need to execute the file =run-larbs.sh=, which downloads the /
   sh run-larbs.sh
 #+end_src
 
+Also, if you want to set your custom /dotfiles/ or /aur helper/, do the following:
+#+begin_src shell
+  sh run-larbs.sh [dotfiles-repo] [progs.csv file] [aur helper]
+#+end_src
+
+All of this arguments will replace original variables in the =larbs.sh= file.
+
 *** Dependencies
-To do it, jo need to have this dependencies installed:
+To do it, you need to have this dependencies installed:
 - =curl=
 - A fresh arch/artix installation (no user creation needed)
 

@@ -6,9 +6,9 @@
 ###########################################
 # NEW DEFAULT VARIABLES (ESCAPE / TO \\/) #
 ###########################################
-DOTFILES_REPO="https:\\/\\/github.com\\/gerardet46\\/dotfiles.git"
-PROGS_FILE="https:\\/\\/raw.githubusercontent.com\\/gerardet46\\/dotfiles\\/master\\/progs.csv"
-AUR_HELPER="trizen"
+DOTFILES_REPO="${1:-https:\\/\\/github.com\\/gerardet46\\/dotfiles.git}"
+PROGS_FILE="${2:-https:\\/\\/raw.githubusercontent.com\\/gerardet46\\/dotfiles\\/master\\/progs.csv}"
+AUR_HELPER="${3:-trizen}"
 
 ##############################
 # DOWNLOAD AND PREPARE LARBS #

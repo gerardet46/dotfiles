@@ -72,7 +72,7 @@ noms=("zsh-syntax-highlighting" "zsh-autosuggestions")
 for x in $noms; do
     # instal·lam si no ho està
     if [ -z "$(pacman -Q | grep "$x")" ]; then
-        trizen -S "$x"  # trizen es un AUR helper
+        sudo pacman -S "$x"
     fi
     # carregam
     source "/usr/share/zsh/plugins/$x/$x.zsh" 2> /dev/null
