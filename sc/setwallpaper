@@ -1,0 +1,22 @@
+#!/usr/bin/env sh
+
+# esborrar wallpaper si deim que no en volem cap
+if [ "$1" = "no" ]; then
+    xwallpaper --clear
+    exit
+fi
+
+# fons de /usr/share/wallpaper (separats per \n)
+# que volem fer servir (se'n triarà un aleatori)
+fons="0216\n0195\n0271\nma1\nma2"
+
+# Seleccionam un fons d'escriptori aleatori.
+printf "$fons" \
+    | sort -R \
+    | head -1 \
+    | while read line; do
+    cp -r /usr/share/wallpapers/"$line".jpg "$HOME/.config/wallpaper"
+done
+
+# Ho posam de fons d'escriptori
+xwallpaper --zoom "$HOME/.config/wallpaper" &

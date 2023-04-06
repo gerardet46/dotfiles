@@ -13,10 +13,12 @@ fi
 session=${1:-dwm}
 
 # Iniciar sessió
+# utilitzam ssh-agent i no exec per esperar a que carregui xprofile
 case $session in
     dwm)
         dwmblocks &
-        exec dwm
+        ssh-agent dwm
         ;;
-    *) exec $session
+    *) #ssh-agent $session
+        dbus-run-session $session
 esac

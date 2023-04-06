@@ -14,6 +14,8 @@ while read f; do
 done <<EOF
 .config/x11/xresources.sh
 .config/dunst/dunstrc.sh
+.config/zathura/zathurarc.sh
+.gnupg/pinentry-dmenu.conf.sh
 EOF
 unset f
 

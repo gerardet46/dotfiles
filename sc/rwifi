@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+[ -z "$1" ] \
+	&& sudo sv restart NetworkManager \
+	|| printf "$(nmcli device wifi show | grep Contrasenya | awk -F ': ' '{print $2}')" | xclip -selection clipboard

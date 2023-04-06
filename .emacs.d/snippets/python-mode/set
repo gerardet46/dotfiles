@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: set
+# key: set
+# --
+def set_${1:attr}(self, $1):
+    """${2:Assigna l'atribut $1.}"""
+    self.__$1 = $1
+$0

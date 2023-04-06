@@ -8,6 +8,19 @@ alias l='ls -al'
 alias sc='cd $HOME/sc/ ; $EDITOR "$(fzf)";'
 alias pkg='cd $HOME/pkg/ ; $EDITOR "$(fzf)";'
 
+# void
+alias \
+    xi="sudo xbps-install" \
+    xq="xbps-query" \
+    xqs="xbps-query -Rs" \
+    xr="sudo xbps-remove -o"
+
+# loginctl
+alias \
+    off="loginctl poweroff" \
+    poweroff="loginctl poweroff" \
+    reboot="loginctl reboot"
+
 # newer programs
 [ -x "$(command -v nvim)" ] && alias vim="nvim" vimdiff="nvim -d"
 [ -x "$(command -v nsxiv)" ] && alias sxiv="nsxiv"
@@ -29,5 +42,7 @@ alias \
 	e="$EDITOR" \
 	v="$EDITOR" \
 	p="sudo pacman" \
-	z="zathura"
+	z="zathura" \
+    yt="yt-dlp --embed-metadata" \
+    ytaudio="yt-dlp --embed-metadata -f 'ba' -x --audio-format mp3"
 

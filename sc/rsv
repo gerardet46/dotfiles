@@ -1,11 +1,23 @@
 #!/usr/bin/sh
 
+[ -z "$1" ] && echo "Ús: rsv [up|down|restart|list|list-current] <servei>"
+
+case "$1" in
+    list)
+        ls -1 /etc/sv/
+        ;;
+    list-current)
+        ls -1 /var/service
+        ;;
+esac
+
 doit=0
 for arg in $@; do
     [ "$doit" = "0" ] && doit=1 && continue
 
     case "$1" in
-        up) sudo ln -sfv /etc/runit/sv/"$arg" /run/runit/service/ ;;
+        #up) sudo ln -sfv /etc/runit/sv/"$arg" /run/runit/service/ ;;
+        up) sudo ln -sfv /etc/sv/"$arg" /var/service/ ;;
         down) sudo sv stop "$arg" ;;
         restart) sudo sv restart "$arg" ;;
         *) echo "Ús: [up down restart] [servei]" && exit 1 ;;
@@ -23,6 +35,7 @@ for arg in $@; do
 
     case "$1" in
         up)   sudo sv start "$arg" ;;
-        down) sudo rm -v /run/runit/service/"$arg" ;;
+        #down) sudo rm -v /run/runit/service/"$arg" ;;
+        down) sudo rm -v /var/service/"$arg" ;;
     esac
 done

@@ -1,33 +1,33 @@
 set font "Ubuntu 11"
-set default-bg "#11161b"
-set default-fg "#f2f2f8"
+set default-bg "#000000"
+set default-fg "#fbf1c7"
 
-set statusbar-bg "#11161b"
-set statusbar-fg "#b48ead"
+set statusbar-bg "#000000"
+set statusbar-fg "#b8bb26"
 
-set inputbar-bg "#151515" #00 currently not used
-set inputbar-fg "#FFFFFF" #02
+set inputbar-bg "#1d2021" #00 currently not used
+set inputbar-fg "#fbf1c7" #02
 
-set notification-error-bg "#bf616a" #08
-set notification-error-fg "#f2f2f8" #00
+set notification-error-bg "#cc241d" #08
+set notification-error-fg "#fbf1c7" #00
 
-set notification-warning-bg "#D08770" #08
-set notification-warning-fg "#11161b" #00
+set notification-warning-bg "#d65d0e" #08
+set notification-warning-fg "#1d2021" #00
 
-set highlight-color "#94628a" #0A
-set highlight-active-color "#81A1C1" #0D
+set highlight-color "#98971a" #0A
+set highlight-active-color "#689d6a" #0D
 
-set highlight-fg "#00fa00"
-set highlight-transparency 0.7
+set highlight-fg "#cc241d"
+set highlight-transparency 0.8
 
-set completion-highlight-bg "#b48ead" #02
-set completion-highlight-fg "#3b4252" #0C
+set completion-highlight-bg "#b8bb26" #02
+set completion-highlight-fg "#282828" #0C
 
-set completion-bg "#20242c" #02
-set completion-fg "#f2f2f8" #0C
+set completion-bg "#1d2021" #02
+set completion-fg "#fbf1c7" #0C
 
-set recolor-lightcolor "#21262b"
-set recolor-darkcolor "#eceff4"
+set recolor-lightcolor "#1d2021"
+set recolor-darkcolor "#ebdbb2"
 
 set recolor true
 set scroll-step 50

@@ -6,7 +6,5 @@
 
 config_version: 2
 settings:
-  statusbar.show:
-    global: always
-  tabs.show:
-    global: never
+  content.user_stylesheets:
+    global: ~/.config/qutebrowser/css/default.css

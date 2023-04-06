@@ -17,18 +17,20 @@
   - [[#some-useful-functions][Some useful functions]]
   - [[#save-backup-files-in-a-separate-directory][Save backup files in a separate directory]]
   - [[#more-recentf-files][More recentf files]]
+  - [[#sync-recentf-list][Sync recentf list]]
   - [[#scrolling][Scrolling]]
-- [[#key-bindings][Key bindings]]
-  - [[#basic][Basic]]
-  - [[#general][General]]
-  - [[#key-chord][key chord]]
 - [[#evil-mode-][Evil Mode 😈]]
   - [[#undo-fu][undo-fu]]
   - [[#anzu][anzu]]
-  - [[#general-1][general]]
-  - [[#key-chord-1][key chord]]
+  - [[#general][general]]
+  - [[#key-chord][key chord]]
   - [[#evil--visual-line-mode][evil + visual line mode]]
+- [[#key-bindings][Key bindings]]
+  - [[#basic][Basic]]
+  - [[#general-1][General]]
+  - [[#key-chord-1][key chord]]
 - [[#ivy--counsel][Ivy / Counsel]]
+  - [[#ivy-quicker-find-file][Ivy quicker find-file]]
 - [[#dired][Dired]]
   - [[#make-dired-cooler][make dired cooler]]
   - [[#preview-peep-dired][preview (peep-dired)]]
@@ -69,7 +71,7 @@
   - [[#which-key][which-key]]
   - [[#rainbow-mode][rainbow-mode]]
   - [[#folding][folding]]
-- [[#elfeed][Elfeed]]
+- [[#rss-elfeed][RSS (Elfeed)]]
   - [[#basic-stuff][Basic stuff]]
   - [[#better-look][Better look]]
   - [[#setup-feeds-in-org-file][Setup feeds in Org file]]
@@ -80,12 +82,19 @@
 - [[#yasnippet][Yasnippet]]
 - [[#company][Company]]
 - [[#lsp][LSP]]
+  - [[#cc][C/C++]]
+  - [[#java][Java]]
+  - [[#latex-2][LaTeX]]
   - [[#python][Python]]
   - [[#web-development--php][Web development + PHP]]
-  - [[#cc][C/C++]]
-  - [[#latex-2][LaTeX]]
 - [[#other-tools][Other tools]]
   - [[#matlab][Matlab]]
+- [[#mail-mu4e][Mail (mu4e)]]
+  - [[#basic-stuff-mu4e-accounts-and-contexts][Basic stuff. mu4e accounts and contexts]]
+  - [[#column-faces-colors][Column faces (colors)]]
+  - [[#html-emails-with-org-mode][HTML emails with Org mode]]
+  - [[#email-workflow-with-org-mode][Email workflow with Org Mode]]
+  - [[#view-emails-as-pdf][View emails as PDF]]
 
 * Basic config
 This is the basic config to setup a few important miscellaneous config, which will be the base of the rest of the configuration.
@@ -178,96 +187,28 @@ By default there are 20 recent files. Let's add some to access them easily
   (setq recentf-max-saved-items 50)
 #+end_src
 
+** Sync recentf list
+By default Emacs just stores the last /recentf/ list when using different instances when Emacs is run as a server.
+
+To syncronize all /recentf/ lists from all instances, use the package =sync-recentf=.
+
+#+begin_src emacs-lisp
+  (use-package sync-recentf
+    :ensure t
+    :init
+    ;; Cleanup the recent files list and synchronize it every x seconds.
+    (setq recentf-auto-cleanup 300)
+
+    ;; Activate recentf
+    (recentf-mode 1))
+#+end_src
+
 ** Scrolling
 Default scrolling in Emacs sucks. Let's make it more progressive!
 #+begin_src emacs-lisp
   (setq scroll-conservatively 101) ;; value greater than 100 gets rid of half page jumping
   (setq mouse-wheel-scroll-amount '(3 ((shift) . 3))) ;; how many lines at a time
   (setq mouse-wheel-progressive-speed t) ;; accelerate scrolling
-#+end_src
-
-* Key bindings
-Let's setup nicer keybindings with *general* and *key-chord*, using =<SPC>= as leader key, as it's in Doom Emacs and Spacemacs.
-
-** Basic
-First some basic /key bindings/ which don't need packages such as /general/ or /key-chord/. This block of code is self-explanatory.
-#+begin_src emacs-lisp
-  (global-set-key (kbd "C-<") 'shrink-window-horizontally)
-  (global-set-key (kbd "C->") 'enlarge-window-horizontally)
-
-  (global-set-key (kbd "S-C-<left>")  'shrink-window-horizontally)
-  (global-set-key (kbd "S-C-<right>") 'enlarge-window-horizontally)
-  (global-set-key (kbd "S-C-<down>")  'shrink-window)
-  (global-set-key (kbd "S-C-<up>")    'enlarge-window)
-
-  (global-set-key (kbd "C-M-k") 'windmove-up)
-  (global-set-key (kbd "C-M-j") 'windmove-down)
-  (global-set-key (kbd "C-M-l") 'windmove-right)
-  (global-set-key (kbd "C-M-h") 'windmove-left)
-
-  (global-set-key (kbd "C-M-k") 'kill-current-buffer)
-  (global-set-key (kbd "C-M-y") 'link-hint-copy-link)
-#+end_src
-
-** General
-It's more confortable to use a leader key (such us =<SPC>= in Doom and Spacemacs), so let's install =general=.
-#+begin_src emacs-lisp
-  (use-package general
-    :ensure t
-    :config
-    (general-evil-setup t))
-#+end_src
-
-Now we add here some useful and general keybinding
-#+begin_src emacs-lisp
-  (nvmap :prefix "SPC"
-    ;; basic
-    "w"     'save-buffer
-    "b n"   'next-buffer
-    "b p"   'previous-buffer
-    "B"     'persp-ivy-switch-buffer ;; NOTE remove "perp-" if not using perspective
-    "b k"   'kill-current-buffer
-    "q q"   'save-buffers-kill-terminal
-    "q r"   'restart-emacs
-
-    ;; counsel
-    "."     'counsel-find-file
-    "<SPC>" 'counsel-find-file
-    "f f"   'counsel-find-file
-    "f r"   'counsel-recentf
-    "x"     'counsel-M-x
-
-    ;; sessions
-    "qs" 'my-desktop-save
-    "qS" 'my-desktop-save-and-clear
-    "ql" 'my-desktop-change
-
-    ;; open some buffers
-    "o t" 'eshell
-    "o v" 'vterm
-
-    ;; toggle
-    "t v" 'visual-line-mode
-    "t l" 'display-line-numbers-mode
-
-    ;; evaluate lisp expressions
-    "e b" 'eval-buffer
-    "e d" 'eval-defun
-    "e e" 'eval-expression
-    "e l" 'eval-last-sexp
-    "e r" 'eval-region)
-#+end_src
-
-NOTE. There are more key binding definitions in this config for the suitable mode.
-
-** key chord
-Use it for defining chords like =jk= for enter normal mode, for example
-#+begin_src emacs-lisp
-  (use-package key-chord
-    :ensure t
-    :after general
-    :config
-    (key-chord-mode 1))
 #+end_src
 
 * Evil Mode 😈
@@ -340,19 +281,25 @@ This is a litte package to display in /modeline/ the number of current match vs 
 Now let's improve our /evil workflow/ with =general= key bindings and /chords/. This piece of code is self-documented and easy to read.
 #+begin_src emacs-lisp
   ;; it's annoying with keyboard ES to type ":" and "/"
-  (nvmap
-    "," 'evil-ex)
-  ;; some "spacy" key bindings
-  (nvmap :prefix "SPC"
-    "k" 'evil-window-up
-    "j" 'evil-window-down
-    "l" 'evil-window-right
-    "h" 'evil-window-left
+  (use-package general
+    :ensure t
+    :after evil
+    :config
+    (general-evil-setup t))
 
-    "d" 'evil-window-delete
-    "s" 'evil-window-split
-    "v" 'evil-window-vsplit)
-#+end_src
+  (general-nvmap
+   "," 'evil-ex)
+  ;; some "spacy" key bindings
+  (general-nvmap :prefix "SPC"
+		 "k" 'evil-window-up
+		 "j" 'evil-window-down
+		 "l" 'evil-window-right
+		 "h" 'evil-window-left
+
+		 "d" 'evil-window-delete
+		 "s" 'evil-window-split
+		 "v" 'evil-window-vsplit)
+      #+end_src
 
 ** key chord
 Now some chords for making evil commands more comfortable.
@@ -372,6 +319,91 @@ With some modes (e.g. Org mode or LaTeX) we want =visual-line-mode=. So make =ev
 #+begin_src emacs-lisp
   (define-key evil-motion-state-map [remap evil-next-line] #'evil-next-visual-line)
   (define-key evil-motion-state-map [remap evil-previous-line] #'evil-previous-visual-line)
+#+end_src
+
+* Key bindings
+Let's setup nicer keybindings with *general* and *key-chord*, using =<SPC>= as leader key, as it's in Doom Emacs and Spacemacs.
+
+** Basic
+First some basic /key bindings/ which don't need packages such as /general/ or /key-chord/. This block of code is self-explanatory.
+#+begin_src emacs-lisp
+  (global-set-key (kbd "C-<") 'shrink-window-horizontally)
+  (global-set-key (kbd "C->") 'enlarge-window-horizontally)
+
+  (global-set-key (kbd "S-C-<left>")  'shrink-window-horizontally)
+  (global-set-key (kbd "S-C-<right>") 'enlarge-window-horizontally)
+  (global-set-key (kbd "S-C-<down>")  'shrink-window)
+  (global-set-key (kbd "S-C-<up>")    'enlarge-window)
+
+  (global-set-key (kbd "C-M-k") 'windmove-up)
+  (global-set-key (kbd "C-M-j") 'windmove-down)
+  (global-set-key (kbd "C-M-l") 'windmove-right)
+  (global-set-key (kbd "C-M-h") 'windmove-left)
+
+  (global-set-key (kbd "C-M-k") 'kill-current-buffer)
+  (global-set-key (kbd "C-M-y") 'link-hint-copy-link)
+#+end_src
+
+** General
+It's more confortable to use a leader key (such us =<SPC>= in Doom and Spacemacs), so let's install =general=.
+#+begin_src emacs-lisp
+  (use-package general
+    :ensure t
+    :after evil
+    :config
+    (general-evil-setup t))
+#+end_src
+
+Now we add here some useful and general keybinding
+#+begin_src emacs-lisp
+  (general-nvmap :prefix "SPC"
+    ;; basic
+    "w"     'save-buffer
+    "b n"   'next-buffer
+    "b p"   'previous-buffer
+    "B"     'persp-ivy-switch-buffer ;; NOTE remove "perp-" if not using perspective
+    "b k"   'kill-current-buffer
+    "q q"   'save-buffers-kill-terminal
+    "q r"   'restart-emacs
+
+    ;; counsel
+    "."     'counsel-find-file
+    "<SPC>" 'counsel-find-file
+    "f f"   'counsel-find-file
+    "f r"   'counsel-recentf
+    "x"     'counsel-M-x
+
+    ;; sessions
+    "qs" 'my-desktop-save
+    "qS" 'my-desktop-save-and-clear
+    "ql" 'my-desktop-change
+
+    ;; open some buffers
+    "o t" 'eshell
+    "o v" 'vterm
+
+    ;; toggle
+    "t v" 'visual-line-mode
+    "t l" 'display-line-numbers-mode
+
+    ;; evaluate lisp expressions
+    "e b" 'eval-buffer
+    "e d" 'eval-defun
+    "e e" 'eval-expression
+    "e l" 'eval-last-sexp
+    "e r" 'eval-region)
+#+end_src
+
+NOTE. There are more key binding definitions in this config for the suitable mode.
+
+** key chord
+Use it for defining chords like =jk= for enter normal mode, for example
+#+begin_src emacs-lisp
+  (use-package key-chord
+    :ensure t
+    :after general
+    :config
+    (key-chord-mode 1))
 #+end_src
 
 * Ivy / Counsel
@@ -411,6 +443,54 @@ With some modes (e.g. Org mode or LaTeX) we want =visual-line-mode=. So make =ev
     (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line)) ;; highlight the line, not only the contents
 #+end_src
 
+** Ivy quicker find-file
+To find a file with /ivy/ we execute the =find-file= function and select the directory and file. However, usually we have some bookmarks, for example, *Org documents* in the *~/org/* directory.
+
+For this reason, we write this function, which needs =fd= installed.
+#+begin_src emacs-lisp
+  (defun my/counsel-fd (&optional path)
+        "List everything"
+        (interactive "path? ")
+        (let* ((cands (split-string
+                       (shell-command-to-string (concat "fd -t f -E \"*.{pyc,pdf,jpeg,jpg,JPG,png,svg,mp3,odt,odg,ods,aux,gz,zip,obj}\" . " path)) "\n" t)))
+          (ivy-read "File: " cands
+                    :matcher #'counsel--find-file-matcher
+                    :action #'find-file
+                    :keymap counsel-find-file-map
+                    :caller 'my/counsel-fd)))
+#+end_src
+
+Now we can write some important folders to bookmark.
+#+begin_src emacs-lisp
+  (defun my/counsel-fd-org()
+    "List ~/org files."
+    (interactive)
+    (my/counsel-fd "~/org"))
+
+  (defun my/counsel-fd-uib()
+    "List ~/uib files."
+    (interactive)
+    (my/counsel-fd "~/uib"))
+
+  (defun my/counsel-fd-docs()
+    "List documents."
+    (interactive)
+    (my/counsel-fd "~/dx"))
+  
+  (defun my/counsel-fd-pkg()
+    "List package source files."
+    (interactive)
+    (my/counsel-fd "~/pkg"))
+#+end_src
+
+Finally, add keybindings to them.
+#+begin_src emacs-lisp
+  (general-nvmap :prefix "SPC"
+    "f o"   'my/counsel-fd-org
+    "f d"   'my/counsel-fd-docs
+    "f p"   'my/counsel-fd-pkg
+    "f u"   'my/counsel-fd-uib)
+#+end_src
 
 * Dired
 First, don't create a new buffer when visiting another folder. Press =a= instead of =SPC=
@@ -494,7 +574,7 @@ Let's add some useful keybindings
   ;; show hidden files
   (setq-default neo-show-hidden-files t)
 
-  (nvmap :prefix "SPC" "t n" 'neotree-toggle)
+  (general-nvmap :prefix "SPC" "t n" 'neotree-toggle)
 #+end_src
 
 * Appearance
@@ -570,6 +650,7 @@ Take advantage of GUI and put icons!
   (use-package all-the-icons
     :ensure t)
   (use-package emojify
+    :ensure t
     :hook (after-init . global-emojify-mode))
 #+end_src
 
@@ -585,7 +666,8 @@ Install a bunch of great themes (/doom-themes/). By default it loads *doom-palen
         doom-themes-enable-italic t) ;; if nil, italics is universally disabled
 
   ;; load this theme
-  (load-theme 'doom-palenight t)
+  ;;(load-theme 'doom-palenight t)
+  (load-theme 'doom-gruvbox)
 #+end_src
 
 /NOTE/: In =doom-one= theme, the color of the number line can be confused with the background. To change it, edit the theme file
@@ -613,7 +695,7 @@ Also, we implement an interactive function =toggle-transparency= to toggle the t
            '(90 . 85) '(100 . 100)))))
 
 
-  (nvmap :prefix "SPC"
+  (general-nvmap :prefix "SPC"
     "t t" 'toggle-transparency)
 #+end_src
 
@@ -640,17 +722,12 @@ We install the =auctex= environment with the following functionality:
 #+begin_src emacs-lisp
   (use-package latex
     :ensure auctex
-    :hook ((LaTeX-mode . visual-line-mode) ;; word-wrap
-           (LaTeX-mode . flyspell-mode)    ;; check spelling
-           (LaTeX-mode . LaTeX-math-mode)  ;; add math mode
-           (LaTeX-mode . turn-on-reftex)
-           (LaTeX-mode . company-auctex-init))
     :config
     (setq TeX-auto-save t)        ;; autosave files
     (setq TeX-save-query nil)     ;; don't prompt for save
     (setq TeX-parse-self t)
     (setq-default TeX-master nil) ;; ask for master file
-  
+
     (TeX-source-correlate-mode)
     (TeX-PDF-mode)
     (setq reftex-plug-into-AUCTeX t)
@@ -663,6 +740,16 @@ We install the =auctex= environment with the following functionality:
                     " %o")
                    "zathura"))
     (add-to-list 'TeX-view-program-selection '(output-pdf "Zathura")))
+
+  (add-hook 'LaTeX-mode-hook 'visual-line-mode) ;; word-wrap
+  ;;(add-hook 'LaTeX-mode-hook 'flyspell-mode)    ;; check spelling
+  (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)  ;; add math mode
+  (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
+#+end_src
+
+Use this to avoid the minibuffer report /lsp--idle-timer/ error:
+#+begin_src emacs-lisp
+  (setq lsp-idle-delay 1000000)
 #+end_src
 
 ** xenops (visualize latex result in .tex)
@@ -822,15 +909,18 @@ See [[appearance-fonts][font section]] for the =fixed-pitch= definition.
 To write jupyter notebooks in Org mode, we need to export /Org files/ to /.ipynb/ files.
 #+begin_src emacs-lisp
   ;; export to ipynb
-  ;; this is not in MELPA, see ~/.emacs.d/ox-ipynb
-  ;;(use-package ox-ipynb
-    ;:ensure t)
+  ;;(use-package ob-ipython
+  ;;  :ensure t)
+
+  ;; this is not in MELPA, see ~/.emacs.d/elisp/ox-ipynb.py
+  ;;(add-to-list 'load-path "~/.emacs.d/elisp")
+  ;;(require 'ox-ipynb)
 #+end_src
 
 ** Key bindings
 Better keybindings for /Org mode/. (using the =SPC g= prefix)
 #+begin_src emacs-lisp
-  (nvmap :prefix "SPC"
+  (general-nvmap :prefix "SPC"
     "g c" 'org-ctrl-c-ctrl-c
     "g o" 'org-open-at-point
     "g k" 'org-toggle-checkbox)
@@ -888,6 +978,9 @@ This is an engine to present Org files in a more beautiful ways. We want:
 
   (add-hook 'org-present-mode-hook 'my/org-present-start)
   (add-hook 'org-present-mode-quit-hook 'my/org-present-end)
+
+  ;; key to toggle visual-fill-column
+  (general-nvmap :prefix "SPC" "t f" 'visual-fill-column-mode)
 #+end_src
 ** Org Roam
 With /Org Roam/ you can create your own wiki (via /nodes/) in /Org mode/ and navigate through it quickly.
@@ -915,6 +1008,7 @@ NOTE 2. You should define =org-roam-directory= as a new empty directory and crea
 Make a *TOC* automatically using =:TOC= or =:TOC_2_org:= for better support.
 #+begin_src emacs-lisp
   (use-package toc-org
+    :ensure t
     :commands toc-org-enable
     :init (add-hook 'org-mode-hook 'toc-org-enable))
 #+end_src
@@ -998,13 +1092,17 @@ Highlight *TODO*, *NOTE*, ... and more on every buffer with =hl-todo.el=!
 
 ** which-key
 It's impossible to remember all the bloated /Emacs/ config and all its keys. Therefore, =which-key=
-help us
+hep us
 #+begin_src emacs-lisp
   (use-package which-key
     :ensure t
     :config
     (setq which-key-add-column-padding 3)
     (which-key-mode +1))
+
+  ;; Add an extra line to work around bug in which-key imprecise
+  (defun add-which-key-line (f &rest r) (progn (apply f (list (cons (+ 1 (car (car r))) (cdr (car r)))))))
+  (advice-add 'which-key--show-popup :around #'add-which-key-line)
 #+end_src
 
 ** rainbow-mode
@@ -1063,7 +1161,7 @@ To fold code blocks we use the package =yafolding=. Use the following keys:
     :hook (lsp-mode . yafolding-mode))
 #+end_src
 
-* Elfeed
+* RSS (Elfeed)
 The RSS/Atom feed for Emacs. Make =M-x elfeed= to open elfeed, and there ~g r~ (with /evil-collection/) to update the feed.
 ** Basic stuff
 #+begin_src emacs-lisp
@@ -1074,7 +1172,7 @@ The RSS/Atom feed for Emacs. Make =M-x elfeed= to open elfeed, and there ~g r~ (
     :config
     (add-hook 'elfeed-search-mode-hook 'elfeed-update)
     :init
-    (nvmap :prefix "SPC" "o f" 'elfeed)) ;; update feeds when open
+    (general-nvmap :prefix "SPC" "o f" 'elfeed)) ;; update feeds when open
 
   ;; you may set here your feeds if you don't use elfeed-org
   ;; (setq elfeed-feeds '("link1" "link2"))
@@ -1129,7 +1227,7 @@ Perspective is a package to create "separate workspaces" upon Emacs. All you nee
     :custom
     (persp-mode-prefix-key (kbd "C-x x")) ;; prefix map
     :config
-    (nvmap :prefix "SPC"
+    (general-nvmap :prefix "SPC"
       "p s" 'persp-switch
       "p 0" 'persp-switch-by-number
       "p n" 'persp-next
@@ -1190,7 +1288,7 @@ Now we'll define the interaction between =perspective= and =workgroups2=. Featur
         (message "No workgroup is created yet.")))))
 
   ;; some keys to make it easier
-  (nvmap :prefix "SPC"
+  (general-nvmap :prefix "SPC"
     "p w" 'my/write-wg
     "p l" 'my/load-wg
     "p r" 'wg-kill-workgroup)
@@ -1297,6 +1395,61 @@ Let's set up completions with company, as well as autoenabled in some modes. Not
   ;; (use-package dap-LANGUAGE) to load the dap adapter for your language
 #+end_src
 
+** C/C++
+Install =clang= and =clang-tools= or =clangd= if /clangd/ is not installed. Then, add /clangd/ to =lsp-enabled-clients= list:
+#+begin_src emacs-lisp
+  (add-to-list 'lsp-enabled-clients 'clangd)
+
+  ;; add hook
+  (add-hook 'c-mode-hook 'lsp)
+  (add-hook 'c++-mode-hook 'lsp)
+
+  ;; also set some indentation for C/C++
+  (setq-default tab-width 4)
+  (setq-default c-basic-offset 4)
+  (setq-default c++-basic-offset 4)
+  (setq-default indent-tabs-mode nil)
+#+end_src
+
+NOTE. To setup formatting with clang, you shall generate an example file for everey project to select options. Run this command to generate the file.
+#+begin_src sh
+  clang-format -style=llvm -dump-config > .clang-format
+#+end_src
+
+You can also set a basic template file as the following (file /.clang-format/):
+#+begin_example
+---
+BasedOnStyle LLVM
+IndentWidth 4
+...
+#+end_example
+
+** Java
+It's necessary  to use the package =lsp-java=. To download /Eclipse JDT Language Server/, execute =lsp-install-server= and select =jdtls=.
+#+begin_src emacs-lisp
+  (use-package lsp-java
+    :ensure t
+    :config (add-hook 'java-mode-hook 'lsp))
+
+  (add-to-list 'lsp-enabled-clients 'jdtls)
+#+end_src
+
+** LaTeX
+This is not superuseful as C/C++, for example, but it completes some things and it follows references, which is important.
+
+Install =luarocks= and then execute the following command to install the server =digest=:
+#+begin_src sh
+  luarocks --server http://luarocks.org/dev install digestif
+#+end_src
+
+Now set up this server for LaTeX.
+#+begin_src emacs-lisp
+  (add-to-list 'lsp-enabled-clients 'digestif)
+  
+  (setq lsp-tex-server 'digestif)
+  (add-hook 'LaTeX-mode-hook 'lsp)
+#+end_src
+
 ** Python
 Run this as /sudo/ to install it in the computer
 #+begin_src sh
@@ -1356,53 +1509,6 @@ NOTE. To install the following servers *npm* must be installed in your computer.
   (add-hook 'web-mode-hook 'lsp)
 #+end_src
 
-** C/C++
-Install =clang= and =clang-tools= or =clangd= if /clangd/ is not installed. Then, add /clangd/ to =lsp-enabled-clients= list:
-#+begin_src emacs-lisp
-  (add-to-list 'lsp-enabled-clients 'clangd)
-
-  ;; add hook
-  (add-hook 'c-mode-hook 'lsp)
-  (add-hook 'c++-mode-hook 'lsp)
-
-  ;; also set some indentation for C/C++
-  (setq-default tab-width 4)
-  (setq-default c-basic-offset 4)
-  (setq-default c++-basic-offset 4)
-  (setq-default indent-tabs-mode nil)
-#+end_src
-
-NOTE. To setup formatting with clang, you shall generate an example file for everey project to select options. Run this command to generate the file.
-#+begin_src sh
-  clang-format -style=llvm -dump-config > .clang-format
-#+end_src
-
-You can also set a basic template file as the following (file /.clang-format/):
-#+begin_example
----
-BasedOnStyle LLVM
-IndentWidth 4
-...
-#+end_example
-
-It may be useful to put a default one in /$HOME/ as a backup.
-
-** LaTeX
-This is not superuseful as C/C++, for example, but it completes some things and it follows references, which is important.
-
-Install =luarocks= and then execute the following command to install the server =digest=:
-#+begin_src sh
-  luarocks --server http://luarocks.org/dev install digestif
-#+end_src
-
-Now set up this server for LaTeX.
-#+begin_src emacs-lisp
-  (add-to-list 'lsp-enabled-clients 'digestif)
-  
-  (setq lsp-tex-server 'digestif)
-  (add-hook 'LaTeX-mode-hook 'lsp)
-#+end_src
-
 * Other tools
 ** Matlab
 Yes, sometimes I have to use /matlab/ for some porpouses :(. But it's better here in Emacs!
@@ -1412,4 +1518,143 @@ Yes, sometimes I have to use /matlab/ for some porpouses :(. But it's better her
     :mode "\\.m\\'"
     :commands (matlab-shell)
     :config (setq matlab-indent-function-body t))
+#+end_src
+
+* Mail (mu4e)
+** Basic stuff. mu4e accounts and contexts
+#+begin_src emacs-lisp
+  (use-package mu4e
+    :ensure nil
+    :load-path "/usr/share/emacs/site-lisp/mu4e/"
+    :config
+    (general-nvmap :prefix "SPC" "o m" 'mu4e) ;; open mu4e
+
+    ;; update status bar when returning to main view
+    (add-hook 'mu4e-main-mode-hook (lambda ()
+                                     (shell-command-to-string "pkill -RTMIN+12 dwmblocks")))
+
+    ;; This is set to 't' to avoid mail syncing issues when using mbsync
+    (setq mu4e-change-filenames-when-moving t)
+
+    ;; Uncomment to auto-update email every 10 minutes
+    ;; (setq mu4e-update-interval (* 10 60))
+
+    ;; basic stuff
+    (setq mu4e-get-mail-command "mbsync -a ; pkill -RTMIN+12 dwmblocks")
+    (setq mu4e-maildir "~/.local/share/mail/")
+    (setq mu4e-context-policy 'pick-first) ; set context to the first one if none (don't ask)
+    (setq mu4e-confirm-quit nil) ; don't ask when quitting
+    (setq mu4e-attachment-dir "~/bx/mu4e/") ; donwload attachment dir
+
+    ;; smtp config (using msmtp)
+    (setq smtpmail-debug-info t
+          smtpmail-stream-type  'ssl
+          message-send-mail-function 'message-send-mail-with-sendmail
+          sendmail-program "/usr/bin/msmtp")
+
+    ;; Bookmarks for account inbox
+    (add-to-list 'mu4e-bookmarks '("m:/gerardribas33@gmail.com/INBOX" "Gmail" ?3))
+    (add-to-list 'mu4e-bookmarks '("m:/gra886@id.uib.cat/Inbox" "UIB" ?2))
+    (add-to-list 'mu4e-bookmarks '("m:/gerrysoft@outlook.es/INBOX" "Outlook" ?1))
+
+    ;; contexts
+    (load-file (expand-file-name "mu4e-contexts.el" user-emacs-directory)))
+#+end_src
+
+** Column faces (colors)
+#+begin_src emacs-lisp
+  (use-package mu4e-column-faces
+    :ensure t
+    :after mu4e
+    :config (mu4e-column-faces-mode))
+#+end_src
+
+** HTML emails with Org mode
+As =Org mode= is the killer feature in Emacs, it would be great to compose emails using it. To do so, we need to install =org-mime=. 
+#+begin_src emacs-lisp
+  (use-package org-mime
+    :ensure t
+    ;; Press C-c O to edit it in Org mode
+    :bind ("C-c O" . org-mime-edit-mail-in-org-mode)
+    :init
+    (add-hook 'message-send-hook 'org-mime-htmlize) ;; auto convert to html
+    ;; alternatively, you can use org-mime-confirm-when-no-multipart to ask when it's plain
+
+    ;; some configs for cleaner emails
+    (setq org-mime-export-options '(:section-numbers nil
+                                                     :with-latex dvipng
+                                                     :with-author nil
+                                                     :with-toc nil)))
+#+end_src
+
+** Email workflow with Org Mode
+This is used to set an /Org file/ to save links to emails for accessing them later.
+
+This is done with =mu4e-org=, wich is already installed with =mu= but it isn't loaded.
+
+#+begin_src emacs-lisp
+(require 'mu4e-org)
+#+end_src
+
+Now, create a file (=Mail.org=, for example) to save links into that file.
+
+#+begin_src emacs-lisp
+  (unless (file-exists-p "~/org/Mails.org")
+    (write-region "#+title:  Email workflow\n\n* Important\n\n\n* Llegeix més tard\n" nil "~/org/Mails.org"))
+#+end_src
+
+Now we will capture the emails, creating /capture templates/. To do so, we will create *TODO* entries. This entries will be:
+- Important --- /important emails/
+- Llegeix més tard-- /for reading later/
+
+#+begin_src emacs-lisp
+  (setq org-capture-templates
+        `(("m" "Email Workflow")
+          ("mi" "Important" entry (file+olp "~/org/Mails.org" "Important")
+           "* %a\n/De:/ %:fromname\n/Data:/ %:date" :immediate-finish t) ;; immediate-finish for no confirmation
+          ("ml" "Llegeix més tard" entry (file+olp "~/org/Mails.org" "Llegeix més tard")
+           "* TODO %a\n/De:/ %:fromname\n/Data:/ %:date" :immediate-finish t)))
+#+end_src
+
+Now, to increase performance and be able not to write =org-capture= or =mu4e-org-store-and-capture= every time, we can add /actions/ to the headers.
+#+begin_src emacs-lisp
+  (defun my/capture-mail-important (msg)
+    (interactive)
+    (call-interactively 'org-store-link)
+    (org-capture nil "mi"))
+
+  (defun my/capture-mail-read-later (msg)
+    (interactive)
+    (call-interactively 'org-store-link)
+    (org-capture nil "ml"))
+
+  ;; Add custom actions for our capture templates
+  (add-to-list 'mu4e-headers-actions
+    '("important (flag)" . my/capture-mail-important) t)
+  (add-to-list 'mu4e-headers-actions
+    '("llegeix més tard" . my/capture-mail-read-later) t)
+#+end_src
+  
+** View emails as PDF
+To do so you need to install =wkhtmltopdf= from the official repos. Then, we add an action to /mu4e/ to save the current email as PDF.
+#+begin_src emacs-lisp
+  ;; function to wrap the mail-pdf script with and option (view, save)
+  (defun my/mu4e-action-pdf (msg option)
+    "Export html part to PDF (and do some option)."
+    (let ((browse-url-browser-function
+           (lambda (url &optional _rest)
+             (call-process-shell-command (format "mail-pdf %s %s &" option url) nil 0))))
+      (mu4e-action-view-in-browser msg)))
+
+  ;; call script to view
+  (defun my/mu4e-action-view-pdf (msg)
+    (my/mu4e-action-pdf msg "view"))
+
+  ;; call script to save
+  (defun my/mu4e-action-save-pdf (msg)
+    (my/mu4e-action-pdf msg "save"))
+
+  ;; add actions to the mail view
+  (add-to-list 'mu4e-view-actions '("pdf (view)" . my/mu4e-action-view-pdf) t)
+  (add-to-list 'mu4e-view-actions '("PDF (Save as)" . my/mu4e-action-save-pdf) t)
 #+end_src

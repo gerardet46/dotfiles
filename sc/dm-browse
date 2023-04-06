@@ -1,0 +1,131 @@
+#!/bin/sh
+
+dmenu_() {
+    dmenu -h 0 -p "$1"
+}
+
+dmenu_lines() {
+    dmenu -h 0 -p "$1" -l 20
+}
+
+# same as dmenu_run without executing
+dmenu_apps() {
+    dmenu_path | dmenu -h 0 -p "$1"
+}
+
+txt_continue="Continua"
+txt_create_folder="Crear Carpeta"
+txt_delete="Elimina"
+txt_explore="Explora"
+txt_actions="Accions"
+txt_enter_name="Introdueix un nom"
+txt_open="Obri"
+txt_open_with="Obri amb"
+
+folder_openner="st -e nnn"
+
+target="$1"
+[ -z "$target" ] && target="$(realpath .)"
+prompt="$2"
+
+while true; do
+    p="$prompt"
+    [ -z "$p" ] && p="$target"
+
+    part="$(echo "$p" | cut -d'/' -f-3)"
+    part_final="$(echo "$p" | cut -d'/' -f4-)"
+
+    shown_prompt="$p"
+    [ "$part" = "$HOME" ] && shown_prompt="~/$part_final"
+
+
+    # sel="$(ls -1a "$target" |grep -v '^\.$' | dmenu_lines "$shown_prompt")"
+    sel="$(ls -1a "$target" | dmenu_lines "$shown_prompt")"
+    ec=$?
+    [ "$ec" -ne 0 ] && exit $ec
+
+    c="$(echo "$sel" | cut -b1)"
+    if [ "$c" = "/" ]; then
+        newt="$sel"
+    elif [ "$c" = "~" ]; then
+        newt="$HOME"
+    elif [ "$sel" = "." ]; then
+        carpeta="$(realpath "${target}/${sel}")"
+
+        # select files
+        if [ "$3" = "-s" ]; then
+            echo "$carpeta"
+            exit
+        fi
+        # accions des directori
+        opt=$(printf "Continua\nCrear Carpeta\nCrear Fitxer\nElimina\nExplora\nsxiv" | dmenu_ "Accions")
+
+        case "$opt" in
+            Continua) newt="$carpeta" ;;
+            Explora)
+                $folder_openner "$carpeta"
+                exit 0 ;;
+            Elimina)
+                rm -rf "$carpeta"
+                exit 0 ;;
+            "Crear Carpeta")
+                nom=$(echo "--cancelar" | dmenu_ "Introdueix un nom")
+                echo "$nom"
+
+                if [ "$nom" != "--cancelar" ]; then
+                    newt="$(realpath "${target}/${nom}")"
+                    mkdir "$newt"
+                fi
+                ;;
+            "Crear Fitxer")
+                nom=$(echo "--cancelar" | dmenu_ "Introdueix un nom")
+                echo "$nom"
+
+                if [ "$nom" != "--cancelar" ]; then
+                    touch "$(realpath "${target}/${nom}")"
+                fi
+                ;;
+
+            "sxiv")
+                nsxiv "$carpeta"
+                exit
+                ;;
+        esac
+    else
+        newt="$(realpath "${target}/${sel}")"
+    fi
+
+    if [ -e "$newt" ]; then
+        target="$newt"
+        if [ ! -d "$target" ]; then
+            # select file
+            if [ "$3" = "-s" ]; then
+                echo "$target"
+                exit
+            fi
+
+            # echo "$target"
+            opt=$(printf "Obri\nObri amb\nElimina\nArrossega" | dmenu_ "Accions")
+
+            case "$opt" in
+                Obri)
+                    xdg-open "$target"
+                    exit 0
+                    ;;
+                "Obri amb")
+                    prg=$(dmenu_apps "Obri amb")
+                    $($prg "$target")
+                    exit 0
+                    ;;
+                Elimina)
+                    rm -rf "$target"
+                    target=$(echo "$target" | sed 's/\/[^\/]*$//')
+                    ;;
+                "Arrossega")
+                    dragon-drop -x "$target"
+                    exit 0
+                ;;
+            esac
+        fi
+    fi
+done

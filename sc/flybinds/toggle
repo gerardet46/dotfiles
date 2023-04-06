@@ -43,4 +43,14 @@ case "$@" in
         killall xcompmgr ||
         xcompmgr &
             ;;
+    w)
+        if [ -f "$HOME/.config/wallpaper" ]; then
+            setwallpaper no
+            killall xcompmgr
+            rm $HOME/.config/wallpaper
+        else
+            xcompmgr &
+            setwallpaper
+        fi
+        ;;
 esac

@@ -32,7 +32,7 @@ elif [ "$1" = "d" ]; then
     while read file
     do
         echo "$file"
-    done | xargs -d '\n' dragon-drag-and-drop -x
+    done | xargs -d '\n' dragon-drop -a -x
 elif [ "$1" = "C" ]; then
     while read file
     do

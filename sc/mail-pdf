@@ -1,0 +1,32 @@
+#!/usr/bin/sh
+
+# convert html email (already a file in $2) to pdf and view it
+# usage:
+# mail-pdf save [file] --> saves to a permanent file in downloads dir
+# mail-pdf view [file] --> views the temp file
+
+[ -z "$1" ] && exit 1
+[ -z "$2" ] && exit 1
+
+infile="$(echo "$2" | sed "s/file\:\/\///")"
+stylesheet="$HOME/sc/wkhtmltopdf-stylesheet.css"
+
+case "$1" in
+    save)
+        name="$HOME/bx/mu4e/mails/$(date +'%d-%m-%Y %H:%M:%S').pdf"
+        if [ -z "$stylesheet" ]; then
+            wkhtmltopdf "$infile" "$name"
+        else
+            wkhtmltopdf --user-style-sheet "$stylesheet" "$infile" "$name"
+        fi
+        notify-send "Correu desat a $name"
+        ;;
+    view)
+        if [ -z "$stylesheet" ]; then
+            wkhtmltopdf "$infile" "$infile".pdf
+        else
+            wkhtmltopdf --user-style-sheet "$stylesheet" "$infile" "$infile".pdf
+        fi
+        setsid zathura "$infile".pdf
+        ;;
+esac

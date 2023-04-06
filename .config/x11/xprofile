@@ -2,9 +2,11 @@
 
 # Variables
 export PATH="$PATH:$HOME/sc:$HOME/.local/bin"
-export SUDO_ASKPASS="/usr/lib/ssh/x11-ssh-askpass"  # pacman -S x11-ssh-askpass
+#export SUDO_ASKPASS="/usr/lib/ssh/x11-ssh-askpass"  # pacman -S x11-ssh-askpass
+export SUDO_ASKPASS="/usr/bin/lxqt-openssh-askpass"  # pacman -S x11-ssh-askpass
 
 # Set and refresh colors. Also load Xresources
+# Set theme name in ~/.config/theme
 # Available themes:
 # - nord
 # - dracula
@@ -14,6 +16,9 @@ theme="$(cat "$HOME/.config/theme" || echo nord)"
 colorrefresh
 
 unset theme
+
+# Carrega Xresources
+xrdb "$HOME/.config/x11/xresources" & xrdbpid=$!
 
 # Carrega dbus i altres
 if [ -d /etc/X11/xinit/xinitrc.d ] ; then
@@ -26,14 +31,17 @@ fi
 # Pantalla
 monitors
 
-# Fons d'escriptori
-xwallpaper --zoom "$HOME/.config/wallpaper" &
+# Wallpaper
+setwallpaper
 
 # Teclat ES, ESC per Caps, ...
 remaps &
 
+# Pulseaudio
+pulseaudio --daemonize=true --exit-idle-time=-1
+
 # Autostart
-autostart="xcompmgr redshift nm-applet dunst unclutter emacs-daemon"
+autostart="xcompmgr sxhkd redshift nm-applet unclutter dunst emacs-daemon"
 
 for program in $autostart; do
 	pidof -s "$program" || "$program" &

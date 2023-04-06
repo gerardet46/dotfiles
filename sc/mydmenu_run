@@ -1,0 +1,9 @@
+#!/bin/sh
+
+# finds all scripts starting with dm- in the ~/sc folder and executes
+# the selected one, via dmenu.
+find "$HOME/sc" -executable -type f -exec basename {} \; \
+    | grep "^dm-" \
+    | sort -u \
+    | dmenu -l 20 -p "dmenu script" "$@" \
+    | ${SHELL:-"/bin/sh"} &

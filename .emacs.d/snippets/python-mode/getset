@@ -1,0 +1,13 @@
+# -*- mode: snippet -*-
+# name: getset
+# key: getset
+# --
+
+def get_${1:attr}(self):
+    """${2:Obté l'atribut $1.}"""
+    return self.__$1
+
+def set_$1(self, $1):
+    """${3:Assigna l'atribut $1.}"""
+    self.__$1 = $1
+$0

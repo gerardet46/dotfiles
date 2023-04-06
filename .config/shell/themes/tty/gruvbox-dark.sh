@@ -2,7 +2,7 @@
 
 
 if [ "$TERM" = "linux" ]; then
-    echo -en "\e]P0282828" #bg0
+    echo -en "\e]P0202020" #bg0
     echo -en "\e]P8928374" #grey
     echo -en "\e]P1cc241d" #darkred
     echo -en "\e]P9fb4934" #red
@@ -17,6 +17,6 @@ if [ "$TERM" = "linux" ]; then
     echo -en "\e]P6689d6a" #darkcyan
     echo -en "\e]PE8ec07c" #cyan
     echo -en "\e]P7a89984" #fg4
-    echo -en "\e]PFebdbb2" #fg1
+    echo -en "\e]PFdbcba2" #fg1
     clear #for background artifacting
 fi

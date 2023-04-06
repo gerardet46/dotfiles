@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: get
+# key: get
+# --
+def get_${1:attr}(self):
+    """${2:Obté l'atribut $1.}"""
+    return self.__$1
+$0

@@ -41,6 +41,7 @@ flybinds.font:           Ubuntu:size=13
 flybinds.separator:      ->
 flybinds.background:     $COL_0
 flybinds.keyfg:          $COL_VERD
+flybinds.titlefg:        $COL_FOSC
 flybinds.sepfg:          $COL_BLAU
 flybinds.descfg:         $COL_BLANC
 flybinds.bordercol:      $COL_FOSC
@@ -48,11 +49,13 @@ flybinds.maxcolumns:     6
 flybinds.colpadding:     100
 flybinds.outpaddinghor:  25
 flybinds.outpaddingvert: 15
+flybinds.titlepadding:   5
 flybinds.borderpx:       2
 
 ! dwm
 dwm.font:            Ubuntu:size=12
-dwm.user_bh:         24             ! bar
+!! bar
+dwm.user_bh:         24 
 dwm.primarycolor:    $COL_FOSC
 dwm.secondarycolor:  $COL_CLAR
 dwm.normbgcolor:     $COL_BG_0
@@ -65,12 +68,27 @@ dwm.smartgaps:       1
 dwm.smartborders:    1
 
 ! nsxiv
-Nsxiv.window.background: $COL_BG_1
+Nsxiv.window.background: $COL_BG_0
 Nsxiv.window.foreground: $COL_W2
 Nsxiv.bar.font:          Ubuntu:size=11
 Nsxiv.bar.background:    $COL_BG_0
 Nsxiv.bar.foreground:    $COL_W2
 Nsxiv.mark.foreground:   $COL_CLAR
+
+! tabbed
+tabbed.font:   Ubuntu:size=12
+!! color de fons normal
+tabbed.color0: $COL_0
+!! color de text normal
+tabbed.color4: $COL_FOSC
+!! color de fons seleccionat
+tabbed.color5: $COL_FOSC
+!! color de text seleccionat
+tabbed.color7: $COL_W1
+!! color de fons urgent
+tabbed.color2: $COL_W1
+!! color de text urgent
+tabbed.color3: $COL_0
 
 ! x11-ssh-askpass
 SshAskpass.Dialog.title: Autenticació

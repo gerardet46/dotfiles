@@ -2,84 +2,102 @@
 *.font: Ubuntu Mono:size=15
 
 *.background: #161b20
-*.foreground: #ECEFF4
-*.color0:     #3B4252
+*.foreground: #fbf1c7
+*.color0:     #504945
 *.color8:     #74778a
-*.color1:     #bf616a
-*.color9:     #bf616a
-*.color2:     #a3be8c
-*.color10:    #a3be8c
-*.color3:     #ebcb8b
-*.color11:    #ebcb8b
-*.color4:     #81A1C1
-*.color12:    #81A1C1
-*.color5:     #b48ead
-*.color13:    #b48ead
-*.color6:     #8FBCBB
-*.color14:    #8FBCBB
-*.color7:     #D8DEE9
-*.color15:    #ECEFF4
+*.color1:     #cc241d
+*.color9:     #cc241d
+*.color2:     #b8bb26
+*.color10:    #b8bb26
+*.color3:     #fabd2f
+*.color11:    #fabd2f
+*.color4:     #458588
+*.color12:    #458588
+*.color5:     #b16286
+*.color13:    #b16286
+*.color6:     #689d6a
+*.color14:    #689d6a
+*.color7:     #d5c4a1
+*.color15:    #fbf1c7
 
 ! st
 ! it uses the colors defined above
 St.alpha:      0.85
-St.background: #20242c
+St.background: #1d2021
 
 ! dmenu
 dmenu.font:           Ubuntu:size=13
 dmenu.normfgcolor:    #9497aa
-dmenu.normbgcolor:    #2E3440
-dmenu.selfgcolor:     #ECEFF4
-dmenu.selbgcolor:     #94628a
+dmenu.normbgcolor:    #1d2021
+dmenu.selfgcolor:     #fbf1c7
+dmenu.selbgcolor:     #98971a
 dmenu.lineheight:     24
 dmenu.min_lineheight: 8
 
 ! flybinds
 flybinds.font:           Ubuntu:size=13
 flybinds.separator:      ->
-flybinds.background:     #2E3440
-flybinds.keyfg:          #a3be8c
-flybinds.sepfg:          #81A1C1
-flybinds.descfg:         #E5E9F0
-flybinds.bordercol:      #94628a
+flybinds.background:     #1d2021
+flybinds.keyfg:          #b8bb26
+flybinds.titlefg:        #98971a
+flybinds.sepfg:          #458588
+flybinds.descfg:         #fbf1c7
+flybinds.bordercol:      #98971a
 flybinds.maxcolumns:     6
 flybinds.colpadding:     100
 flybinds.outpaddinghor:  25
 flybinds.outpaddingvert: 15
+flybinds.titlepadding:   5
 flybinds.borderpx:       2
 
 ! dwm
 dwm.font:            Ubuntu:size=12
-dwm.user_bh:         24             ! bar
-dwm.primarycolor:    #94628a
-dwm.secondarycolor:  #b48ead
-dwm.normbgcolor:     #20242c
-dwm.normbordercolor: #3B4252
-dwm.normfgcolor:     #D8DEE9
-dwm.selbgcolor:      #3B4252
-dwm.selfgcolor:      #E5E9F0
+!! bar
+dwm.user_bh:         24 
+dwm.primarycolor:    #98971a
+dwm.secondarycolor:  #b8bb26
+dwm.normbgcolor:     #1d2021
+dwm.normbordercolor: #504945
+dwm.normfgcolor:     #d5c4a1
+dwm.selbgcolor:      #504945
+dwm.selfgcolor:      #ebdbb2
 dwm.borderpx:        2
 dwm.smartgaps:       1
 dwm.smartborders:    1
 
 ! nsxiv
-Nsxiv.window.background: #3B4252
-Nsxiv.window.foreground: #D8DEE9
+Nsxiv.window.background: #1d2021
+Nsxiv.window.foreground: #d5c4a1
 Nsxiv.bar.font:          Ubuntu:size=11
-Nsxiv.bar.background:    #20242c
-Nsxiv.bar.foreground:    #D8DEE9
-Nsxiv.mark.foreground:   #b48ead
+Nsxiv.bar.background:    #1d2021
+Nsxiv.bar.foreground:    #d5c4a1
+Nsxiv.mark.foreground:   #b8bb26
+
+! tabbed
+tabbed.font:   Ubuntu:size=12
+!! color de fons normal
+tabbed.color0: #1d2021
+!! color de text normal
+tabbed.color4: #98971a
+!! color de fons seleccionat
+tabbed.color5: #98971a
+!! color de text seleccionat
+tabbed.color7: #ebdbb2
+!! color de fons urgent
+tabbed.color2: #ebdbb2
+!! color de text urgent
+tabbed.color3: #1d2021
 
 ! x11-ssh-askpass
 SshAskpass.Dialog.title: Autenticació
 SshAskpass.Dialog.label: Introdueix la contrasenya
 
 SshAskpass.*font:              Ubuntu:size=20
-SshAskpass.*foreground:        #D8DEE9
-SshAskpass.*background:        #20242c
-SshAskpass.*topShadowColor:    #ECEFF4
+SshAskpass.*foreground:        #d5c4a1
+SshAskpass.*background:        #1d2021
+SshAskpass.*topShadowColor:    #fbf1c7
 SshAskpass.*bottomShadowColor: #7f7f7f
-SshAskpass.*borderColor:       #b48ead
+SshAskpass.*borderColor:       #b8bb26
 SshAskpass.*shadowThickness:   0
 SshAskpass.*borderWidth:       1
 SshAskpass.*horizontalSpacing: 5
@@ -88,8 +106,8 @@ SshAskpass.*verticalSpacing:   6
 SshAskpass.Button.borderWidth:          1
 SshAskpass.Button.verticalSpacing:      2
 
-SshAskpass.Indicator.foreground:        #a3be8c
-SshAskpass.Indicator.background:        #b48ead
+SshAskpass.Indicator.foreground:        #b8bb26
+SshAskpass.Indicator.background:        #b8bb26
 SshAskpass.Indicator.borderWidth:       0
 SshAskpass.Indicator.height:            7
 SshAskpass.Indicator.width:             15

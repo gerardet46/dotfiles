@@ -68,16 +68,18 @@ color_name="gruvbox-dark"
 [ -f ~/.config/shell/themes/tty/$color_name.sh ] && source ~/.config/shell/themes/tty/$color_name.sh
 
 # plugins
+skipplugins="yes"  # erase to check and install plugins
 noms=("zsh-syntax-highlighting" "zsh-autosuggestions")
 for x in $noms; do
     # instal·lam si no ho està
-    if [ -z "$(pacman -Q | grep "$x")" ]; then
-        sudo pacman -S "$x"
+    #if [ -z "$(pacman -Q | grep "$x")" ]; then
+    if [ -z $skipplugins ] && [ "$(xbps-query "$x" | awk '{print $1}')" = "[-]" ]; then
+        #sudo pacman -S "$x"
+        sudo xbps-install "$x"
     fi
     # carregam
     source "/usr/share/zsh/plugins/$x/$x.zsh" 2> /dev/null
 done
-
 #manual_plugins=("https://github.com/Aloxaf/fzf-tab")
 for x in $manual_plugins; do
     name="$(echo "$x" | awk -F'/' '{print $NF}')"
@@ -183,3 +185,21 @@ zle -N down-line-or-beginning-search
 
 [[ -n "${key[Up]}"   ]] && bindkey -- "${key[Up]}"   up-line-or-beginning-search
 [[ -n "${key[Down]}" ]] && bindkey -- "${key[Down]}" down-line-or-beginning-search
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+if [ "a" = "b" ]; then
+    __conda_setup="$('/home/gerry/.local/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+    if [ $? -eq 0 ]; then
+        eval "$__conda_setup"
+    else
+        if [ -f "/home/gerry/.local/miniconda3/etc/profile.d/conda.sh" ]; then
+            . "/home/gerry/.local/miniconda3/etc/profile.d/conda.sh"
+        else
+            export PATH="/home/gerry/.local/miniconda3/bin:$PATH"
+        fi
+    fi
+    unset __conda_setup
+fi
+# <<< conda initialize <<<
+

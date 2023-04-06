@@ -19,7 +19,8 @@
 # Author: Arun Prakash Jana
 
 # comprova si pmount és instal·lat
-[ -z "$(pacman -Q | grep "^pmount\s")" ] && trizen -S pmount
+#[ -z "$(pacman -Q | grep "^pmount\s")" ] && trizen -S pmount
+[ "$(xbps-query "$x" | awk '{print $1}')" = "[-]" ] && sudo xbps-install pmount
 
 prompt="device name [e.g. sdXn] ('l'ist, 'q'uit): "
 

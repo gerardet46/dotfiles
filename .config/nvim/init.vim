@@ -43,6 +43,7 @@ Plug 'ncm2/ncm2-pyclang'
 Plug 'mattn/emmet-vim'
 Plug 'ap/vim-css-color'
 Plug 'junegunn/fzf.vim'
+Plug 'kovetskiy/sxhkd-vim'
 call plug#end()
 
 

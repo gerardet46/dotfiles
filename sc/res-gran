@@ -1,0 +1,2 @@
+#!/usr/bin/sh
+xrandr -s 1600x900

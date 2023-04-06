@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+
+case "$@" in
+    a) dm-tabc add ;;
+    A) dm-tabc add-dm ;;
+    c) dm-tabc create ;;
+    C) dm-tabc create-dm ;;
+    d) dm-tabc del ;;
+    D) dm-tabc del-dm ;;
+esac

@@ -2,6 +2,8 @@
 
 # aquest script utiliza "mpc"
 
+mpc >/dev/null 2>&1 || exit
+
 # ses dades són a partir de sa 2na columna
 text=$(mpc current)
 icon=$(mpc | grep "\[playing\]" > /dev/null && echo "" || echo "")

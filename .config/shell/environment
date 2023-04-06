@@ -3,7 +3,7 @@
 # general
 export TERMINAL="st"
 export EDITOR="nvim"
-export BROWSER="librewolf"
+export BROWSER="firefox"
 export QT_QPA_PLATFORMTHEME="qt5ct"
 export _JAVA_OPTIONS='-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true'
 

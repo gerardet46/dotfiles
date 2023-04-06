@@ -1,0 +1,8 @@
+#!/usr/bin/sh
+
+# same as colorrefresh but with a dmenu/fzf interface
+
+themes="nord\ngruvbox-dark\ndracula\ncontrast"
+output="$(printf "$themes" | dmenu || printf "$themes" | fzf)"
+
+[ -z "$output" ] || colorrefresh "$output"

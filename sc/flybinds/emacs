@@ -1,0 +1,7 @@
+#!/usr/bin/sh
+
+case "$@" in
+    e) emacsclient -c ;;
+    f) emacsclient -c --eval "(elfeed)" ;;
+    m) emacsclient -c --eval "(mu4e)" ;;
+esac

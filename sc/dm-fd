@@ -1,0 +1,12 @@
+#!/usr/bin/sh
+
+# opens a file from dmenu recursively searched by fd
+# 1: directory
+# 2: glob pattern to match ("*.{pdf,tex}", for example)
+
+directory="${1:-$HOME}"
+glob="${2:-"*.*"}"
+
+selected="$(fd -t f -g "$glob" "$directory" | dmenu -l 20 -p "Obri:")"
+
+xdg-open "$selected" >/dev/null &
