@@ -2,9 +2,8 @@
 # Any customization should be done in ~/.gtkrc-2.0.mine instead.
 
 include "/home/gerry/.gtkrc-2.0.mine"
-#gtk-theme-name="Arc-Gruvbox"
-gtk-theme-name="Blackbird"
-gtk-icon-theme-name="ePapirus-Dark"
+gtk-theme-name="Yaru-blue-dark"
+gtk-icon-theme-name="Yaru-blue-dark"
 gtk-font-name="Ubuntu 11"
 gtk-cursor-theme-name="Adwaita"
 gtk-cursor-theme-size=0

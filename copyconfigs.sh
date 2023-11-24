@@ -27,6 +27,13 @@ done <<EOF
 .emacs.d/custom.el
 .emacs.d/snippets/
 
+# Doom Emacs
+.config/doom/snippets/
+.config/doom/config.org
+.config/doom/custom.el
+.config/doom/init.el
+.config/doom/packages.el
+
 # In home directory
 .zshrc
 .gtkrc-2.0
@@ -63,6 +70,6 @@ sc/
 .config/shell/
 .config/tg/conf.py
 .config/tmux/tmux.conf
-.config/wallpaper
+#.config/wallpaper
 .config/zathura/
 EOF

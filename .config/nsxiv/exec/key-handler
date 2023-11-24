@@ -14,12 +14,13 @@
 
 rotate() {
 	degree="$1"
-	tr '\n' '\0' | xargs -0 realpath | sort | uniq | while read file; do
-		case "$(file -b -i "$file")" in
-		image/jpeg*) jpegtran -rotate "$degree" -copy all -outfile "$file" "$file" ;;
-		*)           mogrify  -rotate "$degree" "$file" ;;
-		esac
-	done
+	#tr '\n' '\0' | xargs -0 realpath | sort | uniq | while read file; do
+	#	case "$(file -b -i "$file")" in
+		#image/jpeg*) jpegtran -rotate "$degree" -copy all -outfile "$file" "$file" ;;
+	#	*)           mogrify  -rotate "$degree" "$file" ;;
+	#	esac
+	#done
+	mogrify  -rotate "$degree" "$2"
 }
 
 # eliminar
@@ -52,8 +53,8 @@ do
         "y")      echo -n "$fullpath" | xclip -in -selection clipboard ;;
         "c")      xclip -selection clipboard -target image/png "$file" ;;
         "g")      gimp "$fullpath" & ;;
-        "comma")  rotate 270 ;;
-        "period") rotate  90 ;;
-        "slash")  rotate 180 ;;
+        "comma")  rotate 270 "$fullpath" ;;
+        "period") rotate  90 "$fullpath" ;;
+        "slash")  rotate 180 "$fullpath" ;;
     esac
 done

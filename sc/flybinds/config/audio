@@ -6,3 +6,6 @@ case "$1" in
     #"2") pactl set-card-profile 0 output:hdmi-stereo-extra1+input:analog-stereo ;;
     "2") pactl set-card-profile 0 output:hdmi-stereo+input:analog-stereo ;;
 esac
+
+# refresh status bar
+kill -44 $(pidof dwmblocks)

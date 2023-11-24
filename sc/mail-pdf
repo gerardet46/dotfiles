@@ -10,10 +10,10 @@
 
 infile="$(echo "$2" | sed "s/file\:\/\///")"
 stylesheet="$HOME/sc/wkhtmltopdf-stylesheet.css"
-
 case "$1" in
     save)
-        name="$HOME/bx/mu4e/mails/$(date +'%d-%m-%Y %H:%M:%S').pdf"
+        nom="$(printf "" | dmenu -p "Nom de l'arxiu: ")"
+        name="$HOME/bx/mu4e/mails/$nom.pdf"
         if [ -z "$stylesheet" ]; then
             wkhtmltopdf "$infile" "$name"
         else

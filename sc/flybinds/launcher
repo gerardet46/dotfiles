@@ -6,18 +6,18 @@ _browser() {
 }
 
 _telegram() {
-    which telegram-desktop >/dev/null && telegram-desktop || /opt/Telegram/Telegram &
+    which telegram-desktop >/dev/null && setsid  telegram-desktop || setsid /opt/Telegram/Telegram
 }
 
 _main() {
     case "$@" in
-        w) $BROWSER & ;;
-        f) st -e nnn ;;
-        d) dm-browse ;;
+        w) setsid $BROWSER & ;;
+        f) setsid st -e nnn ;;
+        d) setsid dm-browse ;;
         t) _telegram ;;
-        m) st -e neomutt ; pkill -RTMIN+12 dwmblocks ;;
-        e) emacsclient -c ;;
-        c) st -e calcurse ;;
+        m) setsid st -e neomutt ; pkill -RTMIN+12 dwmblocks ;;
+        e) setsid emacsclient -c ;;
+        c) setsid st -e calcurse ;;
     esac
 }
 

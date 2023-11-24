@@ -5,8 +5,8 @@ alias ...='cd ../..'
 alias la='ls -a'
 alias ll='ls -l'
 alias l='ls -al'
-alias sc='cd $HOME/sc/ ; $EDITOR "$(fzf)";'
-alias pkg='cd $HOME/pkg/ ; $EDITOR "$(fzf)";'
+alias sc='cd $HOME/sc/ ; $EDITOR "$(fzf)"; cd $HOME'
+alias pkg='cd $HOME/pkg/ ; $EDITOR "$(fzf)"; cd $HOME'
 
 # void
 alias \
@@ -35,7 +35,7 @@ alias \
 
 # These common commands are just too long! Abbreviate them.
 alias \
-	ka="killall" \
+	ka="pkill" \
 	g="git" \
 	trem="transmission-remote" \
 	YT="youtube-viewer" \

@@ -1,40 +1,63 @@
 #!/usr/bin/sh
 
+DIR="/tmp/pdfjoin"
+MASTER="$DIR/master.tex"
+CURDIR="$(pwd)"
+
 if [ -z "$1" ]; then
     echo "Merge 4 pages in one from a PDF file."
     echo "Usage: pdf-join2x2 [in.pdf]"
     exit
 fi
 
+# print formatted LaTeX to file
+printff() {
+    echo "$1" | sed 's/##/\\/' >> "$MASTER"
+}
+
 n=$(pdftk "$1" dump_data | grep NumberOfPages | awk '{print $2}')
 i=1
 
+
+# clean directory
+[ -d "$DIR" ] && rm -r "$DIR"
+mkdir "$DIR"
+
 # header
-printf "\\documentclass[a4paper]{article}\n"
-printf "\\usepackage[margin=0mm,nohead,nofoot]{geometry}\n"
-printf "\\usepackage{pdfpages}\n"
-printf "\\pagestyle{empty}\n"
-printf "\\parindent0pt\n"
-printf "\\"
-printf "newcommand\\doc{$(realpath "$1")}\n"
-printf "\n\\"
-printf "begin{document}\n"
+printff "##documentclass[a4paper]{article}"
+printff "##usepackage[margin=0mm,nohead,nofoot]{geometry}"
+printff "##usepackage{pdfpages}"
+printff "##pagestyle{empty}"
+printff "##parindent0pt\n"
+printff "##newcommand\\doc{$(realpath "$1")}\n"
+printff "##begin{document}"
 
 # add all merges
 while [ "$i" -le "$((n-4))" ]; do
-    printf "\t\\includepdfmerge[nup=2x2,landscape]{\\doc,$i,\\doc,$((i+1)),\\doc,$((i+2)),\\doc,$((i+3))}\n"
+    printff "\t##includepdfmerge[nup=2x2,landscape]{\\doc,$i,\\doc,$((i+1)),\\doc,$((i+2)),\\doc,$((i+3))}"
     i=$((i+4))
 done
 
 # take into account last pages
 if [ "$i" -eq "$((n))" ]; then
-    printf "\t\\includepdfmerge[nup=2x2,landscape]{\\doc,$i}\n"
+    printff "\t##includepdfmerge[nup=2x2,landscape]{\\doc,$i}"
 elif [ "$i" -eq "$((n-1))" ]; then
-    printf "\t\\includepdfmerge[nup=2x2,landscape]{\\doc,$i,\\doc,$((i+1))}\n"
+    printff "\t##includepdfmerge[nup=2x2,landscape]{\\doc,$i,\\doc,$((i+1))}"
 elif [ "$i" -eq "$((n-2))" ]; then
-    printf "\t\\includepdfmerge[nup=2x2,landscape]{\\doc,$i,\\doc,$((i+1)),\\doc,$((i+2))}\n"
+    printff "\t##includepdfmerge[nup=2x2,landscape]{\\doc,$i,\\doc,$((i+1)),\\doc,$((i+2))}"
 elif [ "$i" -eq "$((n-3))" ]; then
-    printf "\t\\includepdfmerge[nup=2x2,landscape]{\\doc,$i,\\doc,$((i+1)),\\doc,$((i+2)),\\doc,$((i+3))}\n"
+    printff "\t##includepdfmerge[nup=2x2,landscape]{\\doc,$i,\\doc,$((i+1)),\\doc,$((i+2)),\\doc,$((i+3))}"
 fi
 
-echo "\\end{document}"
+printff "##end{document}"
+
+# compìle document
+cd "$DIR"
+pdflatex "$MASTER" >/dev/null
+cd "$CURDIR"
+cp "$(echo "$MASTER" | sed 's/tex$/pdf/')" "2x2_$1"
+
+echo "2x2_$1"
+
+
+

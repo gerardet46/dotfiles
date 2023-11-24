@@ -27,12 +27,12 @@ toggle_service() {
 
 case "$@" in
     a) pgrep xautolock &&
-        killall xautolock ||
+        pkill xautolock ||
         xautolock -time 7 -locker slock &
             ;;
 
     k) pgrep screenkey &&
-        killall screenkey ||
+        pkill screenkey ||
         screenkey &
             ;;
 
@@ -40,14 +40,14 @@ case "$@" in
     c) toggle_service cupsd ;;
     s) toggle_service sshd ;;
     t) pgrep xcompmgr &&
-        killall xcompmgr ||
+        pkill xcompmgr ||
         xcompmgr &
             ;;
     w)
         if [ -f "$HOME/.config/wallpaper" ]; then
             setwallpaper no
-            killall xcompmgr
-            rm $HOME/.config/wallpaper
+            pkill xcompmgr
+            #rm $HOME/.config/wallpaper
         else
             xcompmgr &
             setwallpaper

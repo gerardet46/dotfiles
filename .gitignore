@@ -1,5 +1,8 @@
 sc/cron
+sc/copia
 sc/emoji_list
+sc/cases*
+sc/*json
 
 # log files
 *.log

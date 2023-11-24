@@ -1,7 +1,8 @@
 #!/usr/bin/env sh
 
+
 folder="$HOME/img"
-nom="Captura $(date +'%d-%m-%Y %H:%M:%S').png"
+nom="Captura $(date +'%d-%m-%Y %H.%M.%S').png"
 ruta="$folder/$nom"
 temp="/tmp/captures/$nom"
 

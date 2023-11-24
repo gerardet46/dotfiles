@@ -41,11 +41,16 @@ remaps &
 pulseaudio --daemonize=true --exit-idle-time=-1
 
 # Autostart
-autostart="xcompmgr sxhkd redshift nm-applet unclutter dunst emacs-daemon"
+autostart="xcompmgr sxhkd redshift dunst emacs-daemon davmail"
 
 for program in $autostart; do
 	pidof -s "$program" || "$program" &
 done >/dev/null 2>&1
+
+unclutter -grab &
+
+cat sc/cases_dirs.org | grep '^=' | sed 's/^.//' | sed 's/.$//' >/tmp/dirs.txt
+inotifywait -rqm -o "$HOME/.cache/del.txt" --fromfile /tmp/dirs.txt -e moved_from,delete --format "%w%f" &
 
 # Ensure that xrdb has finished running before moving on to start the WM/DE.
 [ -n "$xrdbpid" ] && wait "$xrdbpid"

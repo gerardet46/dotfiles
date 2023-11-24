@@ -1,0 +1,16 @@
+# -*- mode: snippet -*-
+# name: divisio entera
+# key: zdiv
+# --
+
+{\par\centering
+\begin{tikzpicture}
+  \coordinate (D-1-2) at (0,0) {};
+
+  \Division{196}{2}{0}$0
+  \Division{98}{2}{0}
+  \FinDivision{1}
+
+  \draw[shorten <=2mm, ->, dashed] (C) to[out=-150,in=-65] (R196);
+\end{tikzpicture}
+\par}

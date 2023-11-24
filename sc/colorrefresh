@@ -23,4 +23,4 @@ unset f
 xrdb "$HOME"/.config/x11/xresources & xrdbpid=$!
 
 # kill dunst if running
-pidof dunst >/dev/null && killall dunst
+pidof dunst >/dev/null && pkill dunst

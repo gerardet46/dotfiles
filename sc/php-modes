@@ -1,0 +1,4 @@
+#!/usr/bin/sh
+
+fd -t f -x sh -c 'chmod 660 "{}" && chown gerry:_apache "{}"'
+fd -t d -x sh -c 'chmod 755 "{}" && chown gerry:_apache "{}"'

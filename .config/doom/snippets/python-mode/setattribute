@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: setattribute
+# key: self_
+# --
+self.__${1:attr} = ${2:$1}$0

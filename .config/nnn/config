@@ -3,11 +3,11 @@
 # config
 export VISUAL='nvim'
 export NNN_FIFO=/tmp/nnn.fifo
-export NNN_OPTS='gQreU'
-export NNN_BMS='d:~/dx;b:~/bx;v:~/vid;~:~/;/:/;u:/media;c:~/.config'
+export NNN_OPTS='gQeU'
+export NNN_BMS='s:~/sc;/:/;u:/media;c:~/.config;t:/tmp'
 export NNN_COLORS="2136"
 export NNN_ARCHIVE="\\.(7z|a|ace|alz|arc|arj|bz|bz2|cab|cpio|deb|gz|jar|lha|lz|lzh|lzma|lzo|rar|rpm|rz|t7z|tar|tbz|tbz2|tgz|tlz|txz|tZ|tzo|war|xpi|xz|Z|zip)$"
-export NNN_PLUG='P:fzplug;o:fzopen;c:fzcd;i:sxiv;k:kdeconnect;g:!git log;m:nmount;t:mtpmount;x:togglex;d:dragdrop;s:suedit;p:preview-tabbed;M:xdgdefault' # !chmod +x $nnn
+export NNN_PLUG='P:fzplug;o:fzopen;c:fzcd;k:kdeconnect;m:nmount;t:mtpmount;x:togglex;d:dragdrop;s:suedit;p:preview-tabbed;M:xdgdefault;z:zip;C:chmod;' # !chmod +x $nnn
 export NNN_SSHFS="sshfs -o reconnect,idmap=user,cache_timeout=3600,IdentityFile=$HOME/.ssh/drive/ger_rsa"
 
 # tema
@@ -16,6 +16,15 @@ export NNN_FCOLORS="$BLK$CHR$DIR$EXE$REG$HARDLINK$SYMLINK$MISSING$ORPHAN$FIFO$SO
 
 # obtenir fitxers seleccionats
 alias ncp="cat ${NNN_SEL:-${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.selection} | tr '\0' '\n'"
+alias npdf='xid="$(tabbed -ckd)";fd -0 -d 1 -e pdf | xargs -0 setsid zathura -e "$xid"'
+alias nimg='setsid nsxiv .'
+
+nhelp() {
+    echo "COMANDES:"
+    echo "ncp     mostra selecció"
+    echo "npdf    mostra PDFs a tabbed"
+    echo "nimg    mostra imatges a sxiv"
+}
 
 # cd-on-quit (C-G)
 if [ -f /usr/share/nnn/quitcd/quitcd.bash_zsh ]; then
