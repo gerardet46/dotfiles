@@ -114,8 +114,8 @@ layouts = [
 ]
 
 widget_defaults = dict(
-    font='Cantarell',
-    fontsize=16,
+    font='Ubuntu',
+    fontsize=14,
     padding=3,
 )
 extension_defaults = widget_defaults.copy()
@@ -145,7 +145,7 @@ screens = [
                     colour_no_updates="ff5500",
                     display_format='Actualitzacions: {updates}',
                     padding=10,
-                    execute="lxterminal -e sudo pacman -Syyu",
+                    execute="st -e sudo pacman -Syyu",
                 ),
                 widget.Clock(format='%Y-%m-%d %a %I:%M %p', padding=10),
                 widget.Systray(),
@@ -211,7 +211,7 @@ wmname = "LG3D"
 autostart = [
         "setxkbmap es",
         "feh --bg-fill /home/gerry/wallpaper.jpg",
-        "picom --no-vsync &",
+        "xcompmgr &",
         "nm-applet &",
 ]
 
