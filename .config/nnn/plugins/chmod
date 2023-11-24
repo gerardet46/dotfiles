@@ -1,0 +1,19 @@
+#!/usr/bin/env sh
+
+# Description: Canvia el mode de la selecció
+#
+# Dependencies: zip
+
+# Shell: POSIX compliant
+# Author: Gerard
+
+
+selection=${NNN_SEL:-${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.selection}
+
+read -r -p "Mode: " mode
+
+if [ -s "$selection" ]; then
+    xargs -0 -I {} chmod "$mode" {} < "$selection"
+else
+    chmod "$mode" "$1"
+fi

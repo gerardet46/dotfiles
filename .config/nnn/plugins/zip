@@ -1,0 +1,23 @@
+#!/usr/bin/env sh
+
+# Description: Fa un zip dels fitxers i carpetes seleccionats
+#
+# Dependencies: zip
+
+# Shell: POSIX compliant
+# Author: Gerard
+
+
+selection=${NNN_SEL:-${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.selection}
+
+read -r -p "Nom del zip (sense extensió): " nom
+
+if [ -s "$selection" ]; then
+    xargs -0 -I {} zip -r "$nom.zip" {} < "$selection"
+else
+    zip -r "$nom.zip" "$1"
+fi
+
+echo ""
+echo "Fet ($nom.zip)"
+read a

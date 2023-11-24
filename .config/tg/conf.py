@@ -11,8 +11,9 @@ PHONE = get_pass('telefon')
 LONG_MSG_CMD = "nvim + -c 'startinsert' {file_path}"
 
 # notifications
-NOTIFY_CMD = "pidof dwm && notify-send -i {icon_path} {title} {msg}"
-# NOTIFY_CMD = ""
+#NOTIFY_CMD = "pidof dwm && notify-send -i {icon_path} {title} {msg} || echo '{title} {msg}' >$HOME/.config/tmux/status"
+# NOTIFY_CMD = "pidof dwm && notify-send -i {icon_path} {title} {msg}"
+NOTIFY_CMD = ""
 
 # voice recording
 VOICE_RECORD_CMD = (

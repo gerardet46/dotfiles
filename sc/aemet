@@ -1,0 +1,160 @@
+#!/usr/bin/env python3
+
+import xml.etree.ElementTree as ET
+import requests
+import tabulate
+import os
+import os.path
+import sys
+import json
+from datetime import datetime
+
+# variables
+JSON = os.path.expanduser("~/sc/aemet.json")
+PERIODES = ["00-06", "06-12", "12-18", "18-24"]
+PERIODES2 = ["00-12", "12-24"]
+LOCALITATS = {}
+DIES_SETMANA = {}
+TRADUCCIONS = {}
+
+# carregam dades
+f = open(JSON, "r")
+data = json.load(f)
+LOC_DEFECTE = data['loc_defecte']
+LOCALITATS = data['localitats']
+DIES_SETMANA = data['setmana']
+TRADUCCIONS = data['traduccions']
+f.close()
+
+# localitat desitjada
+localitat = LOC_DEFECTE if len(sys.argv) == 1 else sys.argv[1].lower()
+
+if localitat not in LOCALITATS:
+    print(f"Localitat '{localitat}' no trobada")
+    exit(0)
+
+localitat = LOCALITATS[localitat]
+url = f"http://www.aemet.es/xml/municipios/localidad_{localitat}.xml"
+
+# petició i resposta
+resposta = requests.get(url).content
+xml      = ET.fromstring(resposta)
+
+# obtenim municipi i província
+nom = xml.find("nombre").text
+provincia = xml.find("provincia").text
+
+# tag <prediccion>
+prediccio = xml.find("prediccion")
+
+# veim la previsió per dies
+previsio = {}
+for dia in prediccio.findall("dia"):
+    data = datetime.strptime(dia.get("fecha"), "%Y-%m-%d").strftime("%d/%m/%y")
+    prev_dia = {}
+
+    try:
+        prev_dia["Índex UV"] = dia.find("uv_max").text
+    except:
+        prev_dia["Índex UV"] = ""
+
+    # per períodes
+    prev_dia["periodes"] = {}
+    for per in PERIODES:
+        prev_dia["periodes"][per] = {}
+    for per in PERIODES2:
+        prev_dia["periodes"][per] = {}
+
+    # carregam la previsió del dia (per períodes)
+
+    # prob. precipitació
+    periodes = False
+    sense_periodes = False
+    for prob in dia.findall("prob_precipitacion"):
+        if prob.get("periodo") is None:
+            sense_periodes = True
+            break
+        if prob.get("periodo") in PERIODES:
+            periodes = True
+            prev_dia["periodes"][prob.get("periodo")]["Pluja"] = prob.text or ""
+
+    # en els darrers dies no tenim períodes, sino que és general
+    if sense_periodes:
+        descr = dia.find("estado_cielo").get("descripcion")
+        for trad in TRADUCCIONS:
+            descr = descr.replace(trad, TRADUCCIONS[trad])
+
+        prev_dia["periodes"]["Tot lo dia"] = {
+            "Vent": (dia.find("viento").find("velocidad").text, dia.find("viento").find("direccion").text),
+            "Estat del cel": descr,
+            "Pluja": dia.find("prob_precipitacion").text
+        }
+        prev_dia["Temperatura màxima"] = dia.find("temperatura").find("maxima").text
+        prev_dia["Temperatura mínima"] = dia.find("temperatura").find("minima").text
+    else:
+        if not periodes:
+            for prob in dia.findall("prob_precipitacion"):
+                if prob.get("periodo") in PERIODES2:
+                    prev_dia["periodes"][prob.get("periodo")]["Pluja"] = prob.text or ""
+
+        # estat del cel
+        for desc in dia.findall("estado_cielo"):
+            if desc.get("periodo") in (PERIODES if periodes else PERIODES2):
+                descr = desc.get("descripcion")
+                for trad in TRADUCCIONS:
+                    descr = descr.replace(trad, TRADUCCIONS[trad])
+
+                prev_dia["periodes"][desc.get("periodo")]["Estat del cel"] = descr
+
+        # temperatura
+        temp = dia.find("temperatura")
+        prev_dia["Temperatura màxima"] = temp.find("maxima").text
+        prev_dia["Temperatura mínima"] = temp.find("minima").text
+
+        for parcial in temp.findall("dato"):
+            per = [x for x in (PERIODES if periodes else PERIODES2) if x.endswith(parcial.get("hora"))][0]
+            prev_dia["periodes"][per]["Temp."] = parcial.text
+
+        # vent
+        for v in dia.findall("viento"):
+            if v.get("periodo") in (PERIODES if periodes else PERIODES2):
+                prev_dia["periodes"][v.get("periodo")]["Vent"] = (
+                    v.find("velocidad").text,
+                    v.find("direccion").text,
+                )
+
+    previsio[data] = prev_dia
+
+
+# ja tenim tota la previsió
+resultat = f"Predicció setmanal\nMunicipi:  {nom}\nProvíncia: {provincia}"
+
+for dia in previsio.keys():
+    # trobar dia de la setmana
+    dia_setmana = DIES_SETMANA[datetime.strptime(dia, "%d/%m/%y").strftime("%a")]
+
+    resultat += f"\n\n{dia_setmana} dia {dia}"
+    resultat += f"\nTemp. Mín/Màx:  {previsio[dia]['Temperatura mínima']} / {previsio[dia]['Temperatura màxima']} ºC"
+    resultat += f"\nÍndex UV màxim: {previsio[dia]['Índex UV']}" if previsio[dia]["Índex UV"] else ""
+
+    resultat += "\n"
+
+    array = []
+    headers = ["Període", "Temp.", "Pluja", "Vent", "Estat del cel"]
+    for periode in previsio[dia]["periodes"].keys():
+        try:
+            dct = previsio[dia]["periodes"][periode]
+            array.append([
+                periode,
+                dct["Temp."] + " ºC" if "Temp." in dct else "",
+                dct["Pluja"] +  (" %" if dct["Pluja"] else "-"),
+                dct["Vent"][0] + " (" + dct["Vent"][1] + ")",
+                dct["Estat del cel"]
+            ])
+        except:
+            pass
+
+    if array:
+        resultat += tabulate.tabulate(array, headers, tablefmt="fancy_grid", colalign=("center", "center", "center", "center", "left"))
+
+os.system(f"echo '{resultat}' | less")

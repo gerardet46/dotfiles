@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: alink
+# key: alink
+# --
+<a name="$1"></a>$0

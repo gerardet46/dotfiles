@@ -22,7 +22,8 @@ str() {
 
 # primer comprovam si està mutejat
 if [ "$(pacmd list-sinks | awk '/muted/ { print $2 }')" = "yes" ]; then
-	str "SILENCIAT"
+	#str "SILENCIAT"
+	str "  "
 	exit 0
 fi;
 

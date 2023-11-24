@@ -1,10 +1,12 @@
 #!/usr/bin/env sh
 
 case "$1" in
-    a) loginctl poweroff ;;
-    r) loginctl reboot ;;
+    a) sudo poweroff ;;
+    r) sudo reboot ;;
     b) slock & xset dpms force off ;;
-    h) slock loginctl hibernate ;;
-    s) slock loginctl suspend ;;
+    #h) slock loginctl hibernate ;;
+    #s) slock loginctl suspend ;;
+    h) ZZZ ;;
+    s) zzz ;;
     x) i3-msg exit || killall dwm ;;
 esac

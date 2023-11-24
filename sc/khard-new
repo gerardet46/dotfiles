@@ -1,0 +1,49 @@
+#!/usr/bin/env sh
+#
+# Dependències: khard, vdirsync
+
+echo "Ús:"
+echo "    khard-new        nou contacte"
+echo "    khard-new sync   nou contacte i sincronitza (vdirsync)"
+echo ""
+
+read -p "Nom: " nom
+read -p "Llinatge: " llinatge
+
+#read -p "Aniversari (yyyy-mm-dd): " aniversari
+
+#read -p "Organització: " org
+
+read -p "Tel. Mòbil: " mobil
+#read -p "Tel. Treball: " treball
+#read -p "Tel. Fix: " fix
+
+read -p "Correu personal: " emailpersonal
+#read -p "Correu treball: " emailtreball
+
+#read -p "Adreça: " adr
+
+doc="
+First name : $nom
+Last name  : $llinatge
+
+#Birthday : $aniversari
+
+#Organisation : $org
+
+Phone :
+    cell : $mobil
+#    work : $treball
+#    home : $fix
+
+Email :
+    home : $emailpersonal
+#    work : $emailtreball
+
+#Address :
+#    home :
+#        Street   : $adr
+"
+
+echo "$doc" | khard new
+[ "$1" = "sync" ] && vdirsyncer sync

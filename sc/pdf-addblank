@@ -1,0 +1,22 @@
+#!/usr/bin/sh
+# Add n blank pages to PDF
+
+BLANK=/tmp/blank.pdf
+TYPE="${4:-a4}"  # a4, letter
+
+if [ -z "$3" ]; then
+    echo "Usage: pdf-addblank [n] [input.pdf] [output.pdf] [type?]"
+    echo "       n:    number of pages"
+    echo "       type: a4, letter (default a4)"
+    exit 1
+fi
+
+# create blank pdf
+psscript=""
+for x in $(seq $1); do
+    psscript="showpage $psscript"
+done
+echo "$psscript" | ps2pdf -sPAPERSIZE=$TYPE - "$BLANK"
+
+# combine
+pdftk "$2" "$BLANK" cat output "$3"

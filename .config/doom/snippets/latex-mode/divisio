@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: divisio
+# key: divisio
+# --
+
+\usepackage{xlop}
+
+% \opidiv{316}{50}

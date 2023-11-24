@@ -53,9 +53,9 @@ flybinds.titlepadding:   5
 flybinds.borderpx:       2
 
 ! dwm
-dwm.font:            Ubuntu:size=12
+dwm.font:            Ubuntu:size=11
 !! bar
-dwm.user_bh:         24 
+dwm.user_bh:         22
 dwm.primarycolor:    $COL_FOSC
 dwm.secondarycolor:  $COL_CLAR
 dwm.normbgcolor:     $COL_BG_0
@@ -76,19 +76,15 @@ Nsxiv.bar.foreground:    $COL_W2
 Nsxiv.mark.foreground:   $COL_CLAR
 
 ! tabbed
-tabbed.font:   Ubuntu:size=12
-!! color de fons normal
-tabbed.color0: $COL_0
-!! color de text normal
-tabbed.color4: $COL_FOSC
-!! color de fons seleccionat
-tabbed.color5: $COL_FOSC
-!! color de text seleccionat
-tabbed.color7: $COL_W1
-!! color de fons urgent
-tabbed.color2: $COL_W1
-!! color de text urgent
-tabbed.color3: $COL_0
+tabbed.font:        Ubuntu:size=11
+tabbed.normbgcolor: $COL_0
+tabbed.normfgcolor: $COL_FOSC
+tabbed.selbgcolor:  $COL_2
+tabbed.selfgcolor:  $COL_W1
+tabbed.urgbgcolor:  $COL_W1
+tabbed.urgfgcolor:  $COL_0
+tabbed.tabwidth:    150
+tabbed.barHeight:    0
 
 ! x11-ssh-askpass
 SshAskpass.Dialog.title: Autenticació

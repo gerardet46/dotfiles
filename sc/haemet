@@ -1,0 +1,134 @@
+#!/usr/bin/env python3
+
+import xml.etree.ElementTree as ET
+import requests
+import tabulate
+import os
+import os.path
+import sys
+import json
+from datetime import datetime
+
+# variables
+JSON = os.path.expanduser("~/sc/aemet.json")
+LOCALITATS = {}
+DIES_SETMANA = {}
+TRADUCCIONS = {}
+
+# carregam dades
+f = open(JSON, "r")
+data = json.load(f)
+LOC_DEFECTE = data['loc_defecte']
+LOCALITATS = data['localitats']
+DIES_SETMANA = data['setmana']
+TRADUCCIONS = data['traduccions']
+f.close()
+
+# localitat desitjada
+localitat = LOC_DEFECTE if len(sys.argv) == 1 else sys.argv[1].lower()
+
+if localitat not in LOCALITATS:
+    print(f"Localitat '{localitat}' no trobada")
+    exit(0)
+
+localitat = LOCALITATS[localitat]
+url = f"https://www.aemet.es/xml/municipios_h/localidad_h_{localitat}.xml"
+
+# petició i resposta
+resposta = requests.get(url).content
+xml      = ET.fromstring(resposta)
+
+# obtenim municipi i província
+nom = xml.find("nombre").text
+provincia = xml.find("provincia").text
+
+# tag <prediccion>
+prediccio = xml.find("prediccion")
+
+# veim la previsió per dies
+previsio = {}
+for dia in prediccio.findall("dia"):
+    data = datetime.strptime(dia.get("fecha"), "%Y-%m-%d").strftime("%d/%m/%y")
+    prev_dia = {}
+
+    try:
+        prev_dia["Sortida sol"] = dia.get("orto")
+        prev_dia["Posta sol"] = dia.get("ocaso")
+    except:
+        prev_dia["Sortida sol"] = ""
+        prev_dia["Posta sol"] = ""
+
+    # per períodes
+    prev_dia["periodes"] = {}
+    # estat del cel
+    for desc in dia.findall("estado_cielo"):
+        descr = desc.get("descripcion")
+        for trad in TRADUCCIONS:
+            descr = descr.replace(trad, TRADUCCIONS[trad])
+        per = desc.get("periodo")
+        if per not in prev_dia["periodes"]:
+            prev_dia["periodes"][per] = {}
+        prev_dia["periodes"][per]["Estat del cel"] = descr
+
+    # temperatura
+    for param in ["temperatura", "sens_termica", "precipitacion", "nieve", "humedad_relativa"]:
+        for parcial in dia.findall(param):
+            per = parcial.get("periodo")
+            if per not in prev_dia["periodes"]:
+                prev_dia["periodes"][per] = {}
+            prev_dia["periodes"][per][param] = parcial.text
+
+    # vent
+    for v in dia.findall("viento"):
+        per = v.get("periodo")
+        if per not in prev_dia["periodes"]:
+            prev_dia["periodes"][per] = {}
+
+        prev_dia["periodes"][per]["Vent"] = (
+            v.find("velocidad").text,
+            v.find("direccion").text,
+        )
+
+    previsio[data] = prev_dia
+
+
+# ja tenim tota la previsió
+resultat = f"Predicció per hores\nMunicipi:  {nom}\nProvíncia: {provincia}"
+
+for dia in previsio.keys():
+    # trobar dia de la setmana
+    dia_setmana = DIES_SETMANA[datetime.strptime(dia, "%d/%m/%y").strftime("%a")]
+
+    resultat += f"\n\n{dia_setmana} dia {dia}"
+    resultat += f"\nSortida sol: {previsio[dia]['Sortida sol']}h"
+    resultat += f"\nPosta sol:   {previsio[dia]['Posta sol']}h"
+
+    resultat += "\n"
+
+    array = []
+    headers = ["Hora", "Temp.", "Sens.", "Pluja", "Vent", "Hum.", "Estat del cel"]
+    for periode in previsio[dia]["periodes"].keys():
+        try:
+            dct = previsio[dia]["periodes"][periode]
+            if "precipitacion" not in dct:
+                dct["precipitacion"] = ""
+            if "humedad_relativa" not in dct:
+                dct["humedad_relativa"] = ""
+            if "Vent" not in dct:
+                dct["Vent"] = ["0", "C"]
+            array.append([
+                periode,
+                dct["temperatura"] + " ºC" if "temperatura" in dct else "",
+                dct["sens_termica"] + " ºC" if "sens_termica" in dct else "",
+                dct["precipitacion"],
+                dct["Vent"][0] + " (" + dct["Vent"][1] + ")",
+                dct["humedad_relativa"] +  (" %" if dct["humedad_relativa"] else "-"),
+                dct["Estat del cel"]
+            ])
+        except:
+            pass
+
+    if array:
+        resultat += tabulate.tabulate(array, headers, tablefmt="fancy_grid", colalign=("center", "center", "center", "center", "left"))
+
+os.system(f"echo '{resultat}' | less")

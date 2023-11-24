@@ -36,28 +36,41 @@ autoload -U colors && colors
 autoload -Uz promptinit && promptinit
 
 prompt_mytheme_setup() {
-    PS1="%F{yellow}%n%F{green}[%m] %F{blue}%1~%f%b%B%(?.%F{grey}.%F{red}) %(!.#.$)%f%b "
+    PS1="%F{magenta}%n%F{yellow}[%m] %F{blue}%1~%f%b%B%(?.%F{grey}.%F{red}) %(!.#.$)%f%b "
 }
 prompt_themes+=( mytheme )
 prompt mytheme
 
+function xterm_title_preexec () {
+	#print -Pn -- '\e]2;%n@%m %~ %# ' && print -n -- "${(q)1}\a"
+	print -n -- "\e]2;st - ${(q)1}\a"
+	#[[ "$TERM" == 'screen'* ]] && { print -Pn -- '\e_\005{g}%n\005{-}@\005{m}%m\005{-} \005{B}%~\005{-} %# ' && print -n -- "${(q)1}\e\\"; }
+}
+
+add-zsh-hook -Uz preexec xterm_title_preexec
 # prompt for which WM/session init
 # remove the sed pipe to obtain also the number
-if [ "$(echo "$(tty)" | sed 's/[0-9]//g')" = "/dev/tty" ] ; then
-    # ask for display
-    echo ""
-    echo "Introdueix el nom de la sessió: "
-    echo ""
-    echo "- tty"
-    echo "- dwm (predeterminat)"
-    echo ""
-    printf "Selecció: "
+#if [ "$(echo "$(tty)" | sed 's/[0-9]//g')" = "/dev/tty" ] ; then
+    ## ask for display
+    #echo ""
+    #echo "Introdueix el nom de la sessió: "
+    #echo ""
+    #echo "- tty"
+    #echo "- dwm (predeterminat)"
+    #echo ""
+    #printf "Selecció: "
 
-    read what
+    #read what
 
     # start session if it's not tty
-    [ "$what" = "tty" ] || startx ~/.xinitrc $what
- fi
+    #[ "$what" = "tty" ] || startx ~/.xinitrc $what
+#fi
+
+#startx ~/.xinitrc
+
+if [ "$(echo "$(tty)" | sed 's/[0-9]//g')" = "/dev/tty" ] ; then
+    startx
+fi
 
 # set colors of tty
 # available colors:

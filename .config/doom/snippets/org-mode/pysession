@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: py-session
+# key: pys
+# --
+#+begin_src python :session :results ${1:output} ${2:raw drawer}
+  $0
+#+end_src

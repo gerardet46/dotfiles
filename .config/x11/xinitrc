@@ -17,7 +17,7 @@ session=${1:-dwm}
 case $session in
     dwm)
         dwmblocks &
-        ssh-agent dwm
+        dbus-run-session dwm
         ;;
     *) #ssh-agent $session
         dbus-run-session $session

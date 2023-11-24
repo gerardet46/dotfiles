@@ -1,0 +1,591 @@
+#+title:  Configuració Doom Emacs
+#+author: Gerard
+#+email:  gerrysoft@outlook.es
+#+language: ca
+
+#+property: header-args :results silent
+
+* Dreceres de teclat
+** Sense Evil
+Algunes dreceres són més còmodes sense ~SPC~.
+| Tecla | Acció                            |
+|-------+----------------------------------|
+| ~C-M-k~ | Anar a la finestra de dalt       |
+| ~C-M-j~ | Anar a la finestra de baix       |
+| ~C-M-l~ | Anar a la finestra de la dreta   |
+| ~C-M-h~ | Anar a la finestra de l'esquerra |
+|-------+----------------------------------|
+| ~C-M-y~ | Copiar enllaç d'un buffer        |
+| ~M-TAB~ | Switch a l'anterior buffer       |
+
+#+begin_src emacs-lisp
+  (global-set-key (kbd "C-M-k") 'windmove-up)
+  (global-set-key (kbd "C-M-j") 'windmove-down)
+  (global-set-key (kbd "C-M-l") 'windmove-right)
+  (global-set-key (kbd "C-M-h") 'windmove-left)
+  (global-set-key (kbd "C-M-y") 'link-hint-copy-link)
+  (global-set-key (kbd "M-TAB") 'evil-switch-to-windows-last-buffer)
+#+end_src
+
+** Consult
+Per afegir algunes dreceres a =consult=, com ara cercar fitxers  per extensió (amb ~SPC f t~) o bé =.tex= amb ~SPC f T.~
+#+begin_src emacs-lisp
+;; demana per extensió i cerca els arxius
+(defun my/consult-file (ext)
+  (interactive "sExtensió: ")
+  (consult-find "~/" (concat "\\(\\." ext "$\\)#")))
+
+;; cas particular per LaTeX
+(defun my/consult-tex ()
+  (interactive)
+  (my/consult-file "tex"))
+
+;; accessible amb SPC f t/T
+(map! :leader
+      (:prefix "f"
+      :desc "find LaTeX files" "t" 'my/consult-tex
+      :desc "find by extension" "x" 'my/consult-file))
+#+end_src
+
+* Aparença
+** Tema
+#+begin_src emacs-lisp
+(setq doom-theme 'doom-gruvbox)
+#+end_src
+
+** Fonts
+Utilitzam les fonts d'Ubuntu i també /variable-pitch/ per combinar /monospace/ per documents Org.
+#+begin_src emacs-lisp
+(setq doom-font (font-spec :family "Ubuntu Mono" :size 18)
+      doom-variable-pitch-font (font-spec :family "Ubuntu" :size 18)
+      doom-big-font (font-spec :family "Ubuntu Mono" :size 25))
+
+(use-package! mixed-pitch
+  :hook (org-mode . mixed-pitch-mode)
+  :config
+  (setq mixed-pitch-face 'variable-pitch))
+#+end_src
+
+** Números de línia
+#+begin_src emacs-lisp
+    (setq display-line-numbers-type 'relative)
+#+end_src
+
+** Barra d'estat (modeline)
+#+begin_src emacs-lisp
+  (setq doom-modeline-persp-name t)
+#+end_src
+
+** Transparència
+Posa transparència a tots els frames (la seleccionada i la resta). En aquest exemple es posa al 90% per a les actives i 85% per les desactives.
+
+També implementam la funció =toggle-transparency=, que es pot executar amb ~SPC t t~.
+#+begin_src emacs-lisp
+  (set-frame-parameter (selected-frame) 'alpha '(90 . 85)) ;; (active . inactive)
+  (add-to-list 'default-frame-alist '(alpha . (90 . 85)))  ;; (active . inactive)
+
+  ;; funció per fer toggle (from Emacs Wiki)
+  (defun toggle-transparency ()
+    (interactive)
+    (let ((alpha (frame-parameter nil 'alpha)))
+      (set-frame-parameter
+       nil 'alpha
+       (if (eql (cond ((numberp alpha) alpha)
+                      ((numberp (cdr alpha)) (cdr alpha))
+                      ;; Also handle undocumented (<active> <inactive>) form.
+                      ((numberp (cadr alpha)) (cadr alpha)))
+                100)
+           '(90 . 85) '(100 . 100)))))
+
+;; fem la funció executable amb SPC t t
+(map! :leader
+      (:prefix ("t" . "toggle")
+       :desc "Transparency" "t" #'toggle-transparency))
+#+end_src
+
+* Miscel·lània
+** popups
+Podem canviar paràmetres dels popups com ara l'altura, segons el mode. Veure funció =set-popup-rule!=.
+#+begin_src emacs-lisp
+(set-popup-rule! "\\*Man" :height 0.8 :select t :modeline t)
+(set-popup-rule! "\\*help" :height 0.7)
+#+end_src
+
+** resize window
+Amb el paquet =resize-window= es pot canviar el tamany de les finestres més còmodament, com si fos per fer zoom.
+| Tecla | Acció                          |
+|-------+--------------------------------|
+| ~C-c w~ | Entra en el mode /resize-window/ |
+| ~+~     | Incrementar verticalment       |
+| ~-~     | Decrementar verticalment       |
+| ~>~     | Incrementar horitzontalment    |
+| ~<~     | Decrementar horitzontalment    |
+
+#+begin_src emacs-lisp
+(setq resize-window-dispatch-alist
+      '((?+ resize-window--enlarge-down          " Inc. vertical" nil)
+        (?- resize-window--enlarge-up            " Dec. vertical" nil)
+        (?> resize-window--enlarge-horizontally  " Inc. horitzontal" nil)
+        (?< resize-window--shrink-horizontally   " Dec. horitzontal" nil)
+        (?r resize-window--reset-windows         " Resize - reset window layout" nil)
+        (?w resize-window--cycle-window-positive " Resize - cycle window" nil)
+        (?W resize-window--cycle-window-negative " Resize - cycle window" nil)
+        (?2 split-window-below " Split window horizontally" nil)
+        (?3 split-window-right " Slit window vertically" nil)
+        (?0 resize-window--delete-window " Delete window" nil)
+        (?1 resize-window--kill-other-windows " Kill other windows (save state)" nil)
+        (?y resize-window--restore-windows " (when state) Restore window configuration" nil)
+        (?? resize-window--display-menu          " Resize - display menu" nil)))
+
+;; entrar en el mode
+(global-set-key (kbd "C-c w") 'resize-window)
+#+end_src
+
+** bookmarks
+Fem que es desin cada pic que s'editen (per defecte espera que es tanqui Emacs, cosa que no passa quan l'empram com a servidor).
+#+begin_src emacs-lisp
+(setq bookmark-save-flag 1)
+#+end_src
+
+** evil
+Configuram que al fer split vagi al l'altre buffer, perquè sigui més natural.
+#+begin_src emacs-lisp
+(setq evil-split-window-below t
+      evil-vsplit-window-right t)
+#+end_src
+
+** link-hint
+S'usa per fer accions sobre enllaços com es fa a extensions vim per navegadors, per exemple.
+
+Com l'emprarem per RSS, crearem una acció per obrir l'enllaç amb /mpv/.
+#+begin_src emacs-lisp
+;; funció per obrir a mpv
+(defun my/open-mpv (arg)
+  "Open in mpv."
+  (start-process "" nil "mpv" "--force-window=yes" arg))
+
+;; on podem trobar l'enllaç mpv
+(link-hint-define-type 'text-url :mpv #'my/open-mpv)
+(link-hint-define-type 'file-link :mpv #'my/open-mpv)
+(link-hint-define-type 'shr-url :mpv #'my/open-mpv)
+(link-hint-define-type 'button :mpv #'my/open-mpv)
+
+;; funció per seleccionar l'enllaç
+(defun link-hint-mpv-link ()
+  "Use avy to select and view content in mpv."
+  (interactive)
+  (avy-with link-hint-download-link
+    (link-hint--one :mpv)))
+
+;; posem una drecera de teclat
+(global-set-key (kbd "C-M-m") 'link-hint-mpv-link)
+#+end_src
+
+** hl-todo
+Per remarcar TODO, NOTE, REVIEW, HACK, DEPRECATED, BUG, XXX , ... S'ha d'habilitar a /init.el/ i posam això per habilitar-ho sempre.
+#+begin_src emacs-lisp
+  (global-hl-todo-mode +1)
+  (add-hook 'org-mode-hook 'hl-todo-mode)
+#+end_src
+
+** rainbow-mode
+Per mostrar els colors en hexadecimal (#ff5566, per exemple).
+#+begin_src emacs-lisp
+(use-package! rainbow-mode
+  :hook ((python-mode . rainbow-mode)
+         (web-mode . rainbow-mode)
+         (LaTeX-mode . rainbow-mode)
+         (shell-mode . rainbow-mode)
+         (lisp-mode . rainbow-mode)
+         (emacs-lisp-mode . rainbow-mode)
+         (text-mode . rainbow-mode)
+         (conf-unix-mode . rainbow-mode)
+         (org-mode . rainbow-mode)))
+#+end_src
+
+** recentf
+En comptes d'esperar a tancar Emacs (que no passa quan és servidor), desarem cada cert temps:
+#+begin_src emacs-lisp
+(run-at-time nil (* 5 60) 'recentf-save-list)
+#+end_src
+
+** octave
+Per defecte els fitxers =.m= s'assignen a /Objective-C/, però volem que sigui /Octave/
+#+begin_src emacs-lisp
+(add-to-list 'auto-mode-alist '("\\.m\\'" . octave-mode))
+#+end_src
+
+* Yasnippet
+=Yasnippet= serveix per crear plantilles i Doom Emacs en té integrades moltes. Però per defecte s'ha de fer =M-x= per manipular-los. Afegim algunes dreceres més "doom".
+#+begin_src emacs-lisp
+(map! :leader
+      (:prefix ("y" . "yasnippet")
+       :desc "Visit" "v" #'yas/visit-snippet-file
+       :desc "New" "n" #'yas/new-snippet
+       :desc "Insert" "i" #'yas/insert-snippet
+       :desc "Company" "c" #'company-yasnippet
+       :desc "Table" "t" #'yas/describe-tables))
+#+end_src
+
+* LaTeX
+** cdlatex
+Canviem la tecla per defecte ='= a =´=, així empram els dos accents (i s'ha de pitjar dues vegades).
+#+begin_src emacs-lisp
+(map! :map cdlatex-mode-map "'" nil)
+(map! :map cdlatex-mode-map "´" #'cdlatex-math-modify)
+#+end_src
+
+** xenops (visualitzacions en el mateix /.tex/)
+Amb =xenops= podem visualitzar en el mateix document taules, equacions, ... Executa =M-x xenops-render= per renderitzar el fitxer /.tex/ actual.
+#+begin_src emacs-lisp
+  (use-package xenops
+    :hook (LaTeX-mode . xenops-mode)
+    :config
+    ;; posam imatges més grans
+    (setq xenops-math-image-scale-factor 1.1)
+    (setq xenops-math-image-current-scale-factor 1.1))
+#+end_src
+
+* Org Mode
+** Configuració bàsica
+#+begin_src emacs-lisp
+  ;; cream ~/org i ~/org/agenda.org si no existeixen
+  (unless (file-exists-p "~/org")
+    (make-directory "~/org" t)
+    (write-region "" nil "~/org/agenda.org"))
+
+  ;; assignam variables
+  (setq org-directory "~/org/"
+        org-agenda-files '("~/org/agenda.org")
+        org-default-notes-file (expand-file-name "notes.org" org-directory)
+        org-ellipsis " ▼ " ;; millor que ...
+        org-log-done 'time
+        org-hide-emphasis-markers t        ;; hide /, * for emphasis
+        org-src-preserve-indentation nil   ;; preserve indentarion when exporting code blocks
+        org-edit-src-content-indentation 2 ;; indent the code
+        org-startup-folded t               ;; folded by default
+        org-confirm-babel-evaluate nil)    ;; don't ask for evaluation babel
+
+  ;; variables que s'han de canviar cada vegada
+  (defun my/org-config ()
+    (setq org-startup-folded t))
+
+  (add-hook 'org-mode-hook 'my/org-config)
+#+end_src
+
+** Babel
+/Babel/ permet executar codi dins Org Mode. Hem d'afegir =(lang . t/nil)= habilitar/deshabilitar un llenguatge.
+
+Els llenguatges disponibles es poden comprovar [[https://orgmode.org/worg/org-contrib/babel/languages/index.html][aquí]].
+#+begin_src emacs-lisp
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((emacs-lisp . t)
+     (shell . t)
+     (C . t)
+     (lua . t)
+     (python . t)))
+#+end_src
+
+*** Auto tangle
+Posar =#+auto_tangle: t= a un document per a que faci /tangle/ al desar.
+#+begin_src emacs-lisp
+  (use-package! org-auto-tangle
+    :after org
+    :hook (org-mode . org-auto-tangle-mode)
+    :config
+    (setq org-auto-tangle-default nil)) ;; set to t to enable auto-tangling by default
+#+end_src
+
+** Traducció al català
+Traduim l'agenda al català.
+#+begin_src emacs-lisp
+  (require 'calendar)
+  (setq calendar-day-header-array ["dg" "dl" "dt" "dc" "dj" "dv" "ds"]) ;; diumenge a dilluns
+  (setq calendar-day-name-array
+        ["diumenge" "dilluns" "dimarts" "dimecres" "dijous" "divendres" "dissabte"])
+  (setq calendar-month-abbrev-array
+        ["Gen" "Feb" "Mar" "Abr" "Mai" "Jun"
+         "Jul" "Ago" "Set" "Oct" "Nov" "Dec"])
+  (setq calendar-month-name-array
+        ["gener" "febrer" "març"
+         "abril" "maig" "juny"
+         "juliol" "agost" "setembre"
+         "octubre" "novembre" "decembre"])
+
+  (setq calendar-week-start-day 1)              ;; començam en dilluns
+  (setq org-icalendar-timezone "Europe/Madrid") ;; fus horari
+  (setq calendar-date-style 'european)          ;; iso (y-m-d), european (d-m-y), american (m-d-y)
+#+end_src
+
+** Fonts
+Assignam diferents tamanys de font per a les diferents capçaleres
+#+begin_src emacs-lisp
+(defun my/org-fonts ()
+  (dolist (face '((org-default 1.0 regular)
+                  (org-document-title 2.0 ultra-bold)
+                  (org-document-info 1.2 bold)
+                  (org-level-1 1.4 ultra-bold)
+                  (org-level-2 1.2 bold)
+                  (org-level-3 1.1 bold)
+                  (org-level-4 1.0 semi-bold)
+                  (org-level-5 1.1 normal)
+                  (org-level-6 1.1 normal)
+                  (org-level-7 1.1 normal)
+                  (org-level-8 1.1 normal)))
+    (set-face-attribute (nth 0 face) nil :font "Ubuntu" :weight (nth 2 face) :height (nth 1 face))))
+
+(add-hook 'org-mode-hook 'my/org-fonts)
+#+end_src
+
+** Org bullets
+#+begin_src emacs-lisp
+  (use-package! org-bullets
+    :after org
+    :hook (org-mode . org-bullets-mode))
+#+end_src
+
+** Visualitzacions \(LaTeX\)
+#+begin_src emacs-lisp
+(use-package! org-fragtog
+  :after org
+  :hook (org-mode . org-fragtog-mode))
+#+end_src
+
+** Índex del document automàtic
+Ja està instal·lat el paquet =toc-org=, només cal habilitar-ho per defecte.
+#+begin_src emacs-lisp
+(use-package! toc-org
+  :after org
+  :hook (org-mode . toc-org-mode))
+#+end_src
+
+* Magit
+Per iniciar és més fàcil amb ~SPC o g~, per exemple.
+#+begin_src emacs-lisp
+(map! :leader
+      (:prefix "o"
+      :desc "magit" "g" 'magit))
+#+end_src
+
+* LSP
+LSP té massa coses per defecte. Per veure com configurar l'experiència, feu click [[https://emacs-lsp.github.io/lsp-mode/tutorials/how-to-turn-off/][ aquí]]. També posam ~SPC c X~ per mostrar el llistat d'errors sense emprar /ripgrep/.
+#+begin_src emacs-lisp
+(setq lsp-lens-enable nil)                  ; número de referències
+(setq lsp-headerline-breadcrumb-enable nil) ; capçalera amagada
+(setq lsp-ui-sideline-enable nil)           ; missatges a la dreta
+(setq lsp-modeline-code-actions-enable nil) ; accions a la barra d'estat
+
+(map! :leader
+      (:prefix "c"
+       :desc "List errors (no ripgrep)" "X" #'lsp-ui-flycheck-list))
+#+end_src
+
+Converteix Doom Emacs en un IDE! Només cal afegir =+lsp= a /init.el/ als llenguatges que volem i llegir la documentació per cada llenguatge. Aquí hi ha instruccions per alguns d'ells.
+
+** Bash
+Instal·lar =bash-language-server=.
+#+begin_src emacs-lisp
+(setq sh-indentation 4)
+#+end_src
+
+** C/C++
+Instal·lar =clang= i =clang-tools= o =clangd= si /clangd/ no està instal·lat (repos oficials).
+
+NOTE. Per configurar el format del codi amb clang, podem generar un fitxer d'exemple:
+#+begin_src sh :tangle no
+  clang-format -style=llvm -dump-config > .clang-format
+#+end_src
+
+You can also set a basic template file as the following (file /.clang-format/):
+#+begin_example :tangle no
+---
+BasedOnStyle LLVM
+IndentWidth 4
+...
+#+end_example
+
+** Java
+Per descarregar el /Eclipse JDT Language Server/, executar =M-x lsp install-server= i seleccionar =jdtls=.
+
+** LaTeX
+No és tan potent com /clangd/, però ja ve bé per seguir referències, per exemple. Instal·lar =luarocks= (repos oficials) i executau l'ordre següent per instal·lar el servidor =digestif=.
+#+begin_src sh :tangle no
+  luarocks --server http://luarocks.org/dev install digestif
+#+end_src
+
+** Python
+Executar aquesta ordre com a /sudo/ per instal·lar el servidor.
+#+begin_src sh :tangle no
+  pip install 'python-lsp-server[all]'
+#+end_src
+
+** Desenvolupament web + PHP
+First install the =PHP major mode= and also the =web mode.= To go faster, there's a plugin called =zencoding-mode= that allow us to type as Emmet, see [[https://github.com/rooney/zencoding][Zencoding on GitHub]] for more info and usage. Finally, add the color highlighting for both major modes.
+
+NOTE. To install the following servers *npm* must be installed in your computer.
+
+- For PHP, make sure you have =composer= and =phpactor= installed and working in /PATH/.
+- To install *HTML* and *CSS/LESS/SASS* server just do =M-x lsp-install-server= and install =html-ls= and =css-ls.=
+- To install *Javascript/Typescript* server do =M-x lsp-install-server= and then =ts-ls=.
+#+begin_src emacs-lisp :tangle no
+  ;; only php backend
+  (use-package php-mode
+    :hook (php-mode . rainbow-mode)
+    :ensure t)
+
+  ;; general web
+  (use-package web-mode
+    :hook (web-mode . rainbow-mode)
+    :ensure t)
+
+  ;; emmet like plugin
+  (use-package zencoding-mode
+    :ensure t
+    :hook ((php-mode . zencoding-mode)
+           (web-mode . zencoding-mode)))
+
+
+  ;; add LSP clients
+  (add-to-list 'lsp-enabled-clients 'phpactor)
+  (add-to-list 'lsp-enabled-clients 'html-ls)
+  (add-to-list 'lsp-enabled-clients 'css-ls)
+  (add-to-list 'lsp-enabled-clients 'ts-ls)
+
+  ;; enable LSP by default in web files
+  (add-hook 'html-mode-hook 'lsp)
+  (add-hook 'css-mode-hook 'lsp)
+  (add-hook 'js-mode-hook 'lsp)
+  (add-hook 'php-mode-hook 'lsp)
+  (add-hook 'web-mode-hook 'lsp)
+#+end_src
+
+* RSS (elfeed)
+Per configurar els butlletins anar a =~/org/elfeed.org=.
+#+begin_src emacs-lisp
+;; actualització automàtica
+(add-hook 'elfeed-search-mode-hook 'elfeed-update) ; actualitzar quan obrim els feeds
+(setq elfeed-goodies/entry-pane-position 'bottom)  ; mostrar abaix i no a la dreta
+#+end_src
+
+* Mail (mu4e)
+** Basic stuff. mu4e accounts and contexts
+#+begin_src emacs-lisp
+;; set mail folder
+(setq mu4e-maildir "~/.local/share/mail/")
+
+(after! mu4e
+  ;; update status bar when returning to main view (dwm)
+  (add-hook 'mu4e-main-mode-hook (lambda ()
+                                   (shell-command-to-string "pkill -RTMIN+12 dwmblocks")))
+
+  ;; This is set to 't' to avoid mail syncing issues when using mbsync
+  (setq mu4e-change-filenames-when-moving t)
+
+  ;; Uncomment to auto-update email every 10 minutes
+  ;; (setq mu4e-update-interval (* 10 60))
+
+  ;; policy for multiple accounts
+  (setq mu4e-context-policy 'pick-first
+        mu4e-compose-context-policy 'always-ask)
+
+  ;; basic stuff
+  (setq mu4e-get-mail-command "mbsync -a ; pkill -RTMIN+12 dwmblocks")
+  (setq mu4e-confirm-quit nil) ; don't ask when quitting
+  (setq mu4e-attachment-dir "~/bx/mu4e/") ; donwload attachment dir
+  (setq mu4e-headers-date-format "%d/%m/%y")
+
+  ;; smtp config (using msmtp)
+  (setq smtpmail-debug-info t
+        smtpmail-stream-type  'ssl
+        message-send-mail-function 'message-send-mail-with-sendmail
+        ;message-send-mail-function 'smtpmail-send-it
+        mail-specify-envelope-from t
+        message-sendmail-envelope-from 'header
+        mail-envelope-from 'header
+        sendmail-program "/usr/bin/msmtp")
+
+  ;; contexts
+  (load-file (expand-file-name "mu4e-contexts.el" doom-user-dir)))
+#+end_src
+
+** Aparença
+Queda molt lleig el caràcter unicode per als fils de correus, solucionem-ho!
+#+begin_src emacs-lisp
+(after! mu4e
+  (setq mu4e-headers-thread-child-prefix         '("├>" . "├>")
+        mu4e-headers-thread-orphan-prefix        '("┬>" . "┬>")
+        mu4e-headers-thread-last-child-prefix    '("└>" . "└>")
+        mu4e-headers-thread-first-child-prefix   '("├>" . "├>")
+        mu4e-headers-thread-single-orphan-prefix '("─>" . "─>")))
+#+end_src
+
+** Correus HTML amb Org Mode
+Escriure emails en html amb Org mode.
+#+begin_src emacs-lisp
+(setq +mu4e-compose-org-msg-toggle-next nil)
+(setq org-mime-export-options '(:section-numbers nil
+                                :with-latex dvipng
+                                :with-author nil
+                                :with-toc nil))
+#+end_src
+
+** Marcam correus amb Org Mode
+Empram el fitxer =~/org/Mails.org= per marcar els correus com /Important/ o /Llegeix més tard/, creant entrades *TODO*.
+
+#+begin_src emacs-lisp
+(require 'mu4e-org)
+
+(unless (file-exists-p "~/org/Mails.org")
+  (write-region "#+title:  Email workflow\n\n* Important\n\n\n* Llegeix més tard\n" nil "~/org/Mails.org"))
+
+(setq org-capture-templates
+      `(("m" "Email Workflow")
+        ("mi" "Important" entry (file+olp "~/org/Mails.org" "Important")
+         "* %a\n/De:/ %:fromname\n/Data:/ %:date" :immediate-finish t) ;; immediate-finish for no confirmation
+        ("ml" "Llegeix més tard" entry (file+olp "~/org/Mails.org" "Llegeix més tard")
+         "* TODO %a\n/De:/ %:fromname\n/Data:/ %:date" :immediate-finish t)))
+#+end_src
+
+Per estalviar-nos temps, posam unes dreceres que podem utilitzar quan estam sobre un missatge
+#+begin_src emacs-lisp
+  (defun my/capture-mail-important (msg)
+    (interactive)
+    (call-interactively 'org-store-link)
+    (org-capture nil "mi"))
+
+  (defun my/capture-mail-read-later (msg)
+    (interactive)
+    (call-interactively 'org-store-link)
+    (org-capture nil "ml"))
+
+  ;; Add custom actions for our capture templates
+  (add-to-list 'mu4e-headers-actions
+    '("important (flag)" . my/capture-mail-important) t)
+  (add-to-list 'mu4e-headers-actions
+    '("llegeix més tard" . my/capture-mail-read-later) t)
+#+end_src
+
+** Veure correus en PDF
+Per això cal instal·lar =wkhtmltopdf= (des dels repos oficials). Llevonces, afegim una acció a /mu4e/ per desar/visualitzar el correu actual com a PDF.
+#+begin_src emacs-lisp
+  ;; function to wrap the mail-pdf script with and option (view, save)
+  (defun my/mu4e-action-pdf (msg option)
+    "Export html part to PDF (and do some option)."
+    (let ((browse-url-browser-function
+           (lambda (url &optional _rest)
+             (call-process-shell-command (format "mail-pdf %s %s &" option url) nil 0))))
+      (mu4e-action-view-in-browser msg)))
+
+  ;; call script to view
+  (defun my/mu4e-action-view-pdf (msg)
+    (my/mu4e-action-pdf msg "view"))
+
+  ;; call script to save
+  (defun my/mu4e-action-save-pdf (msg)
+    (my/mu4e-action-pdf msg "save"))
+
+  ;; add actions to the mail view
+  (add-to-list 'mu4e-view-actions '("pdf (view)" . my/mu4e-action-view-pdf) t)
+  (add-to-list 'mu4e-view-actions '("PDF (Save as)" . my/mu4e-action-save-pdf) t)
+#+end_src

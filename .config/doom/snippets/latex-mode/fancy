@@ -1,0 +1,13 @@
+# -*- mode: snippet -*-
+# name: fancy
+# key: fancy
+# --
+\usepackage{fancyhdr}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{${1:Gerard Ribas Acebes}}
+\chead{${2:Títol}}
+\rhead{\today}
+\cfoot{Pàgina \thepage}
+$0

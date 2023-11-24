@@ -27,5 +27,5 @@ export COL_MAGENTA="#b16286"
 export COL_CIAN=$COL_B2
 export COL_BLANC=$COL_W0
 
-export COL_FOSC="#98971a"
-export COL_CLAR="$COL_VERD"
+export COL_FOSC="$COL_BLAU"
+export COL_CLAR="$COL_CIAN"
