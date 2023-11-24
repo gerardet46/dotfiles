@@ -104,6 +104,12 @@ També implementam la funció =toggle-transparency=, que es pot executar amb ~SP
 #+end_src
 
 * Miscel·lània
+** csv
+Per visualitzar millor els fitxers =CSV= fem que s'alineï automàticament i que no faci /wrap/.
+#+begin_src emacs-lisp
+(add-hook 'csv-mode-hook 'csv-align-mode)
+#+end_src
+
 ** popups
 Podem canviar paràmetres dels popups com ara l'altura, segons el mode. Veure funció =set-popup-rule!=.
 #+begin_src emacs-lisp
