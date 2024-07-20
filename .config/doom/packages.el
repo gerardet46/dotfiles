@@ -54,6 +54,7 @@
 (package! elfeed-goodies :disable t)
 
 ;; Paquets a instal·lar
+(package! ob-sagemath)     ; sage a Org Mode
 (package! csv-mode)        ; visualitzar arxius csv
 (package! xenops)          ; visualitzacions a .tex
 (package! org-bullets)     ; millors "bullets" a Org Mode

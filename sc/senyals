@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+# Deps: inotifywait, entr
+# Cercar "# file: <arxiu>"
+# No oblidar el "&" a cada arxiu que se vol monitoritzar
+
+# file: del.txt
+# cases: mirar arxius que s'eliminen
+cat sc/cases_dirs.org | grep '^=' | sed 's/^.//' | sed 's/.$//' >/tmp/dirs.txt
+inotifywait -rqm -o "$HOME/.cache/del.txt" --fromfile /tmp/dirs.txt -e moved_from,delete --format "%w%f" &
+
+(ls $HOME/git/estadistica/*html | entr -p pkill -SIGHUP surf) &
+

@@ -23,12 +23,12 @@
 ! st
 ! it uses the colors defined above
 St.alpha:      0.85
-St.background: #1d2021
+St.background: #0d1011
 
 ! dmenu
 dmenu.font:           Ubuntu:size=13
 dmenu.normfgcolor:    #9497aa
-dmenu.normbgcolor:    #1d2021
+dmenu.normbgcolor:    #0d1011
 dmenu.selfgcolor:     #fbf1c7
 dmenu.selbgcolor:     #458588
 dmenu.lineheight:     24
@@ -37,7 +37,7 @@ dmenu.min_lineheight: 8
 ! flybinds
 flybinds.font:           Ubuntu:size=13
 flybinds.separator:      ->
-flybinds.background:     #1d2021
+flybinds.background:     #0d1011
 flybinds.keyfg:          #b8bb26
 flybinds.titlefg:        #458588
 flybinds.sepfg:          #458588
@@ -55,32 +55,42 @@ dwm.font:            Ubuntu:size=11
 !! bar
 dwm.user_bh:         22
 dwm.primarycolor:    #458588
-dwm.secondarycolor:  #689d6a
-dwm.normbgcolor:     #1d2021
+dwm.secondarycolor:  #8ec07c
+dwm.normbgcolor:     #0d1011
 dwm.normbordercolor: #504945
 dwm.normfgcolor:     #d5c4a1
 dwm.selbgcolor:      #504945
 dwm.selfgcolor:      #ebdbb2
-dwm.borderpx:        2
+dwm.borderpx:        1
 dwm.smartgaps:       1
 dwm.smartborders:    1
+dwm.gappih:          0
+dwm.gappoh:          0
+dwm.gappiv:          0
+dwm.gappov:          0
 
 ! nsxiv
-Nsxiv.window.background: #1d2021
+Nsxiv.window.background: #0d1011
 Nsxiv.window.foreground: #d5c4a1
 Nsxiv.bar.font:          Ubuntu:size=11
-Nsxiv.bar.background:    #1d2021
+Nsxiv.bar.background:    #0d1011
 Nsxiv.bar.foreground:    #d5c4a1
-Nsxiv.mark.foreground:   #689d6a
+Nsxiv.mark.foreground:   #8ec07c
 
 ! tabbed
 tabbed.font:        Ubuntu:size=11
-tabbed.normbgcolor: #1d2021
+tabbed.normbgcolor: #0d1011
+tabbed.color0: #0d1011
 tabbed.normfgcolor: #458588
+tabbed.color4: #458588
 tabbed.selbgcolor:  #3c3836
+tabbed.color5:  #3c3836
 tabbed.selfgcolor:  #ebdbb2
+tabbed.color7:  #ebdbb2
 tabbed.urgbgcolor:  #ebdbb2
-tabbed.urgfgcolor:  #1d2021
+tabbed.color2:  #ebdbb2
+tabbed.urgfgcolor:  #0d1011
+tabbed.color3:  #0d1011
 tabbed.tabwidth:    150
 tabbed.barHeight:    0
 
@@ -90,10 +100,10 @@ SshAskpass.Dialog.label: Introdueix la contrasenya
 
 SshAskpass.*font:              Ubuntu:size=20
 SshAskpass.*foreground:        #d5c4a1
-SshAskpass.*background:        #1d2021
+SshAskpass.*background:        #0d1011
 SshAskpass.*topShadowColor:    #fbf1c7
 SshAskpass.*bottomShadowColor: #7f7f7f
-SshAskpass.*borderColor:       #689d6a
+SshAskpass.*borderColor:       #8ec07c
 SshAskpass.*shadowThickness:   0
 SshAskpass.*borderWidth:       1
 SshAskpass.*horizontalSpacing: 5
@@ -103,7 +113,7 @@ SshAskpass.Button.borderWidth:          1
 SshAskpass.Button.verticalSpacing:      2
 
 SshAskpass.Indicator.foreground:        #b8bb26
-SshAskpass.Indicator.background:        #689d6a
+SshAskpass.Indicator.background:        #8ec07c
 SshAskpass.Indicator.borderWidth:       0
 SshAskpass.Indicator.height:            7
 SshAskpass.Indicator.width:             15

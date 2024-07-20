@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+
+dir="$(pwd)"
+cd "$HOME/moodle"
+"$HOME/.local/pyenv/base/bin/moodle-dl" # >/dev/null 2>&1
+cd "$dir"
+
+notify-send "Moodle sincronitzat"

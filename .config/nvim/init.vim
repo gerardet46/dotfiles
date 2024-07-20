@@ -3,7 +3,7 @@ set expandtab
 set tabstop=4
 set shiftwidth=4
 set clipboard+=unnamedplus
-set nowrap
+"set nowrap
 syntax enable
 
 inoremap jk <ESC>

@@ -1,0 +1,70 @@
+#!/usr/bin/env sh
+# Deps: iconv, enscript
+# Args:
+#       $1: arxiu de codi
+#       $2: llenguatge (mirar documentació listing)
+
+[ -z "$2" ] \
+    && echo "Ús: print-code [arxiu] [llenguatge] [-v (mostrar PDF?)] [opt enscript: --color,--tabsize,...]" \
+    && echo "Llenguatges: enscript --help-highlight" \
+    && exit 1
+
+ARXIU="$(readlink -f "$1")"
+DIR="$(pwd)"
+SHOW="$3"
+LANG="$2"
+BASE="$(basename "$ARXIU")"
+
+shift
+shift
+
+[ "$3" = "-v" ] && shift
+
+cat "$ARXIU" \
+    | iconv -c -f utf-8 -t ISO-8859-1 \
+    | enscript \
+        --header="$BASE| |Pag. \$% de \$=" \
+        --highlight=$LANG \
+        --line-numbers --borders --tabsize=4 --mark-wrapped-lines=box \
+        $@ -p "${BASE%.*}".ps
+
+[ "$SHOW" = "-v" ] && setsid --fork xdg-open "${ARXIU%.*}".ps
+
+exit 0
+# l'altra implementació (amb latex)
+#!/usr/bin/env sh
+# Deps: latex
+# Args:
+#       $1: arxiu de codi
+#       $2: llenguatge (mirar documentació listing)
+
+
+
+
+[ -z "$2" ] && echo "Ús: print-code [arxiu] [llenguatge] [-v (mostrar PDF?)]" && exit 1
+
+PLANTILLA="$HOME/sc/print-code.tex"
+ARXIU="$(readlink -f "$1")"
+DIR="$(pwd)"
+SHOW="$3"
+
+cd /tmp
+
+cp "$ARXIU" codi
+
+# configuram
+base="$(basename "$ARXIU" | sed 's/_/\\\\_/g')"
+
+sed "s/##1##/codi/" "$PLANTILLA" > p1
+sed "s/##3##/$base/" p1 > p2
+sed "s/##2##/$2/" p2 > print-code.tex
+
+rm p1 p2
+
+if pdflatex -halt-on-error --interaction=batchmode print-code.tex 2>&1 > /dev/null; then
+    path="${ARXIU%.*}.pdf"
+    cp print-code.pdf "$path"
+    [ "$SHOW" = "-v" ] && setsid --fork xdg-open "$path"
+fi
+
+cd "$DIR"

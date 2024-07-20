@@ -4,6 +4,8 @@
 export TERMINAL="st"
 export EDITOR="nvim"
 export BROWSER="firefox"
+export MON_PORTATIL="eDP1"
+export MON_HDMI="HDMI2"
 export QT_QPA_PLATFORMTHEME="qt5ct"
 export _JAVA_OPTIONS='-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true'
 

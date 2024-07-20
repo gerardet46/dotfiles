@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+
+fitxer="$HOME/.config/bookmarks"
+dir="$HOME/moodle"
+
+# copiam el bookmark, tercer camp, amb dmenu
+nom="$(grep -v "^#" "$fitxer" | grep "^UIB" | awk -F '|' '{print $1}' | dmenu -l 20 -p "Selecciona marcador")"
+nom="$(grep -v "^#" "$fitxer" | grep "^$nom|" | awk -F '|' '{print $3}')"
+ass="$(ls "$dir" | grep "^$nom")"
+
+st -e nnn "$dir/$ass/"

@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 # Variables
-export PATH="$PATH:$HOME/sc:$HOME/.local/bin"
+export PATH="$PATH:$HOME/sc:$HOME/.local/bin:$HOME/.config/emacs/bin"
 #export SUDO_ASKPASS="/usr/lib/ssh/x11-ssh-askpass"  # pacman -S x11-ssh-askpass
 export SUDO_ASKPASS="/usr/bin/lxqt-openssh-askpass"  # pacman -S x11-ssh-askpass
 
@@ -41,16 +41,23 @@ remaps &
 pulseaudio --daemonize=true --exit-idle-time=-1
 
 # Autostart
-autostart="xcompmgr sxhkd redshift dunst emacs-daemon davmail"
+autostart="sxhkd xcompmgr redshift dunst davmail"
 
 for program in $autostart; do
 	pidof -s "$program" || "$program" &
 done >/dev/null 2>&1
 
+# cursor
+synclient TapButton1=1
+synclient TapButton2=3
 unclutter -grab &
 
-cat sc/cases_dirs.org | grep '^=' | sed 's/^.//' | sed 's/.$//' >/tmp/dirs.txt
-inotifywait -rqm -o "$HOME/.cache/del.txt" --fromfile /tmp/dirs.txt -e moved_from,delete --format "%w%f" &
+# configurar senyals (monitoritzar arxius)
+senyals &
+
+# Doom Emacs
+doom env
+emacs-daemon &
 
 # Ensure that xrdb has finished running before moving on to start the WM/DE.
 [ -n "$xrdbpid" ] && wait "$xrdbpid"

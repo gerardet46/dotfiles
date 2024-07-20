@@ -13,20 +13,12 @@ dmenu_apps() {
     dmenu_path | dmenu -h 0 -p "$1"
 }
 
-txt_continue="Continua"
-txt_create_folder="Crear Carpeta"
-txt_delete="Elimina"
-txt_explore="Explora"
-txt_actions="Accions"
-txt_enter_name="Introdueix un nom"
-txt_open="Obri"
-txt_open_with="Obri amb"
-
 folder_openner="st -e nnn"
 
 target="$1"
 [ -z "$target" ] && target="$(realpath .)"
 prompt="$2"
+fer_fd=0
 
 while true; do
     p="$prompt"
@@ -40,7 +32,12 @@ while true; do
 
 
     # sel="$(ls -1a "$target" |grep -v '^\.$' | dmenu_lines "$shown_prompt")"
-    sel="$(ls -1a "$target" | dmenu_lines "$shown_prompt")"
+    if [ $fer_fd -eq 0 ]; then
+        sel="$(ls -1a "$target" | dmenu_lines "$shown_prompt")"
+    else
+        sel="$(fd . -t f "$target" | dmenu_lines "$shown_prompt")"
+        fer_fd=0
+    fi
     ec=$?
     [ "$ec" -ne 0 ] && exit $ec
 
@@ -58,10 +55,18 @@ while true; do
             exit
         fi
         # accions des directori
-        opt=$(printf "Continua\nCrear Carpeta\nCrear Fitxer\nElimina\nExplora\nsxiv" | dmenu_ "Accions")
+        opt=$(printf "fd carpetes\nfd arxius\nContinua\nCrear Carpeta\nCrear Fitxer\nElimina\nExplora\nsxiv" | dmenu_ "Accions")
 
         case "$opt" in
             Continua) newt="$carpeta" ;;
+            "fd carpetes")
+                ant="$(pwd)"
+                cd "$carpeta"
+                nova="$(fd -t d | dmenu -l 20 -p "Carpeta")"
+                cd "$ant"
+                newt="$carpeta/$nova"
+                ;;
+            "fd arxius") fer_fd=1 ;;
             Explora)
                 $folder_openner "$carpeta"
                 exit 0 ;;
@@ -96,6 +101,7 @@ while true; do
     fi
 
     if [ -e "$newt" ]; then
+        antic="$target"
         target="$newt"
         if [ ! -d "$target" ]; then
             # select file
@@ -125,6 +131,9 @@ while true; do
                     dragon-drop -x "$target"
                     exit 0
                 ;;
+                *)
+                    target="$antic"
+                    ;;
             esac
         fi
     fi

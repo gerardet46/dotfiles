@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-export COL_0="#1d2021"
+export COL_0="#0d1011"
 export COL_3="#282828"
 export COL_2="#3c3836"
 export COL_1="#504945"
@@ -27,5 +27,5 @@ export COL_MAGENTA="#b16286"
 export COL_CIAN=$COL_B2
 export COL_BLANC=$COL_W0
 
-export COL_FOSC="$COL_BLAU"
-export COL_CLAR="$COL_CIAN"
+export COL_FOSC="$COL_B3"
+export COL_CLAR="$COL_B1"

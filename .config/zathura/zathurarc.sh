@@ -28,7 +28,7 @@ set completion-highlight-fg \"$COL_3\" #0C
 set completion-bg \"$COL_BG_0\" #02
 set completion-fg \"$COL_W0\" #0C
 
-set recolor-lightcolor \"$COL_BG_0\"
+set recolor-lightcolor \"#000000\"
 set recolor-darkcolor \"$COL_W1\"
 
 set window-title-basename true

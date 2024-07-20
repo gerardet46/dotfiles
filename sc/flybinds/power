@@ -6,6 +6,8 @@ case "$1" in
     b) slock & xset dpms force off ;;
     #h) slock loginctl hibernate ;;
     #s) slock loginctl suspend ;;
+    s) loginctl suspend ;;
+    h) loginctl hibernate ;;
     h) ZZZ ;;
     s) zzz ;;
     x) i3-msg exit || killall dwm ;;

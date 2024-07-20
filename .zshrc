@@ -36,7 +36,8 @@ autoload -U colors && colors
 autoload -Uz promptinit && promptinit
 
 prompt_mytheme_setup() {
-    PS1="%F{magenta}%n%F{yellow}[%m] %F{blue}%1~%f%b%B%(?.%F{grey}.%F{red}) %(!.#.$)%f%b "
+    #PS1="%F{magenta}%n%F{yellow}[%m] %F{blue}%1~%f%b%B%(?.%F{grey}.%F{red}) %(!.#.$)%f%b "
+    PS1="%F{blue}%1~%f%b%B%(?.%F{grey}.%F{red}) %(!.#.$)%f%b "
 }
 prompt_themes+=( mytheme )
 prompt mytheme
@@ -68,9 +69,10 @@ add-zsh-hook -Uz preexec xterm_title_preexec
 
 #startx ~/.xinitrc
 
-if [ "$(echo "$(tty)" | sed 's/[0-9]//g')" = "/dev/tty" ] ; then
-    startx
-fi
+# if [ "$(echo "$(tty)" | sed 's/[0-9]//g')" = "/dev/tty" ] ; then
+#     startx
+# fi
+[ "$(tty)" = "/dev/tty1" ] && startx
 
 # set colors of tty
 # available colors:
@@ -198,21 +200,3 @@ zle -N down-line-or-beginning-search
 
 [[ -n "${key[Up]}"   ]] && bindkey -- "${key[Up]}"   up-line-or-beginning-search
 [[ -n "${key[Down]}" ]] && bindkey -- "${key[Down]}" down-line-or-beginning-search
-
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-if [ "a" = "b" ]; then
-    __conda_setup="$('/home/gerry/.local/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-    if [ $? -eq 0 ]; then
-        eval "$__conda_setup"
-    else
-        if [ -f "/home/gerry/.local/miniconda3/etc/profile.d/conda.sh" ]; then
-            . "/home/gerry/.local/miniconda3/etc/profile.d/conda.sh"
-        else
-            export PATH="/home/gerry/.local/miniconda3/bin:$PATH"
-        fi
-    fi
-    unset __conda_setup
-fi
-# <<< conda initialize <<<
-

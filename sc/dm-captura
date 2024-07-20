@@ -1,4 +1,5 @@
 #!/usr/bin/env sh
+# Dependències: xclip, maim, slop, nsxiv
 
 
 folder="$HOME/img"
@@ -10,7 +11,7 @@ temp="/tmp/captures/$nom"
 [ -d "/tmp/captures" ] || mkdir -p /tmp/captures
 
 # programa
-opt="$(printf "Tot\nSelecció\nDesa tot\nDesa selecció\nMostra tot\nMostra selecció" | dmenu -p "Captura")"
+opt="$(printf "Selecció\nTot\nDesa selecció\nDesa tot\nMostra selecció\nMostra tot" | dmenu -p "Captura")"
 
 [ -d "$folder" ] && mkdir -p "$folder"
 

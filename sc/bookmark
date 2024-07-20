@@ -5,7 +5,7 @@ fitxer="$HOME/.config/bookmarks"
 if [ -z "$1" ]; then
     # copiam el bookmark, amb dmenu
     nom="$(grep -v "^#" "$fitxer" | awk -F '|' '{print $1}' | dmenu -l 20 -p "Selecciona marcador")"
-    echo "$(grep -v "^#" "$fitxer" | grep "^$nom|" | awk -F '|' '{print $2}')"
+    grep -v "^#" "$fitxer" | grep "^$nom|" | awk -F '|' '{print $2}'
 else
     # desam el bookmark $1
     if grep "|$1$" "$fitxer"; then

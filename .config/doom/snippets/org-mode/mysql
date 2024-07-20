@@ -1,0 +1,5 @@
+# key: sql
+# name: mysql
+# --
+#+property: header-args:sql :database ${1:bbdd} :engine mysql :dbhost localhost :dbuser gerry
+$0

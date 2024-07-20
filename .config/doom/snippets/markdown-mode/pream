@@ -1,0 +1,15 @@
+# key: pream
+# name: pream
+# --
+---
+title: "${1:Treball Estadística}"
+author: "${2:Joan Camps Tomàs, Gerard Ribas Acebes}"
+output: pdf_document
+#linkcolor: magenta
+---
+
+\newcommand{\GRA}[1]{{\color{red} [{\bf G:} #1]}}
+\newcommand{\JCT}[1]{{\color{blue} [{\bf J:} #1]}}
+\newcommand{\note}[1]{{\color{orange} [{\bf NOTA:} #1]}}
+
+$0

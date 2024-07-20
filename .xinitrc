@@ -1,1 +1,24 @@
-.config/x11/xinitrc
+#!/bin/sh
+
+# Això s'executa automàticament quan s'executa "startx".
+
+# Carregam el nostre perfil
+if [ -f "$HOME/.config/x11/xprofile" ]; then
+	. "$HOME/.config/x11/xprofile"
+else
+	. "$HOME/.xprofile"
+fi
+
+# Sessió per defecte
+session=${1:-dwm}
+
+# Iniciar sessió
+# utilitzam ssh-agent i no exec per esperar a que carregui xprofile
+case $session in
+    dwm)
+        dwmblocks &
+        ssh-agent dwm
+        ;;
+    *) #ssh-agent $session
+        dbus-run-session $session
+esac
