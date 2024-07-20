@@ -1,4 +1,8 @@
 * {
-    background: #fff;
-    color: #000;
+    background: #fff !important;
+    color: #000 !important;
+}
+
+body {
+    margin: 2em 3em !important;
 }

@@ -7,23 +7,47 @@ export NNN_OPTS='gQeU'
 export NNN_BMS='s:~/sc;/:/;u:/media;c:~/.config;t:/tmp'
 export NNN_COLORS="2136"
 export NNN_ARCHIVE="\\.(7z|a|ace|alz|arc|arj|bz|bz2|cab|cpio|deb|gz|jar|lha|lz|lzh|lzma|lzo|rar|rpm|rz|t7z|tar|tbz|tbz2|tgz|tlz|txz|tZ|tzo|war|xpi|xz|Z|zip)$"
-export NNN_PLUG='P:fzplug;o:fzopen;c:fzcd;k:kdeconnect;m:nmount;t:mtpmount;x:togglex;d:dragdrop;s:suedit;p:preview-tabbed;M:xdgdefault;z:zip;C:chmod;' # !chmod +x $nnn
+export NNN_PLUG='P:fzplug;o:fzopen;c:fzcd;k:kdeconnect;m:nmount;t:mtpmount;i:!nsxiv . &;x:togglex;d:dragdrop;s:suedit;p:preview-tabbed;M:xdgdefault;z:zip;C:chmod;' # !chmod +x $nnn
 export NNN_SSHFS="sshfs -o reconnect,idmap=user,cache_timeout=3600,IdentityFile=$HOME/.ssh/drive/ger_rsa"
 
 # tema
 BLK="04" CHR="04" DIR="04" EXE="00" REG="00" HARDLINK="00" SYMLINK="06" MISSING="00" ORPHAN="01" FIFO="0F" SOCK="0F" OTHER="02"
 export NNN_FCOLORS="$BLK$CHR$DIR$EXE$REG$HARDLINK$SYMLINK$MISSING$ORPHAN$FIFO$SOCK$OTHER"
 
-# obtenir fitxers seleccionats
-alias ncp="cat ${NNN_SEL:-${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.selection} | tr '\0' '\n'"
-alias npdf='xid="$(tabbed -ckd)";fd -0 -d 1 -e pdf | xargs -0 setsid zathura -e "$xid"'
+# Funcions personalitzades
 alias nimg='setsid nsxiv .'
 
 nhelp() {
     echo "COMANDES:"
-    echo "ncp     mostra selecció"
-    echo "npdf    mostra PDFs a tabbed"
-    echo "nimg    mostra imatges a sxiv"
+    echo "ncp   mostra selecció"
+    echo "npdf  mostra PDFs a tabbed"
+    echo "npag  mostra el núm de pàgs dels PDFs"
+    echo "nimg  mostra imatges a sxiv"
+}
+
+ncp() {
+    cat ${NNN_SEL:-${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.selection} | tr '\0' '\n' >/tmp/nnn-sel
+    echo '' >> /tmp/nnn-sel
+    cat /tmp/nnn-sel
+}
+
+npdf() {
+    xid="$(tabbed -ckd)"
+    if [ -z "$(ncp)" ]; then
+        fd -0 -d 1 -e pdf | xargs -0 setsid zathura -e "$xid"
+    else
+        cat ${NNN_SEL:-${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.selection} | xargs -0 setsid zathura -e "$xid"
+    fi
+}
+
+npag() {
+    tot=0
+    ncp | while read x; do
+        pag="$(pdfinfo "$x" | grep "^Pages" | awk "{print \$2}")"
+        tot=$((tot+pag))
+        echo "$pag\t$(basename "$x")"
+    done
+    echo "$tot\tTotal"
 }
 
 # cd-on-quit (C-G)

@@ -15,8 +15,8 @@ icona() {
     printf ""
 }
 
-IC_CURRENT="^c$COL_GROC^"
-IC_PLUG="^c$COL_BLANC^"
+IC_CURRENT="^c$COL_GROC^ "
+IC_PLUG="^c$COL_BLANC^ "
 
 acpi > /tmp/acpi_info
 while read line; do
@@ -25,7 +25,7 @@ while read line; do
     if echo "$line" | grep "Discharging," > /dev/null; then
         # DESCARREGANT
         printf "^c$(colors "$percent")^"
-        printf "$(icona "$percent") "
+        printf "$(icona "$percent")  "
         printf "$percent%%"
 
         time_left="$(echo "$line" | awk '{print $5}' | sed "s/:[0-9][0-9]$//g")"

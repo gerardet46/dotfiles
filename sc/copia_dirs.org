@@ -1,0 +1,86 @@
+#+title:  Fitxers per còpia de seguretat
+#+startup: showall
+
+* Carpetes principals
+=dx/=
+=uib/=
+=img/=
+=org/=
+=sc/=
+=pkg/=
+
+** Copia de seguretat Emacs
+=em/README.org=
+=em/init.el=
+=em/custom.el=
+=em/mu4e-contexts.el=
+
+
+* Diccionaris
+=.hunspell_ca_ES=
+=.hunspell_es_ES=
+
+* Configuració
+** Doom Emacs
+=.config/doom/=
+=.config/emacs/.local/etc/scratch/=
+=.config/emacs/.local/etc/workspaces/=
+=.config/emacs/.local/etc/bookmarks=
+=.config/emacs/.local/etc/eshell/history=
+=.config/emacs/.local/cache/projectile.projects=
+=.config/emacs/.local/cache/recentf=
+
+** nnn
+=.config/nnn/bookmarks/=
+=.config/nnn/plugins/=
+=.config/nnn/config=
+
+** Correu
+=.davmail.properties=
+=.mbsyncrc=
+=.config/msmtp/config=
+=.mailcap=
+
+** Surf
+=.config/surf/styles/=
+=.config/surf/bookmarks=
+=.config/surf/script.js=
+=.config/surf/start.html=
+
+** altres configuracions
+=.config/shell/alias=
+=.config/bookmarks=
+=.config/cat_installer/=
+=.config/dunst/=
+=.config/dwmblocks/=
+=.config/fd/=
+=.config/gtk-2.0/=
+=.config/gtk-3.0/=
+=.config/gtk-4.0/=
+=.config/i3/=
+=.config/i3blocks/=
+=.config/khard/=
+=.config/khard/=
+=.config/mimeapps.list=
+=.config/mouse/=
+=.config/mpd/mpd.conf=
+=.config/mpv/mpv.conf=
+=.config/nsxiv/=
+=.config/nvim/init.vim=
+=.config/qutebrowser/=
+=.config/redshift/=
+=.config/shell/
+=.config/sxhkd/=
+=.config/tmux/=
+=.config/user-dirs.dirs=
+=.config/user-dirs.locale=
+=.config/vdirsyncer/=
+=.config/vdirsyncer/=
+=.config/x11/=
+=.config/zathura/=
+=.gitconfig=
+=.gnupg/gpg-agent.conf=
+=.gtkrc-2.0=
+=.Rprofile=
+=.zshrc=
+=moodle/config.json=

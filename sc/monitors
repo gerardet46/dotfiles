@@ -2,18 +2,10 @@
 
 [ -z "$1" ] && arg="h" || arg="$1"
 
-PORT="LVDS-1"
-HDMI="HDMI-1"
-
-if xrandr | grep eDP >/dev/null; then
-    PORT="eDP-1"
-    HDMI="HDMI-2"
-fi
-
 case "$arg" in
-    p) xrandr --output $PORT --primary --mode 1280x720 --pos 0x0 --rotate normal --output $PORT --off --output $HDMI --off --output $HDMI --off ;;
-    h) xrandr --output $PORT --off --output $PORT --off --output $HDMI --mode 1920x1080 --pos 0x0 --rotate normal --output VIRTUAL-1 --off ;;
-    #d) xrandr --output $PORT --primary --mode 1920x1080 --pos 1920x0 --rotate normal --output $PORT --off --output $HDMI --off --output $HDMI --mode 1920x1080 --pos 0x0 --rotate normal ;;
+    p) xrandr --output $MON_PORTATIL --primary --mode 1920x1080 --pos 0x0 --rotate normal --output $MON_PORTATIL --off --output $MON_HDMI --off --output $MON_HDMI --off ;;
+    h) xrandr --output $MON_PORTATIL --off --output $MON_PORTATIL --off --output $MON_HDMI --mode 1920x1080 --pos 0x0 --rotate normal --output VIRTUAL-1 --off ;;
+    #d) xrandr --output $MON_PORTATIL --primary --mode 1920x1080 --pos 1920x0 --rotate normal --output $MON_PORTATIL --off --output $MON_HDMI --off --output $MON_HDMI --mode 1920x1080 --pos 0x0 --rotate normal ;;
     a) arandr ;;
 esac
 

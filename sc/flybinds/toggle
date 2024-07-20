@@ -47,10 +47,15 @@ case "$@" in
         if [ -f "$HOME/.config/wallpaper" ]; then
             setwallpaper no
             pkill xcompmgr
-            #rm $HOME/.config/wallpaper
         else
             xcompmgr &
             setwallpaper
         fi
         ;;
+    i)
+        if wpa_cli status | grep DISCONNECTED; then
+            wpa_cli reconnect
+        else
+            wpa_cli disconnect
+        fi
 esac

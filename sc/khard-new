@@ -6,6 +6,9 @@ echo "Ús:"
 echo "    khard-new        nou contacte"
 echo "    khard-new sync   nou contacte i sincronitza (vdirsync)"
 echo ""
+echo "Camps:"
+echo "    Nom, Llinatge, Telf, Correu"
+echo ""
 
 read -p "Nom: " nom
 read -p "Llinatge: " llinatge

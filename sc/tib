@@ -1,0 +1,75 @@
+#!/usr/bin/env python3
+
+# Deps: requests, bs4 (BeautifulSoup)
+
+import requests
+import subprocess
+from bs4 import BeautifulSoup
+
+# Descarregam info de linies i horaris
+urlbase = "https://www.tib.org"
+url = f"{urlbase}/ca/linies-i-horaris"
+
+resposta = requests.get(url).content
+soup = BeautifulSoup(resposta, "html.parser")
+
+linies = soup.findAll("a", class_="ctm-line-list-item")
+
+r = {}  # num: {descripcio, enllaç}
+descs = []
+for l in linies:
+    num = l.find_next("div", class_="line-id-container") \
+            .find_next("span") \
+            .get_text()
+    nom = l.find_next("h4", class_="line-name").get_text()
+    detall = l.find_next("span", class_="line-stops").get_text()
+    detall = detall.replace("\t", "").splitlines()
+    detall = "".join([x for x in detall if x])
+
+    # descripcio de la linia
+    desc = f"{num.ljust(6)}{nom.ljust(40)}({detall})"
+    descs.append(desc)
+
+    # afegim aquesta linia (descripcio i url)
+    r[num] = [desc, l["href"]]
+
+descs = "\n".join(descs)
+f = open("/tmp/tib.txt", "w")
+f.write(descs)
+f.close()
+
+# obrim dmenu amb les linies
+cmd = "cat /tmp/tib.txt | dmenu -l 20 -p 'Línia de TIB' -fn 'Ubuntu Mono-14'"
+linia = subprocess.getoutput(cmd).split(" ")[0]
+
+# url del tib de la linia seleccionada
+url = f"{urlbase}{r[linia][1]}"
+
+# descarregam horaris disponibles
+resposta = requests.get(url).content
+soup = BeautifulSoup(resposta, "html.parser")
+
+horaris = soup.findAll("div", class_="ctm-line-schedule-link")
+hordict = {}  # "titol horari": "url"
+
+for x in horaris:
+    atag = x.find_next("a")
+    hordict[atag.get_text().replace("\n", "")] = atag["href"]
+
+f = open("/tmp/tib-horaris.txt", "w")
+f.write("\n".join(hordict.keys()))
+f.close()
+
+# mostram horaris per dmenu
+cmd = f"cat /tmp/tib-horaris.txt | dmenu -l 20 -p 'Horaris {linia}'"
+horari_triat = subprocess.getoutput(cmd)
+
+# descarregam PDF de l'horari triat
+url = hordict[horari_triat]
+r = requests.get(url, stream=True)
+
+nompdf = f"/tmp/tib-linia-{linia}.pdf"
+with open(nompdf, 'wb') as fd:
+    fd.write(r.content)
+
+subprocess.call(("xdg-open", nompdf))

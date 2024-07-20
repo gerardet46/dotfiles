@@ -20,7 +20,7 @@ all=
 if type dragon-drag-and-drop >/dev/null 2>&1; then
     dnd="dragon-drag-and-drop"
 else
-    dnd="dragon"
+    dnd="dragon-drop"
 fi
 
 add_file ()

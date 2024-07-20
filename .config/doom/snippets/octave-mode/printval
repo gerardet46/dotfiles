@@ -1,0 +1,5 @@
+# key: val
+# name: printval
+# --
+fprintf("${1:var}: %f\n", $1);
+$0

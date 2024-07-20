@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+# Deps: zbarimg, maim
+
+maim -s -u -q /tmp/qrscan.png
+text="$(zbarimg /tmp/qrscan.png | sed 's/^QR\-Code://')"
+
+printf "$text" | xclip -selection clipboard
+notify-send "QR Copiat - $text"

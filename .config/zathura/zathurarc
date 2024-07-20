@@ -3,16 +3,16 @@ set default-bg "#000000"
 set default-fg "#fbf1c7"
 
 set statusbar-bg "#000000"
-set statusbar-fg "#689d6a"
+set statusbar-fg "#8ec07c"
 
-set inputbar-bg "#1d2021" #00 currently not used
+set inputbar-bg "#0d1011" #00 currently not used
 set inputbar-fg "#fbf1c7" #02
 
 set notification-error-bg "#cc241d" #08
 set notification-error-fg "#fbf1c7" #00
 
 set notification-warning-bg "#d65d0e" #08
-set notification-warning-fg "#1d2021" #00
+set notification-warning-fg "#0d1011" #00
 
 set highlight-color "#458588" #0A
 set highlight-active-color "#689d6a" #0D
@@ -20,13 +20,13 @@ set highlight-active-color "#689d6a" #0D
 set highlight-fg "#ffffff"
 set highlight-transparency 0.5
 
-set completion-highlight-bg "#689d6a" #02
+set completion-highlight-bg "#8ec07c" #02
 set completion-highlight-fg "#282828" #0C
 
-set completion-bg "#1d2021" #02
+set completion-bg "#0d1011" #02
 set completion-fg "#fbf1c7" #0C
 
-set recolor-lightcolor "#1d2021"
+set recolor-lightcolor "#000000"
 set recolor-darkcolor "#ebdbb2"
 
 set window-title-basename true

@@ -7,6 +7,28 @@
 
 * Dreceres de teclat
 ** Sense Evil
+Afegim un mode per reconfigurar algunes dreceres en tot es sistema:
+#+begin_src emacs-lisp :tangle no
+(defvar my/keys-minor-mode-map
+  (let ((map (make-sparse-keymap)))
+    (define-key (kbd "C-M-k") 'windmove-up)
+    (define-key (kbd "C-M-j") 'windmove-down)
+    (define-key (kbd "C-M-l") 'windmove-right)
+    (define-key (kbd "C-M-h") 'windmove-left)
+    (define-key (kbd "C-M-y") 'link-hint-copy-link)
+    (define-key (kbd "M-TAB") 'evil-switch-to-windows-last-buffer)
+    (define-key (kbd "C-M-TAB") 'evil-switch-to-windows-last-buffer)
+    map)
+  "my/keys-minor-mode keymap.")
+
+(define-minor-mode my/keys-minor-mode
+  "A minor mode so that my key settings override annoying major modes."
+  :init-value t
+  :lighter " my/keys")
+
+(my/keys-minor-mode 1)
+#+end_src
+
 Algunes dreceres són més còmodes sense ~SPC~.
 | Tecla | Acció                            |
 |-------+----------------------------------|
@@ -18,13 +40,23 @@ Algunes dreceres són més còmodes sense ~SPC~.
 | ~C-M-y~ | Copiar enllaç d'un buffer        |
 | ~M-TAB~ | Switch a l'anterior buffer       |
 
+
 #+begin_src emacs-lisp
-  (global-set-key (kbd "C-M-k") 'windmove-up)
-  (global-set-key (kbd "C-M-j") 'windmove-down)
-  (global-set-key (kbd "C-M-l") 'windmove-right)
-  (global-set-key (kbd "C-M-h") 'windmove-left)
-  (global-set-key (kbd "C-M-y") 'link-hint-copy-link)
-  (global-set-key (kbd "M-TAB") 'evil-switch-to-windows-last-buffer)
+(add-hook 'vterm-mode-hook
+          (lambda ()
+            (local-set-key (kbd "C-M-k") 'windmove-up)
+            (local-set-key (kbd "C-M-j") 'windmove-down)
+            (local-set-key (kbd "C-M-l") 'windmove-right)
+            (local-set-key (kbd "C-M-h") 'windmove-left)
+            ))
+
+(global-set-key (kbd "C-M-k") 'windmove-up)
+(global-set-key (kbd "C-M-j") 'windmove-down)
+(global-set-key (kbd "C-M-l") 'windmove-right)
+(global-set-key (kbd "C-M-h") 'windmove-left)
+(global-set-key (kbd "C-M-y") 'link-hint-copy-link)
+(global-set-key (kbd "M-TAB") 'evil-switch-to-windows-last-buffer)
+(global-set-key (kbd "C-c 7") 'comment-line)
 #+end_src
 
 ** Consult
@@ -43,6 +75,7 @@ Per afegir algunes dreceres a =consult=, com ara cercar fitxers  per extensió (
 ;; accessible amb SPC f t/T
 (map! :leader
       (:prefix "f"
+      :desc "new LaTeX temp file" "T" 'my/latex-prova
       :desc "find LaTeX files" "t" 'my/consult-tex
       :desc "find by extension" "x" 'my/consult-file))
 #+end_src
@@ -50,7 +83,8 @@ Per afegir algunes dreceres a =consult=, com ara cercar fitxers  per extensió (
 * Aparença
 ** Tema
 #+begin_src emacs-lisp
-(setq doom-theme 'doom-gruvbox)
+(setq doom-theme 'doom-badger2)
+;(setq doom-theme 'doom-lantern)
 #+end_src
 
 ** Fonts
@@ -115,6 +149,7 @@ Podem canviar paràmetres dels popups com ara l'altura, segons el mode. Veure fu
 #+begin_src emacs-lisp
 (set-popup-rule! "\\*Man" :height 0.8 :select t :modeline t)
 (set-popup-rule! "\\*help" :height 0.7)
+;(set-popup-rule! "\\*Async" :modeline t)
 #+end_src
 
 ** resize window
@@ -168,7 +203,9 @@ Com l'emprarem per RSS, crearem una acció per obrir l'enllaç amb /mpv/.
 ;; funció per obrir a mpv
 (defun my/open-mpv (arg)
   "Open in mpv."
-  (start-process "" nil "mpv" "--force-window=yes" arg))
+  (start-process "" nil "mpv"
+                 ; "--ytdl-format=best"
+                 "--force-window=yes" arg))
 
 ;; on podem trobar l'enllaç mpv
 (link-hint-define-type 'text-url :mpv #'my/open-mpv)
@@ -202,28 +239,59 @@ Per mostrar els colors en hexadecimal (#ff5566, per exemple).
          (web-mode . rainbow-mode)
          (LaTeX-mode . rainbow-mode)
          (shell-mode . rainbow-mode)
+         (sh-mode . rainbow-mode)
          (lisp-mode . rainbow-mode)
          (emacs-lisp-mode . rainbow-mode)
          (text-mode . rainbow-mode)
          (conf-unix-mode . rainbow-mode)
+         (fundamental-mode . rainbow-mode)
          (org-mode . rainbow-mode)))
 #+end_src
 
-** recentf
-En comptes d'esperar a tancar Emacs (que no passa quan és servidor), desarem cada cert temps:
+** MariaDB
+=mysql= ja està DEPRECATED, millor emprar =mariadb=.
 #+begin_src emacs-lisp
-(run-at-time nil (* 5 60) 'recentf-save-list)
+(setq sql-mysql-program "mariadb")
+#+end_src
+
+** recentf
+En comptes d'esperar a tancar Emacs (que no passa quan és servidor), desarem cada cert temps i quan tanquem un buffer. A més, exclourem la carpeta =/tmp=.
+#+begin_src emacs-lisp
+(run-at-time nil (* 10 60) 'recentf-save-list)
+(add-hook 'after-save-hook 'recentf-save-list)
+(use-package! recentf
+  :config
+  (recentf-mode +1)
+  (add-to-list 'recentf-exclude "/tmp"))
 #+end_src
 
 ** octave
-Per defecte els fitxers =.m= s'assignen a /Objective-C/, però volem que sigui /Octave/
+Per defecte els fitxers =.m= s'assignen a /Objective-C/, però volem que sigui /Octave/.
+
+A més, posam que ~C-c C-c~ sigui per guardar, compilar i executar. Afegir =keyboard= al final del fitxer si volem fer gràfiques, perquè persisteixin.
 #+begin_src emacs-lisp
 (add-to-list 'auto-mode-alist '("\\.m\\'" . octave-mode))
+(setq octave-block-offset 4) ;; identació
+
+(defun my/octave-compile ()
+  (interactive)
+  (save-buffer)
+  (call-interactively 'octave-source-file))
+
+(add-hook 'octave-mode-hook (lambda () (local-set-key (kbd "C-c C-c") 'my/octave-compile)))
+#+end_src
+
+** document centrat
+Per centrar el document podem emprar =visual-fill-column-mode=, aquí ajustam alguns paràmetres.
+#+begin_src emacs-lisp
+(setq visual-fill-column-center-text t)
 #+end_src
 
 * Yasnippet
 =Yasnippet= serveix per crear plantilles i Doom Emacs en té integrades moltes. Però per defecte s'ha de fer =M-x= per manipular-los. Afegim algunes dreceres més "doom".
 #+begin_src emacs-lisp
+(setq yas/triggers-in-field t) ; snippets dins snippets
+
 (map! :leader
       (:prefix ("y" . "yasnippet")
        :desc "Visit" "v" #'yas/visit-snippet-file
@@ -234,6 +302,19 @@ Per defecte els fitxers =.m= s'assignen a /Objective-C/, però volem que sigui /
 #+end_src
 
 * LaTeX
+** Opcions
+#+begin_src emacs-lisp
+(setq TeX-electric-sub-and-superscript nil) ;; no inertar {} després de _ i ^
+#+end_src
+
+** scratch
+Funció per crear un document de prova a =/tmp/prova.tex=.
+#+begin_src emacs-lisp
+(defun my/latex-prova ()
+  (interactive)
+  (find-file "/tmp/prova.tex"))
+#+end_src
+
 ** cdlatex
 Canviem la tecla per defecte ='= a =´=, així empram els dos accents (i s'ha de pitjar dues vegades).
 #+begin_src emacs-lisp
@@ -243,13 +324,30 @@ Canviem la tecla per defecte ='= a =´=, així empram els dos accents (i s'ha de
 
 ** xenops (visualitzacions en el mateix /.tex/)
 Amb =xenops= podem visualitzar en el mateix document taules, equacions, ... Executa =M-x xenops-render= per renderitzar el fitxer /.tex/ actual.
+
+També posam per poder aferrar imatges des porta-retalls amb ~C-c , p~.
 #+begin_src emacs-lisp
   (use-package xenops
     :hook (LaTeX-mode . xenops-mode)
     :config
-    ;; posam imatges més grans
-    (setq xenops-math-image-scale-factor 1.1)
-    (setq xenops-math-image-current-scale-factor 1.1))
+    (map! :map xenops-mode-map "C-c , p" #'xenops-image-handle-paste)
+    (setq xenops-image-latex-template "\\includegraphics[scale=0.5]{%s}"
+          xenops-math-image-scale-factor 1.1
+          xenops-math-image-current-scale-factor 1.1))
+#+end_src
+
+** Veure documentació
+Quan estam amb el cursor sobre un paquet, volem poder veure la seva documentació.
+#+begin_src emacs-lisp
+(defun my/latex-search-ctan ()
+  "Cerca paquet al CTAN"
+  (interactive)
+  (setq ctan-pkg (word-at-point t)
+        ctan-pdf (concat "~/org/latex/ctan-" ctan-pkg ".pdf")
+        ctan-url (concat "https://ctan.org/pkg/" ctan-pkg "/doc"))
+  (unless (file-exists-p ctan-pdf)
+    (url-copy-file ctan-url ctan-pdf))
+  (start-process "" nil "zathura" ctan-pdf))
 #+end_src
 
 * Org Mode
@@ -287,10 +385,19 @@ Els llenguatges disponibles es poden comprovar [[https://orgmode.org/worg/org-co
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((emacs-lisp . t)
+     (sage . t)
      (shell . t)
      (C . t)
+     (sql . t)
      (lua . t)
      (python . t)))
+#+end_src
+
+*** Entorns de Python
+Per defecte posam l'entorn /(base)/. Configurar la ruta en funció d'on sigui l'entorn.
+#+begin_src emacs-lisp
+(setq python-shell-virtualenv-root "~/.local/pyenv/base")
+(setq org-babel-python-command "~/.local/pyenv/base/bin/python")
 #+end_src
 
 *** Auto tangle
@@ -366,12 +473,28 @@ Ja està instal·lat el paquet =toc-org=, només cal habilitar-ho per defecte.
   :hook (org-mode . toc-org-mode))
 #+end_src
 
+** Exportació
+Posem per poder configurar un /CSS/ quan exportam a /HTML/.
+#+begin_src emacs-lisp :tangle no
+;; (setq org-html-htmlize-output-type 'inline-css) ;; default
+(setq org-html-htmlize-output-type 'css)
+;; (setq org-html-htmlize-font-prefix "") ;; default
+(setq org-html-htmlize-font-prefix "org-")
+#+end_src
+
+S'ha de posar això al principi del document /Org/:
+#+begin_example
+#+HTML_HEAD: <link href="path/to/your/custom/theme.css" rel="stylesheet">
+#+end_example
+
 * Magit
-Per iniciar és més fàcil amb ~SPC o g~, per exemple.
+Per iniciar és més fàcil amb ~SPC o g~, per exemple. A més, volem fer /wrap/ per les revisions i /diffs/ dels /commits/.
 #+begin_src emacs-lisp
 (map! :leader
       (:prefix "o"
       :desc "magit" "g" 'magit))
+
+(add-hook 'magit-revision-mode-hook 'visual-line-mode)
 #+end_src
 
 * LSP
@@ -410,6 +533,11 @@ BasedOnStyle LLVM
 IndentWidth 4
 ...
 #+end_example
+
+- Indentació:
+#+begin_src emacs-lisp
+ (setq-hook! '(c-mode-hook c++-mode-hook) indent-tabs-mode t)
+#+end_src
 
 ** Java
 Per descarregar el /Eclipse JDT Language Server/, executar =M-x lsp install-server= i seleccionar =jdtls=.
@@ -466,12 +594,40 @@ NOTE. To install the following servers *npm* must be installed in your computer.
   (add-hook 'web-mode-hook 'lsp)
 #+end_src
 
+* R (amb ESS)
+** Suport QMD
+#+begin_src emacs-lisp
+(add-to-list 'auto-mode-alist '("\\.qmd\\'" . poly-markdown+r-mode))
+#+end_src
+
+** Exportar document
+Per exportar un document millor fer servir aquesta funció, disponible amb la drecera =C-M-<return>=
+#+begin_src emacs-lisp
+(defun my/rmd-export ()
+  (interactive)
+  (save-buffer)
+  (process-send-string
+   ;(get-process "R")
+   "R"
+   (concat "rmarkdown::render(\""
+           (file-name-nondirectory buffer-file-name)
+           "\")\n")))
+
+(add-hook 'markdown-mode-hook
+          (lambda () (local-set-key (kbd "C-M-<return>") 'my/rmd-export)))
+
+(add-hook 'ess-r-mode-hook
+          (lambda () (local-set-key (kbd "C-M-<return>") 'my/rmd-export)))
+
+#+end_src
+
 * RSS (elfeed)
 Per configurar els butlletins anar a =~/org/elfeed.org=.
 #+begin_src emacs-lisp
 ;; actualització automàtica
 (add-hook 'elfeed-search-mode-hook 'elfeed-update) ; actualitzar quan obrim els feeds
 (setq elfeed-goodies/entry-pane-position 'bottom)  ; mostrar abaix i no a la dreta
+(setq elfeed-search-date-format '("%d/%m/%Y" 10 :left)) ; format data
 #+end_src
 
 * Mail (mu4e)

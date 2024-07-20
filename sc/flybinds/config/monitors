@@ -1,16 +1,11 @@
 #!/usr/bin/env sh
 
-xrandr --output LVDS-1 --off --output HDMI-1 --mode 1920x1080 --pos 0x0 --rotate normal
-exit
-
-
-
 [ -z "$1" ] && arg="h" || arg="$1"
 
 case "$arg" in
-    p) xrandr --output LVDS-1 --primary --mode 1280x720 --pos 0x0 --rotate normal --output LVDS-1 --off --output HDMI-1 --off --output HDMI-1 --off ;;
-    h) xrandr --output LVDS-1 --off --output LVDS-1 --off --output HDMI-1 --mode 1920x1080 --pos 0x0 --rotate normal --output VIRTUAL-1 --off ;;
-    #d) xrandr --output LVDS-1 --primary --mode 1920x1080 --pos 1920x0 --rotate normal --output LVDS-1 --off --output HDMI-1 --off --output HDMI-1 --mode 1920x1080 --pos 0x0 --rotate normal ;;
+    p) xrandr --output $MON_PORTATIL --primary --mode 1920x1080 --pos 0x0 --rotate normal --output $MON_PORTATIL --off --output $MON_HDMI --off --output $MON_HDMI --off ;;
+    h) xrandr --output $MON_PORTATIL --off --output $MON_PORTATIL --off --output $MON_HDMI --mode 1920x1080 --pos 0x0 --rotate normal --output VIRTUAL-1 --off ;;
+    #d) xrandr --output $MON_PORTATIL --primary --mode 1920x1080 --pos 1920x0 --rotate normal --output $MON_PORTATIL --off --output $MON_HDMI --off --output $MON_HDMI --mode 1920x1080 --pos 0x0 --rotate normal ;;
     a) arandr ;;
 esac
 

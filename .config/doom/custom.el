@@ -12,6 +12,7 @@
      (:name "Last 7 days" :query "date:7d..now" :hide-unread t :key 119)
      (:name "Messages with images" :query "mime:image/*" :key 112)
      (:name "Sent messages" :query "from:ger*" :key 115)))
+ '(org-safe-remote-resources '("\\`file:///home/gerry/org/bibliography\\.org\\'"))
  '(package-selected-packages '(vcard))
  '(smtpmail-smtp-server "smtp.outlook.com")
  '(smtpmail-smtp-service 25))
@@ -21,3 +22,5 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+(put 'customize-group 'disabled nil)
+(put 'customize-face 'disabled nil)

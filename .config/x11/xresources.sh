@@ -63,9 +63,13 @@ dwm.normbordercolor: $COL_1
 dwm.normfgcolor:     $COL_W2
 dwm.selbgcolor:      $COL_1
 dwm.selfgcolor:      $COL_W1
-dwm.borderpx:        2
+dwm.borderpx:        1
 dwm.smartgaps:       1
 dwm.smartborders:    1
+dwm.gappih:          0
+dwm.gappoh:          0
+dwm.gappiv:          0
+dwm.gappov:          0
 
 ! nsxiv
 Nsxiv.window.background: $COL_BG_0
@@ -78,11 +82,17 @@ Nsxiv.mark.foreground:   $COL_CLAR
 ! tabbed
 tabbed.font:        Ubuntu:size=11
 tabbed.normbgcolor: $COL_0
+tabbed.color0: $COL_0
 tabbed.normfgcolor: $COL_FOSC
+tabbed.color4: $COL_FOSC
 tabbed.selbgcolor:  $COL_2
+tabbed.color5:  $COL_2
 tabbed.selfgcolor:  $COL_W1
+tabbed.color7:  $COL_W1
 tabbed.urgbgcolor:  $COL_W1
+tabbed.color2:  $COL_W1
 tabbed.urgfgcolor:  $COL_0
+tabbed.color3:  $COL_0
 tabbed.tabwidth:    150
 tabbed.barHeight:    0
 

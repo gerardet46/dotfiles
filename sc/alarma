@@ -1,0 +1,16 @@
+#!/usr/bin/env sh
+#
+# Dependències: mpv
+
+[ -z "$1" ] && echo "Ús: alarma min:seg [canço]" && exit 1
+
+CANCO="${2:-$HOME/mus/Nevermind/track01.cdda.wav}"
+
+if ! [ "$1" = "ara" ]; then
+    ARA=$(date +'%s')
+    FINAL=$(date --date="$1" +'%s')
+    DIFF=$(expr $FINAL - $ARA)
+
+    sleep $DIFF
+fi
+mpv "$CANCO"
