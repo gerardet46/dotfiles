@@ -68,3 +68,5 @@ audio/mpeg=mpv.desktop
 audio/mp4=mpv.desktop
 video/x-matroska=mpv.desktop
 application/postscript=org.pwmt.zathura.desktop
+video/webm=mpv.desktop
+text/javascript=emacsclient.desktop

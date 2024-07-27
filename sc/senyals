@@ -8,5 +8,6 @@
 cat sc/cases_dirs.org | grep '^=' | sed 's/^.//' | sed 's/.$//' >/tmp/dirs.txt
 inotifywait -rqm -o "$HOME/.cache/del.txt" --fromfile /tmp/dirs.txt -e moved_from,delete --format "%w%f" &
 
-(ls $HOME/git/estadistica/*html | entr -p pkill -SIGHUP surf) &
-
+#(ls $HOME/git/estadistica/*html | entr -p pkill -SIGHUP surf) &
+#(ls -R $HOME/git/ricebes/public/* | entr -p pkill -SIGHUP surf) &
+#(fd -t f . -d 1 $HOME/git/ricebes/public/ | entr -p pkill -SIGHUP surf) &
