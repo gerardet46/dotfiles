@@ -4,5 +4,7 @@ sc/emoji_list
 sc/cases*
 sc/*json
 
+.auctex-auto/
+
 # log files
 *.log
