@@ -1,0 +1,4 @@
+# key: sc2
+# name: hugo-shortcode-paired
+# --
+{{< ${1:name} >}}$0{{< /$1 >}}

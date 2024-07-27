@@ -10,7 +10,7 @@ do
         # symbolic link to that config file
         line_home="$HOME/$line"
         # ln -s "$line_home" "$line" 2>/dev/null
-        rsync -a "$line_home" "$line"
+        rsync -a --delete "$line_home" "$line"
 
         # verbose
         [ "$1" = "-v" ] && echo "$line"
@@ -20,12 +20,6 @@ done <<EOF
 # Xorg
 .config/x11/
 .xinitrc
-
-# Emacs
-.emacs.d/init.el
-.emacs.d/README.org
-.emacs.d/custom.el
-.emacs.d/snippets/
 
 # Doom Emacs
 .config/doom/snippets/
@@ -51,7 +45,7 @@ sc/
 .config/mailcap
 .config/mimeapps.list
 .config/mouse/
-.config/mpd/
+.config/mpd/mpd.conf
 .config/ncmpcpp/
 .config/nnn/config
 .config/nnn/plugins/
