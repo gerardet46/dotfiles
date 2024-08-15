@@ -1,0 +1,28 @@
+#!/usr/bin/env sh
+# Selecciona un compte amb dmenu per sincronitzar-lo
+# Deps: dmenu(key), mbsync
+
+
+# comptes
+dir="$HOME/.local/share/mail"
+opts="$(ls "$dir")"
+
+# dmenu(keys)
+if which dmenukey > /dev/null; then
+    keys="$(ls "$dir" \
+        | sed 's/.*@//' \
+        | sed -E 's/^(.?).*$/\1/' \
+        | paste -sd '')"
+    compte="$(printf "$keys\n$opts" | dmenukey -p "Sincronitza")"
+else
+    compte="$(printf "$opts" | dmenu -p "Sincronitza")"
+fi
+
+[ -z "$compte" ] && compte="--all"
+
+# sincronitza
+echo "Sincronitzant \`$compte\`"
+mbsync "$compte"
+
+# post-sincronització
+pkill -RTMIN+12 dwmblocks

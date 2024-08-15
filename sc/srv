@@ -1,10 +1,12 @@
 #!/usr/bin/env sh
 
+opts="sync --exclude Mail/**"
+
 case "$1" in
-    testpush) rclone sync --dry-run "$HOME/nxc" sftp: ;;
-    testpull) rclone sync --dry-run sftp: "$HOME/nxc" ;;
-    push) rclone sync -v --stats-one-line -P "$HOME/nxc" sftp: ;;
-    pull) rclone sync -v --stats-one-line -P sftp: "$HOME/nxc" ;;
+    testpush) rclone $opts --dry-run "$HOME/nxc" sftp: ;;
+    testpull) rclone $opts --dry-run sftp: "$HOME/nxc" ;;
+    push) rclone $opts -v --stats-one-line -P "$HOME/nxc" sftp: ;;
+    pull) rclone $opts -v --stats-one-line -P sftp: "$HOME/nxc" ;;
     *)
     echo "Ús: srv [push|pull|testpush|testpull]"
     echo "   push:     de local a servidor"

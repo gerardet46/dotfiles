@@ -2,7 +2,7 @@
 #+author: Gerard
 #+email:  gerrysoft@outlook.es
 #+language: ca
-
+#+startup: overview
 #+property: header-args :results silent
 
 * Índex :TOC:
@@ -430,6 +430,8 @@ Quan estam amb el cursor sobre un paquet, volem poder veure la seva documentaci�
 
   ;; variables que s'han de canviar cada vegada
   (defun my/org-config ()
+    (display-line-numbers-mode -1)
+    (setq left-margin-width 2)
     (setq org-startup-folded t))
 
   (add-hook 'org-mode-hook 'my/org-config)
@@ -585,6 +587,7 @@ NOTE. Per configurar el format del codi amb clang, podem generar un fitxer d'exe
 #+end_src
 
 You can also set a basic template file as the following (file /.clang-format/):
+
 #+begin_example :tangle no
 ---
 BasedOnStyle LLVM
@@ -693,6 +696,7 @@ Per configurar els butlletins anar a =~/org/elfeed.org=.
 #+begin_src emacs-lisp
 ;; set mail folder
 (setq mu4e-maildir "~/.local/share/mail/")
+(setq user-full-name "Gerard RA")
 
 (after! mu4e
   ;; update status bar when returning to main view (dwm)
@@ -710,7 +714,7 @@ Per configurar els butlletins anar a =~/org/elfeed.org=.
         mu4e-compose-context-policy 'always-ask)
 
   ;; basic stuff
-  (setq mu4e-get-mail-command "mbsync -a ; pkill -RTMIN+12 dwmblocks")
+  (setq mu4e-get-mail-command "dm-mailsync")
   (setq mu4e-confirm-quit nil) ; don't ask when quitting
   (setq mu4e-attachment-dir "~/bx/mu4e/") ; donwload attachment dir
   (setq mu4e-headers-date-format "%d/%m/%y")
@@ -729,6 +733,21 @@ Per configurar els butlletins anar a =~/org/elfeed.org=.
   (load-file (expand-file-name "mu4e-contexts.el" doom-user-dir)))
 #+end_src
 
+Per crear contexts, posar a l'arxiu =mu4e-contexts.el= el següent:
+#+begin_example
+(set-email-account! "personal"
+'((mu4e-sent-folder         . "/personal/Sent")
+    (user-full-name         . "Robinson Cruoe")
+    (mu4e-drafts-folder     . "/personal/Drafts")
+    (mu4e-trash-folder      . "/personal/Trash")
+    (mu4e-refile-folder     . "/personal/Archive")
+    (smtpmail-smtp-user     . "personal")
+    (user-mail-address      . "personal"))
+  t)
+
+... més comptes ...
+#+end_example
+
 ** Aparença
 Queda molt lleig el caràcter unicode per als fils de correus, solucionem-ho!
 #+begin_src emacs-lisp
@@ -741,9 +760,9 @@ Queda molt lleig el caràcter unicode per als fils de correus, solucionem-ho!
 #+end_src
 
 ** Correus HTML amb Org Mode
-Escriure emails en html amb Org mode.
+Escriure emails en html amb Org mode (deshabilitat per defecte).
 #+begin_src emacs-lisp
-(setq +mu4e-compose-org-msg-toggle-next nil)
+(setq +mu4e-compose-org-msg-toggle-next nil) ; canviar a t aquesta variable per escriure en HTML
 (setq org-mime-export-options '(:section-numbers nil
                                 :with-latex dvipng
                                 :with-author nil
