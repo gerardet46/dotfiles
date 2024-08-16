@@ -348,7 +348,7 @@ Per centrar el document podem emprar =visual-fill-column-mode=, aquí ajustam al
 * Yasnippet
 =Yasnippet= serveix per crear plantilles i Doom Emacs en té integrades moltes. Però per defecte s'ha de fer =M-x= per manipular-los. Afegim algunes dreceres més "doom".
 #+begin_src emacs-lisp
-(setq yas/triggers-in-field t) ; snippets dins snippets
+;(setq yas/triggers-in-field t) ; snippets dins snippets
 
 (map! :leader
       (:prefix ("y" . "yasnippet")
@@ -737,7 +737,7 @@ Per crear contexts, posar a l'arxiu =mu4e-contexts.el= el següent:
 #+begin_example
 (set-email-account! "personal"
 '((mu4e-sent-folder         . "/personal/Sent")
-    (user-full-name         . "Robinson Cruoe")
+    (user-full-name         . "Robinson Crusoe")
     (mu4e-drafts-folder     . "/personal/Drafts")
     (mu4e-trash-folder      . "/personal/Trash")
     (mu4e-refile-folder     . "/personal/Archive")

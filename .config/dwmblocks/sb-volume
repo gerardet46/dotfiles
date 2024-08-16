@@ -29,6 +29,6 @@ fi;
 
 # en cas que no estigui mutejat no haurà sortit
 v=$(vol)
-if [ "$v" -gt "100" ]; then str "  $v%"
-elif [ "$v" -ge "50" ]; then str " $v%"
+if [ "$v" -gt "100" ]; then str "   $v%"
+elif [ "$v" -ge "50" ]; then str "   $v%"
 else str " $v%"; fi

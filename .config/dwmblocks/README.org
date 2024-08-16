@@ -1,0 +1,18 @@
+#+title:        dwmblocks
+#+author: Gerard
+#+email:  gerard@ricebes.cat
+
+#+HTML_HEAD_EXTRA: <style> .TOC_2_org { display: none; } </style> \
+#+options: toc:nil
+#+property: header-args :results silent
+
+
+Aquests són els meus scripts per utilitzar a la barra de =dwmblocks=. Està pensat per utilitzar-se amb =dwmblocks-async= (s'inclou aquí l'arxiu =config.h=, i els scripts els guard a =~/.config/dwmblocks=). Aquest programa permet blocs clickejables, que és compatible amb el gestor de finestres i3.
+
+** Pedaços
+El meu DWM està apedaçat amb
+- statuscmd
+- status2d
+
+** Colors
+Utilitz variables d'entorn per als colors, com =$COL_VERD= pel color verd, per exemple. Podeu veure els colors a la meva config a =~/.config/shell/themes=.

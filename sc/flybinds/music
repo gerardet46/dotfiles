@@ -8,3 +8,5 @@ case "$1" in
     "o") spotify || mpd ;;
     "x") pkill spotify || pkill mpd ;;
 esac
+
+pkill -RTMIN+13 dwmblocks

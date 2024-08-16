@@ -72,3 +72,4 @@ application/postscript=org.pwmt.zathura.desktop
 video/webm=mpv.desktop
 text/javascript=emacsclient.desktop
 x-scheme-handler/tonsite=org.telegram.desktop.desktop
+image/bmp=nsxiv.desktop
