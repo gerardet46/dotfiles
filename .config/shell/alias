@@ -44,5 +44,6 @@ alias \
 	p="sudo pacman" \
 	z="zathura" \
     yt="yt-dlp --embed-metadata" \
+    yt-c="yt-dlp --embed-metadata --downloader ffmpeg --downloader-args \"ffmpeg:-c:v libx264 -crf 30 -preset medium\"" \
     ytaudio="yt-dlp --embed-metadata -f 'ba' -x --audio-format mp3"
 

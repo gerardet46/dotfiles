@@ -1,0 +1,127 @@
+alt + F2
+	dmenu_run
+
+shift + F2
+	passmenu --type
+
+super + F2
+	mydmenu_run
+
+super + q ; b
+	xdotool type "$(bookmark)" && xdotool key Enter
+
+super + q ; a
+	bookmark "$(xclip -o)"
+
+super + q ; f
+	firefox "$(bookmark)"
+
+super + q; s
+	dm-cerca
+
+super + q ; n
+    moodle-nnn
+
+super +q ; t
+    tag ls | dmenu -p "Etiqueta" | xargs xdotool type
+
+# apps and scripts
+exclamdown
+	flybinds
+
+super + exclamdown
+	xdotool key Caps_Lock
+
+super + p
+	flybinds c m
+
+ctrl + alt + Delete
+	flybinds x
+
+alt + F3
+	dm-emoji
+
+Print
+	dm-captura
+
+super + c
+	webcam
+
+super + alt + l
+	slock & xset dpms force off
+
+super + w
+	$BROWSER
+
+super + f
+	$TERMINAL -e nnn
+
+super + alt + m
+	dm-mount
+
+super + v ; {p,d,a}
+	dm-fd -t f -g "{*.\{pdf\},*.\{pdf\,tex\},*.*}" uib
+	#dm-fd uib "{*.\{pdf\},*.\{pdf\,tex\},*.*}"
+
+super + alt + p
+	dm-fd -t f -e "pdf" -E nextcloud -E Nextcloud -E Drive .
+	#dm-fd . "*.pdf"
+
+super + alt + d
+	dm-fd -t d -E nextcloud -E Nextcloud -E Drive .
+
+# XF86 keys
+{XF86AudioMute,XF86AudioMicMute}
+	pactl set-sink-mute @DEFAULT_SINK@ toggle && kill -44 $(pidof dwmblocks)
+
+{XF86AudioRaiseVolume,XF86AudioLowerVolume}
+	pactl set-sink-volume @DEFAULT_SINK@ {+5%,-5%} && kill -44 $(pidof dwmblocks)
+
+{XF86MonBrightnessUp,XF86MonBrightnessDown}
+	light {-A,-U} 3
+
+{XF86AudioPrev,XF86AudioNext,XF86AudioPause,XF86AudioPlay,XF86AudioStop,XF86AudioRewind,XF86AudioForward}
+	mpc {prev,next,pause,play,stop,seek -10,seek +10}
+
+XF86AudioMedia
+	$TERMINAL -e ncmpcpp
+
+# XF86 misc keys
+XF86PowerOff
+	sysact
+
+XF86Calculator
+	$TERMINAL -e bc -l
+
+XF86Sleep
+	sudo -A zzz
+
+XF86WWW
+	$BROWSER
+
+XF86DOS
+	$TERMINAL
+
+XF86ScreenSaver
+	slock & xset dpms force off
+
+XF86TaskPane
+	$TERMINAL -e htop
+
+XF86Mail
+	$TERMINAL -e neomutt
+
+XF86MyComputer
+	$TERMINAL -e nnn /
+
+XF86Launch1
+	xset dpms force off
+
+XF86TouchpadToggle
+	(synclient | grep 'TouchpadOff.*1' && synclient TouchpadOff=0) || synclient TouchpadOff=1
+
+XF86TouchpadOff
+	synclient TouchpadOff=1
+
+XF86TouchpadOn
+	synclient TouchpadOff=0

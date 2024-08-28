@@ -1,0 +1,33 @@
+#!/usr/bin/env sh
+
+# Description: Insereix etiquetes als arxius
+#
+# Dependencies: l'script tag, fzf
+
+# Shell: POSIX compliant
+# Author: Gerard
+
+
+selection=${NNN_SEL:-${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.selection}
+
+ncp() {
+    cat ${NNN_SEL:-${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.selection} | tr '\0' '\n' >/tmp/nnn-sel
+    echo '' >> /tmp/nnn-sel
+    cat /tmp/nnn-sel
+}
+
+tags=""
+while true; do
+    eti="$(tag ls | fzf -e)"
+    [ -n "$eti" ] && tags="$tags $eti" || break
+done
+
+echo "Afegint a $tags"
+
+if [ -s "$selection" ]; then
+    ncp | while read -r x; do
+        tag ins "$x" $tags
+    done
+else
+    tag ins "$1" $tags
+fi

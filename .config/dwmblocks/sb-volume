@@ -31,4 +31,4 @@ fi;
 v=$(vol)
 if [ "$v" -gt "100" ]; then str "   $v%"
 elif [ "$v" -ge "50" ]; then str "   $v%"
-else str " $v%"; fi
+else str "  $v%"; fi

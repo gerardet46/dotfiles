@@ -1,0 +1,31 @@
+#!/usr/bin/env sh
+# Cerca per navegadors webs. Utilitza la variable $BROWSER i si no xdg-open
+# Deps: dmenu
+
+program=${BROWSER:-xdg-open}
+
+# seguir el model següent: drecera nom enllaç
+# - El terme de cerca s'afegirà al final de l'enllaç si és https
+# - si no és https, s'escriure el nom del programa
+motors="
+ddg        duckduckgo                     https://duckduckgo.com/?q=
+viki       Viquipèdia                     https://ca.wikipedia.org/w/index.php?search=
+wiki       Wikipedia                      https://en.wikipedia.org/w/index.php?search=
+arch       archlinux                      https://wiki.archlinux.org/index.php?search=
+git        GitHub                         https://github.com/search?q=
+rit        git.ricebes                    https://git.ricebes.cat/
+yt         YouTube                        https://www.youtube.com/results?search_query=
+whats      Whatsapp                       https://api.whatsapp.com/send/?type=phone_number&phone=34
+recemall   recetasmallorquinas            https://www.recetasmallorquinas.es/search?q=
+mpv        mpv                            mpv"
+
+opcio=$(echo "$motors" | dmenu -fn monospace -p "Motor de cerca" -l 7)
+enllac=$(echo $opcio | awk '{print $NF}')
+drecera=$(echo $opcio | awk '{print $1}')
+terme="$(printf "" | dmenu -p "Cerca ($drecera)")"
+
+[ -z "$terme" ] && exit 1
+
+[ "$(echo "$enllac" | cut -d : -f 1)" = "https" ] && \
+     $program "$enllac$terme" || \  # https
+     $enllac "$terme"               # no https

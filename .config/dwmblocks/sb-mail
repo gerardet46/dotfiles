@@ -17,7 +17,7 @@ c3="$(ls $dir/u*/Inbox/new | wc -l)"
 nous="$(mu find "flag:unread" 2>/dev/null | uniq | wc -l)"
 [ $nous = "0" ] || text="$text | $nous"
 
-[ -z "$text" ] && exit 1
+[ -z "$text" ] && exit 0
 
 text="$(echo "$text" | sed 's/^..//')"
 echo "^c$COL_BLAU^ $text"

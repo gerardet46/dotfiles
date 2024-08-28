@@ -23,18 +23,20 @@ rotate() {
 	mogrify  -rotate "$degree" "$2"
 }
 
-# eliminar
 if [ "$1" = "r" ] && [ "$(printf "Sí\nNo" | dmenu -p "Eliminar imatge(s)?")" = "Sí" ]; then
+    # eliminar
     while read file
     do
         rm -f "$file"
     done
 elif [ "$1" = "d" ]; then
+    # arrosegar
     while read file
     do
         echo "$file"
     done | xargs -d '\n' dragon-drop -a -x
 elif [ "$1" = "C" ]; then
+    # copiar ruta
     while read file
     do
         echo "$file"

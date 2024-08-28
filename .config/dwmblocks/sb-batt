@@ -8,11 +8,11 @@ colors() {
 }
 
 icona() {
-    [ "$1" -lt "15" ] && printf "" && exit
-    [ "$1" -lt "35" ] && printf "" && exit
-    [ "$1" -lt "60" ] && printf "" && exit
-    [ "$1" -lt "80" ] && printf "" && exit
-    printf ""
+    [ "$1" -lt "15" ] && printf " " && exit
+    [ "$1" -lt "35" ] && printf " " && exit
+    [ "$1" -lt "60" ] && printf " " && exit
+    [ "$1" -lt "80" ] && printf " " && exit
+    printf " "
 }
 
 IC_CURRENT="^c$COL_GROC^ "

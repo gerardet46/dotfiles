@@ -1,0 +1,105 @@
+#!/usr/bin/env sh
+# Deps: fd
+# Sistema per etiquetar arxius (pensat per imatges sobre tot)
+
+TAGS="$HOME/eti"
+TMP="/tmp/tag"
+
+if [ -z "$1" ]; then
+    echo "Ús: tag [OPT] [args]
+Opcions:
+    ins         ruta tag1 t2 ...   insereix etiquetes a un arxiu
+    del         ruta tag1 t2 ...   elimina etiquetes d'un arxiu
+    ls                             mostra les etiquetes
+    ls_files    [cerca?]           mostra els arxius
+    gettags     [nom arxiu]        etiquetes d'un arxiu
+    get         tag1 t2 ...        arxius amb aquestes etiquetes
+    get_or      tag1 t2 ...        arxius amb qualcuna de les etiquetes"
+    exit 1
+fi
+
+ins () {
+    f="$(readlink -f "$1")"
+    dir="$(pwd)"
+    cd "$TAGS"
+
+    shift
+    while [ -n "$1" ]; do
+        ln -s "$f" "$1/" 2>/dev/null
+        shift
+    done
+    cd "$dir"
+}
+
+del () {
+    f="$(basename "$1")"
+    dir="$(pwd)"
+    cd "$TAGS"
+
+    shift
+    while [ -n "$1" ]; do
+        rm "$1/$f"
+        shift
+    done
+    cd "$dir"
+}
+
+ls() {
+    command ls "$TAGS"
+}
+
+ls_files() {
+    dir="$(pwd)"
+    cd "$TAGS"
+
+    fd -t l "$1" . -x readlink -f | sort -u
+    cd "$dir"
+}
+
+gettags() {
+    nom="$(basename "$1")"
+    dir="$(pwd)"
+    cd "$TAGS"
+
+    fd -t l "^$nom\$" . | awk -F '/' '{print $(NF-1)}'
+    cd "$dir"
+}
+
+get_or() {
+    # obté arxius amb OR
+    dir="$(pwd)"
+    cd "$TAGS"
+
+    printf "" > "$TMP"
+    while [ -n "$1" ]; do
+        readlink -f "$1/"*  >> "$TMP"
+        shift
+    done
+    sort -u "$TMP"
+    cd "$dir"
+}
+
+get() {
+    # obté arxius amb AND
+    if [ -z "$2" ]; then
+        get_or "$@"
+    else
+        #fd "" "$$1/" -x readlink -f {} | sort > "$TMP"
+        dir="$(pwd)"
+        cd "$TAGS"
+
+        readlink "$1/"* | sort > "$TMP"
+        shift
+        while [ -n "$1" ]; do
+            #fd "" "$1/" -x readlink -f {} | sort > "$TMP-2"
+            readlink "$1/"* | sort > "$TMP-2"
+            comm -12 "$TMP" "$TMP-2" > "$TMP-3"
+            mv "$TMP-3" "$TMP"
+            shift
+        done
+        cat "$TMP"
+        cd "$dir"
+    fi
+}
+
+"$@"

@@ -83,6 +83,7 @@ color_name="gruvbox-dark"
 [ -f ~/.config/shell/themes/tty/$color_name.sh ] && source ~/.config/shell/themes/tty/$color_name.sh
 
 # plugins
+source "/usr/share/zsh/plugins/zsh-vim-mode.plugin.zsh"
 skipplugins="yes"  # erase to check and install plugins
 noms=("zsh-syntax-highlighting" "zsh-autosuggestions")
 for x in $noms; do

@@ -62,6 +62,7 @@ sc/
 .config/screenkey.json 
 .config/set-config.sh
 .config/shell/
+.config/sxhkd/
 .config/tg/conf.py
 .config/tmux/tmux.conf
 #.config/wallpaper
