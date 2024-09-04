@@ -7,6 +7,21 @@ if not sys.argv:
     print("Ús: rgb2hex col1 col2 ...", file=sys.stderr)
     exit(1)
 
-for col in sys.argv:
+cols = sys.argv
+op = 1
+
+try:
+    op = float(sys.argv[0])
+    cols = sys.argv[1:]
+except ValueError:
+    pass
+
+for col in cols:
     c = col.lstrip('#')
-    print(f"{col} rgb{tuple(int(c[i:i+2], 16) for i in (0, 2, 4))}")
+    rgb = [int(c[i:i+2], 16) for i in (0, 2, 4)]
+    text = "rgb"
+    if op < 1 and op >= 0:
+        rgb.append(op)
+        text += "a"
+
+    print(f"{col} {text}{tuple(rgb)}")

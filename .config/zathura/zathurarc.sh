@@ -1,4 +1,9 @@
 #!/usr/bin/sh
+# Deps: hex2rgb script
+
+h2rgba() {
+    hex2rgb $1 "$2" | sed 's/.*r/r/'
+}
 
 echo "set font \"Ubuntu 11\"
 set default-bg \"#000000\"
@@ -16,11 +21,10 @@ set notification-error-fg \"$COL_W0\" #00
 set notification-warning-bg \"$COL_TARONJA\" #08
 set notification-warning-fg \"$COL_0\" #00
 
-set highlight-color \"$COL_FOSC\" #0A
-set highlight-active-color \"$COL_B2\" #0D
+set highlight-color \"$(h2rgba .65 $COL_FOSC)\" #0A
+set highlight-active-color \"$(h2rgba .65 $COL_B2)\" #0D
 
-set highlight-fg \"#ffffff\"
-set highlight-transparency 0.5
+set highlight-fg \"$(h2rgba .7 '#ffffff')\"
 
 set completion-highlight-bg \"$COL_CLAR\" #02
 set completion-highlight-fg \"$COL_3\" #0C

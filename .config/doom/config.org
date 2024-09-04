@@ -202,6 +202,17 @@ Per visualitzar millor els fitxers =CSV= fem que s'alineï automàticament i que
 (add-hook 'csv-mode-hook 'csv-align-mode)
 #+end_src
 
+Canviar el separador per alguns arxius coneguts:
+#+begin_src emacs-lisp
+(add-hook 'find-file-hook #'my/csv-files)
+(defun my/csv-files ()
+  (when (and (stringp buffer-file-name)
+             (string-match "\\.config/bookmarks\\'" buffer-file-name))
+    (csv-mode)
+    (csv-set-separator ?|)
+    (visual-line-mode -1)))
+#+end_src
+
 ** popups
 Podem canviar paràmetres dels popups com ara l'altura, segons el mode. Veure funció =set-popup-rule!=.
 #+begin_src emacs-lisp

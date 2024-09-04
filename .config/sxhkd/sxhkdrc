@@ -14,7 +14,7 @@ super + q ; a
 	bookmark "$(xclip -o)"
 
 super + q ; f
-	firefox "$(bookmark)"
+	$BROWSER "$(bookmark)"
 
 super + q; s
 	dm-cerca

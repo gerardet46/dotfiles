@@ -7,7 +7,7 @@ case "$BLOCK_BUTTON" in
     3) mpc next   ;;
 esac
 
-mpc >/dev/null 2>&1 || exit
+mpc >/dev/null 2>&1 || exit 0
 
 # ses dades són a partir de sa 2na columna
 durada=$(mpc status | sed -n 2p | awk -F '/' '{print $NF}' | cut -d' ' -f1)
